@@ -2,4 +2,4 @@ venv/
 dashboard/__pycache__
 dashboard/migrations/__pycache__
 dashboard/migrations
-calendareventmanager/__pycache__
+calendeventmanager/__pycache__
