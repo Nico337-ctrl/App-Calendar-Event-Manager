@@ -1,0 +1,4 @@
+venv/
+dashboard/__pycache__
+dashboard/migrations/__pycache__
+dashboard/migrations

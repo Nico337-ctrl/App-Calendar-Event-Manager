@@ -1,0 +1,43 @@
+{% extends 'layouts/base_dashboard.html' %}
+
+{% block title %}Usuarios{% endblock %}
+{% block extra_content %}Usuarios{% endblock %}
+{% block extra_content2 %}Usuarios{% endblock %}
+{% block extra_content3 %}Editar{% endblock %}
+
+{% block content %}
+<div class="w-full px-6 py-6 mx-auto">
+    <div class="flex-auto p-6">
+        <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
+            <div class="p-6 w-auto w-min-20 bg-white rounded-lg ">
+                <!-- <div class="p-6 pb-0 mb-0 bg-slate-500 border-b-0 border-b-solid rounded-t-2xl border-b-transparent"> -->
+                <h6>Editar Usuario</h6>
+                <form action="/dashboard/usuario/create/" method="POST">
+                    {% csrf_token %}
+                    <label class="mb-2 ml-1 font-bold text-xs text-slate-700">Nombre de usuario:</label>
+                    <div class="mb-4">
+                        {{ formulario.username }}
+                    </div>
+                    <label class="mb-2 ml-1 font-bold text-xs text-slate-700">Contraseña:</label>
+                    <div class="mb-4">
+                        {{ formulario.password }}
+                    </div>
+                    <!-- <label class="mb-2 ml-1 font-bold text-xs text-slate-700">Precio:</label>
+                    <div class="mb-4">
+                        {{ formulario.precio }}
+                    </div>
+                    <label class="mb-2 ml-1 font-bold text-xs text-slate-700">Cantidad:</label>
+                    <div class="mb-4">
+                        {{ formulario.cantidad }}
+                    </div> -->
+                    <div class="text-center">
+                        <button tpye="submit" class="inline-block w-auto px-6 py-3 mt-6 mb-0 font-bold text-center text-white uppercase align-middle transition-all bg-transparent border-0 rounded-lg cursor-pointer shadow-soft-md bg-x-25 bg-150 leading-pro text-xs ease-soft-in tracking-tight-soft bg-gradient-to-tl from-blue-600 to-cyan-400 hover:scale-102 hover:shadow-soft-xs active:opacity-85">Guardar</button>
+                    </div>
+                </form>
+            </div>
+            <!-- </div> -->
+        </div>
+    </div>
+</div>
+    {{ error }}
+{% endblock %}
