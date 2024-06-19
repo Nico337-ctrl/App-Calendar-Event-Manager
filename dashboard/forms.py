@@ -1,58 +1,69 @@
 from django.forms import ModelForm
-from .models import Productos
+from .models import evento_miembro
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
 
-class producto_form(ModelForm):
+class event_form(ModelForm):
     class Meta:
-        model = Productos
-        fields = ['codigo', 'descripcion', 'precio', 'cantidad']
+        model = evento_miembro
+        fields = ['usuario', 'titulo', 'descripcion', 'comienza', 'termina']
         
-class CustomProductoForm(forms.ModelForm):
+class CustomEventForm(forms.ModelForm):
     class Meta:
-        model = Productos
-        fields = ['codigo', 'descripcion', 'precio', 'cantidad']
+        model = evento_miembro
+        fields = ['usuario', 'titulo', 'descripcion', 'comienza', 'termina']
     
-    codigo = forms.CharField(
+    usuario = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                'class': 'focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow',
-                'placeholder': 'Código',
-                'aria-label': 'Código',
-                'aria-describedby': 'codigo-addon'
+                'class': '',
+                'placeholder': 'Usuario',
+                'aria-label': 'Usuario',
+                'aria-describedby': 'usuario-addon'
+            }
+        )
+    )
+    titulo = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': '',
+                'placeholder': 'Titulo',
+                'aria-label': 'Titulo',
+                'aria-describedby': 'Titulo-addon'
             }
         )
     )
     descripcion = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                'class': 'focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow',
-                'placeholder': 'Descripción',
-                'aria-label': 'Descripción',
+                'class': '',
+                'placeholder': 'desdescripcion',
+                'aria-label': 'descripcion',
                 'aria-describedby': 'descripcion-addon'
             }
         )
     )
-    precio = forms.CharField(
-        widget=forms.TextInput(
+    comienza = forms.CharField(
+        widget=forms.DateTimeInput(
             attrs={
-                'class': 'focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow',
-                'placeholder': 'Precio',
-                'aria-label': 'Precio',
-                'aria-describedby': 'precio-addon'
+                'class': '',
+                'placeholder': '',
+                'aria-label': '',
+                'aria-describedby': ''
             }
         )
     )
-    cantidad = forms.CharField(
-        widget=forms.TextInput(
+    termina = forms.CharField(
+        widget=forms.DateTimeInput(
             attrs={
-                'class': 'focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow',
-                'placeholder': 'Cantidad',
-                'aria-label': 'Cantidad',
-                'aria-describedby': 'cantidad-addon'
+                'class': '',
+                'placeholder': '',
+                'aria-label': '',
+                'aria-describedby': ''
             }
         )
     )
+    
 
 
 # class CustomProductoForm(producto_form):

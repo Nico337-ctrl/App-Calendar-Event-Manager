@@ -11,16 +11,18 @@ urlpatterns = [
     #ruta home o inicio
     path('home/', views.home_page, name='home'),
 
-    #rutas modulo productos
-    path('producto/create/', views.productos_create, name='producto_create'),
-    path('producto/', views.productos_index, name='producto'),    
-    path('producto/detail/<int:producto_id>', views.productos_detail, name='producto_detail'),
-    path('producto/edit/<int:producto_id>', views.productos_edit, name='producto_edit'),
+    #rutas modulo eventos
+    path('eventos/create/', views.eventos_create, name='eventos_create'),
+    path('eventos/', views.eventos_index, name='eventos'),    
+    path('eventos/detail/<int:evento_miembro_id>', views.eventos_detail, name='eventos_detail'),
+    path('eventos/edit/<int:evento_miembro_id>', views.eventos_edit, name='eventos_edit'),
+    path('eventos/delete/<int:evento_miembro_id>', views.evento_delete, name='eventos_delete'),
     
     #rutas modulo usuarios
     path('usuario/create/', views.usuarios_create, name='usuario_create'),
     path('usuario/', views.usuarios_index, name='usuario'),    
     path('usuario/detail/<int:usuario_id>', views.usuarios_detail, name='usuario_detail'),
     path('usuario/edit/<int:usuario_id>', views.usuarios_edit, name='usuario_edit'),
+    path('usuario/delete/<int:usuario_id>', views.usuarios_delete, name='usuario_delete'),
     
 ]

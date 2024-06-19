@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
-from .forms import CustomProductoForm, CustomAuthenticationForm, CustomUserCreationForm
-from .models import Productos
+from .forms import CustomEventForm, CustomAuthenticationForm, CustomUserCreationForm
+from .models import evento_miembro
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
@@ -65,65 +65,66 @@ def session_signin(request):
 #vistas modulo productos
 
 @login_required
-def productos_index(request):
-    productos = Productos.objects.all()
-    return render(request, 'producto/producto_index.html', {
-        'productos': productos,
+def eventos_index(request):
+    eventos = eventoMiembro.objects.all()
+    return render(request, 'evento/evento_index.html', {
+        'eventos': eventos,
     })
 
 @login_required
-def productos_create(request):
+def eventos_create(request):
     if request.method == 'GET':
-        return render(request, 'producto/producto_create.html',{
-            'formulario' : CustomProductoForm
+        return render(request, 'evento/evento_create.html',{
+            'formulario' : CustomEventForm
         })
 
     else:
         try:
-            formulario = CustomProductoForm(request.POST)
-            nuevo_producto = formulario.save(commit=False)
-            nuevo_producto.user = request.user
-            nuevo_producto.save()
-            return redirect('producto')
+            formulario = CustomEventForm(request.POST)
+            nuevo_evento = formulario.save(commit=False)
+            nuevo_evento.user = request.user
+            nuevo_evento.save()
+            return redirect('eventos')
         except ValueError:
-            return render(request, 'producto/producto_create.html',{
-                'formulario' : CustomProductoForm,
+            return render(request, 'evento/evento_create.html',{
+                'formulario' : CustomEventForm,
                 'error' : 'Porfavor ingrese datos validos'
             })
 @login_required
-def productos_detail(request, producto_id):
-    producto = get_object_or_404(Productos, pk=producto_id)
-    return render(request, 'producto/producto_detail.html', {
-        'producto': producto
+def eventos_detail(request, evento_miembro_id):
+    evento = get_object_or_404(evento_miembro, pk=evento_miembro_id)
+    return render(request, 'evento/evento_detail.html', {
+        'evento': evento
     })
 
 @login_required
-def productos_edit(request, producto_id):
+def eventos_edit(request, evento_miembro_id):
     if request.method == 'GET':
-        producto = get_object_or_404(Productos, pk=producto_id)
-        formulario = CustomProductoForm(instance=producto)
-        return render(request, 'producto/producto_edit.html', {
+        evento = get_object_or_404(evento_miembro, pk=evento_miembro_id)
+        formulario = CustomEventForm(instance=evento)
+        return render(request, 'evento/evento_edit.html', {
             'formulario': formulario,
-            'producto' : producto
+            'evento' : evento
         })
     else:
         try:
-            producto = get_object_or_404(Productos, pk=producto_id)
-            formulario = CustomProductoForm(request.POST, instance=producto)
+            evento = get_object_or_404(evento_miembro, pk=evento_miembro_id)
+            formulario = CustomEventForm(request.POST, instance=evento)
             if formulario.is_valid():
                 #validacion de formulario
                 formulario.save()
-                return redirect('producto')
+                return redirect('eventos')
         except:
-            return render(request, 'producto/producto_edit.html', {
+            return render(request, 'evento/evento_edit.html', {
             'formulario': formulario,
             'error' : 'algo no esta funcionando bien '
         })
 
-# @login_required
-# def producto_delete(request, producto_id):
-#     if request.method == 'GET':
-#         producto = producto.id 
+@login_required
+def evento_delete(request, evento_miembro_id):
+        evento = evento_miembro.objects.get(id = evento_miembro_id)
+        evento.delete()
+        return redirect('eventos')
 
 #aqui termina las vistas para el modulo productos
 
@@ -176,7 +177,7 @@ def usuarios_edit(request, usuario_id):
         })
     else:
         try:
-            usuario = get_object_or_404(Productos, pk=usuario_id)
+            usuario = get_object_or_404(User, pk=usuario_id)
             formulario = CustomUserCreationForm(request.POST, instance=usuario_id)
             if formulario.is_valid():
                 #validacion de formulario
@@ -187,3 +188,9 @@ def usuarios_edit(request, usuario_id):
             'formulario': formulario,
             'error' : 'algo no esta funcionando bien'
         })
+
+@login_required
+def usuarios_delete(request, usuario_id):
+        usuario = User.objects.get(id = usuario_id)
+        usuario.delete()
+        return redirect('usuario')
