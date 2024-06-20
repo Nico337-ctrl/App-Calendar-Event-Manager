@@ -6,3 +6,4 @@ calendeventmanager/__pycache__
 notifications/__pycache__
 notifications/migrations
 __pycache__
+db.sqlite3 
