@@ -1,0 +1,42 @@
+{% extends 'layouts/base_dashboard.html' %}
+
+{% load static %}
+
+{% block title %} Calendario {% endblock %}
+{% comment %} {% block extra_content %}Productos{% endblock %}
+{% block extra_content2 %}Productos{% endblock %} {% endcomment %}
+
+{% block content %}
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js"></script>
+</head>
+<div class="container pt-4 px-4">
+    <div class="row g-4">
+        <div id="calendar" class="container" style="padding: 20px"></div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function(){
+        var calendarUI = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarUI, {
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            initialView: 'dayGridMonth',
+            events: [
+                {% for evento in eventos %}
+                {
+                    titulo: "{{eventos.titulo}}",
+                    comienza: "{{eventos.comienza | date:"Y-m-d" }}",
+                    termina: "{{eventos.termina | date:"Y-m-d" }}",
+                },
+                {% endfor %}
+            ]
+        });
+        calendar.render();
+        calendar.setOption('locale', 'es');
+    });
+</script>
+{% endblock %}
