@@ -25,4 +25,7 @@ urlpatterns = [
     path('usuario/edit/<int:usuario_id>', views.usuarios_edit, name='usuario_edit'),
     path('usuario/delete/<int:usuario_id>', views.usuarios_delete, name='usuario_delete'),
     
+    #rutas calendario
+    path('calendario/', views.calendario_index, name='calendario'),
+    
 ]
