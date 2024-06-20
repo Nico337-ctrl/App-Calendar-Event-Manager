@@ -194,3 +194,8 @@ def usuarios_delete(request, usuario_id):
         usuario = User.objects.get(id = usuario_id)
         usuario.delete()
         return redirect('usuario')
+
+# Aqui comienza la vista del calendario
+
+def calendario_index(request):
+    return render(request, 'calendario/calendario.html')
