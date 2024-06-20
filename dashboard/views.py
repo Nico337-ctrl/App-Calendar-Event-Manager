@@ -5,12 +5,17 @@ from django.db import IntegrityError
 from .forms import CustomEventForm, CustomAuthenticationForm, CustomUserCreationForm
 from .models import evento_miembro
 from django.contrib.auth.decorators import login_required
+from notifications.send_notification import enviarNotificacion
+from notifications.emails.send_email import enviarEmail
+from notifications.whatsapp.send_message import enviarMensajeWhats
+
 # Create your views here.
 
 
 #vista home o inicio
-
+@login_required
 def home_page(request):
+    enviarNotificacion(titulo='App Calend Event Manager', mensaje='Bienvenido usuario')
     return render(request, 'home.html')
 
 #vistas modulo usuario  
@@ -26,6 +31,7 @@ def session_signup(request):
                 user = User.objects.create_user(username=request.POST['username'], password=request.POST['password1'])
                 user.save()
                 login(request, user)
+                enviarNotificacion(titulo='App Calend Event Manager', mensaje='Su registro ha sido exitoso')
                 return redirect('home')
             except IntegrityError:
                 return render(request, 'auth/signup.html', {
@@ -57,6 +63,7 @@ def session_signin(request):
             })
         else:
             login(request, user)
+            enviarNotificacion(titulo='App Calend Event Manager', mensaje='Su inicio de sesion ha sido exitoso')
             return redirect('home')
 
 #aqui finaliza las vistas para usuarios
@@ -66,7 +73,7 @@ def session_signin(request):
 
 @login_required
 def eventos_index(request):
-    eventos = eventoMiembro.objects.all()
+    eventos = evento_miembro.objects.all()
     return render(request, 'evento/evento_index.html', {
         'eventos': eventos,
     })
@@ -84,6 +91,7 @@ def eventos_create(request):
             nuevo_evento = formulario.save(commit=False)
             nuevo_evento.user = request.user
             nuevo_evento.save()
+            enviarNotificacion(titulo='App Calend Event Manager', mensaje='Se ha registrado un evento de manera exitosa')
             return redirect('eventos')
         except ValueError:
             return render(request, 'evento/evento_create.html',{
