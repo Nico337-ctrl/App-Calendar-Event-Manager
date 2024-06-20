@@ -79,20 +79,16 @@ class CustomAuthenticationForm(AuthenticationForm):
     username = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                'class': 'focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow',
+                'class': 'form-control',
                 'placeholder': 'Username',
-                'aria-label': 'Username',
-                'aria-describedby': 'user-addon'
             }
         )
     )
     password = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
-                'class': 'focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow',
+                'class': 'form-control',
                 'placeholder': 'Password',
-                'aria-label': 'Password',
-                'aria-describedby': 'password-addon'
             }
         )
     )
@@ -102,30 +98,24 @@ class CustomUserCreationForm(UserCreationForm):
     username = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                'class': 'focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow',
+                'class': 'form-control',
                 'placeholder': 'Username',
-                'aria-label': 'Username',
-                'aria-describedby': 'user-addon'
             }
         )
     )
     password1 = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
-                'class': 'focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow',
+                'class': 'form-control',
                 'placeholder': 'Password',
-                'aria-label': 'Password',
-                'aria-describedby': 'password-addon'
             }
         )
     )
     password2 = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
-                'class': 'focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow',
+                'class': 'form-control',
                 'placeholder': 'Password',
-                'aria-label': 'Password',
-                'aria-describedby': 'password-addon'
             }
         )
     )
