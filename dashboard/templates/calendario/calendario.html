@@ -2,9 +2,9 @@
 
 {% load static %}
 
-{% block title %} Calendario {% endblock %}
+<!-- {% block title %} Calendario {% endblock %}
 {% comment %} {% block extra_content %}Productos{% endblock %}
-{% block extra_content2 %}Productos{% endblock %} {% endcomment %}
+{% block extra_content2 %}Productos{% endblock %} {% endcomment %} -->
 
 {% block content %}
 <head>
@@ -26,12 +26,13 @@
             },
             initialView: 'dayGridMonth',
             events: [
-                {% for evento in eventos %}
+            {% for evento in eventos %}
                 {
-                    titulo: "{{eventos.titulo}}",
-                    comienza: "{{eventos.comienza | date:"Y-m-d" }}",
-                    termina: "{{eventos.termina | date:"Y-m-d" }}",
-                },
+                    title: "{{ evento.titulo }}",
+                    start: "{{ evento.comienza | date:"Y-m-d" }}",
+                    end: "{{ evento.termina | date:"Y-m-d" }}"
+                }
+                {% if not forloop.last %},{% endif %}
                 {% endfor %}
             ]
         });

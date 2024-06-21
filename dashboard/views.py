@@ -6,7 +6,7 @@ from .forms import CustomEventForm, CustomAuthenticationForm, CustomUserCreation
 from .models import evento_miembro
 from django.contrib.auth.decorators import login_required
 from notifications.send_notification import enviarNotificacion
-from notifications.emails.send_email import enviarEmail
+# from notifications.emails.send_email import enviarEmail
 from notifications.whatsapp.send_message import enviarMensajeWhats
 
 # Create your views here.
@@ -47,7 +47,7 @@ def session_signup(request):
 
 def session_logout(request):
     logout(request)
-    return redirect('home')
+    return redirect('/dashboard/auth/signin/')
 
 def session_signin(request):
     if request.method == 'GET':
@@ -72,19 +72,18 @@ def session_signin(request):
 #vistas modulo productos
 
 @login_required
-def eventos_index(request):
+def evento_index(request):
     eventos = evento_miembro.objects.all()
     return render(request, 'evento/evento_index.html', {
         'eventos': eventos,
     })
 
 @login_required
-def eventos_create(request):
+def evento_create(request):
     if request.method == 'GET':
         return render(request, 'evento/evento_create.html',{
             'formulario' : CustomEventForm
         })
-
     else:
         try:
             formulario = CustomEventForm(request.POST)
@@ -92,23 +91,24 @@ def eventos_create(request):
             nuevo_evento.user = request.user
             nuevo_evento.save()
             enviarNotificacion(titulo='App Calend Event Manager', mensaje='Se ha registrado un evento de manera exitosa')
-            return redirect('eventos')
+            return redirect('/dashboard/evento/')
         except ValueError:
             return render(request, 'evento/evento_create.html',{
                 'formulario' : CustomEventForm,
-                'error' : 'Porfavor ingrese datos validos'
+                'error' : 'Porfavor ingrese datos validos.'
             })
+        
 @login_required
-def eventos_detail(request, evento_miembro_id):
-    evento = get_object_or_404(evento_miembro, pk=evento_miembro_id)
+def evento_detail(request, evento_id):
+    evento = get_object_or_404(evento_miembro, pk=evento_id)
     return render(request, 'evento/evento_detail.html', {
         'evento': evento
     })
 
 @login_required
-def eventos_edit(request, evento_miembro_id):
+def evento_edit(request, evento_id):
     if request.method == 'GET':
-        evento = get_object_or_404(evento_miembro, pk=evento_miembro_id)
+        evento = get_object_or_404(evento_miembro, pk=evento_id)
         formulario = CustomEventForm(instance=evento)
         return render(request, 'evento/evento_edit.html', {
             'formulario': formulario,
@@ -116,12 +116,12 @@ def eventos_edit(request, evento_miembro_id):
         })
     else:
         try:
-            evento = get_object_or_404(evento_miembro, pk=evento_miembro_id)
+            evento = get_object_or_404(evento_miembro, pk=evento_id)
             formulario = CustomEventForm(request.POST, instance=evento)
             if formulario.is_valid():
                 #validacion de formulario
                 formulario.save()
-                return redirect('eventos')
+                return redirect('/dashboard/evento/')
         except:
             return render(request, 'evento/evento_edit.html', {
             'formulario': formulario,
@@ -129,10 +129,10 @@ def eventos_edit(request, evento_miembro_id):
         })
 
 @login_required
-def evento_delete(request, evento_miembro_id):
-        evento = evento_miembro.objects.get(id = evento_miembro_id)
+def evento_delete(request, evento_id):
+        evento = evento_miembro.objects.get(id = evento_id)
         evento.delete()
-        return redirect('eventos')
+        return redirect('/dashboard/evento/')
 
 #aqui termina las vistas para el modulo productos
 
@@ -201,9 +201,12 @@ def usuarios_edit(request, usuario_id):
 def usuarios_delete(request, usuario_id):
         usuario = User.objects.get(id = usuario_id)
         usuario.delete()
-        return redirect('usuario')
+        return redirect('/dashboard/usuario/')
 
 # Aqui comienza la vista del calendario
 
 def calendario_index(request):
-    return render(request, 'calendario/calendario.html')
+    eventos = evento_miembro.objects.all()
+    return render(request, 'calendario/calendario.html', {
+        'eventos' : eventos,
+    })

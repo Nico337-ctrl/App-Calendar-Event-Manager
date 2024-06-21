@@ -121,7 +121,12 @@ COMPRESS_ROOT = BASE_DIR / 'calendeventmanager/static'
 COMPRESS_ENABLED = True
 
 STATIC_URL = 'static/'
+
 STATICFILES_DIRS = [BASE_DIR / 'calendeventmanager/static']
+
+LOGIN_URL = '/auth/signin/'
+
+LOGIN_REDIRECT_URL = '/dashboard/auth/signin/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 

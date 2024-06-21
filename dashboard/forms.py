@@ -6,60 +6,47 @@ from django import forms
 class event_form(ModelForm):
     class Meta:
         model = evento_miembro
-        fields = ['usuario', 'titulo', 'descripcion', 'comienza', 'termina']
+        fields = ['titulo', 'descripcion', 'comienza', 'termina']
         
 class CustomEventForm(forms.ModelForm):
     class Meta:
         model = evento_miembro
-        fields = ['usuario', 'titulo', 'descripcion', 'comienza', 'termina']
+        fields = ['titulo', 'descripcion', 'comienza', 'termina']
     
-    usuario = forms.CharField(
-        widget=forms.TextInput(
-            attrs={
-                'class': '',
-                'placeholder': 'Usuario',
-                'aria-label': 'Usuario',
-                'aria-describedby': 'usuario-addon'
-            }
-        )
-    )
+    # usuario = forms.CharField(
+    #     widget=forms.TextInput(
+    #         attrs={
+    #             'class': 'form-control',
+    #         }
+    #     )
+    # )
     titulo = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                'class': '',
-                'placeholder': 'Titulo',
-                'aria-label': 'Titulo',
-                'aria-describedby': 'Titulo-addon'
+                'class': 'form-control',
             }
         )
     )
     descripcion = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                'class': '',
-                'placeholder': 'desdescripcion',
-                'aria-label': 'descripcion',
-                'aria-describedby': 'descripcion-addon'
+                'class': 'form-control',
             }
         )
     )
-    comienza = forms.CharField(
+    comienza = forms.DateTimeField(
         widget=forms.DateTimeInput(
             attrs={
-                'class': '',
-                'placeholder': '',
-                'aria-label': '',
-                'aria-describedby': ''
+                'class': 'form-control',
+                'type' : 'datetime-local'
             }
         )
     )
-    termina = forms.CharField(
+    termina = forms.DateTimeField(
         widget=forms.DateTimeInput(
             attrs={
-                'class': '',
-                'placeholder': '',
-                'aria-label': '',
-                'aria-describedby': ''
+                'class': 'form-control',
+                'type' : 'datetime-local'
             }
         )
     )
@@ -99,7 +86,7 @@ class CustomUserCreationForm(UserCreationForm):
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': 'Username',
+                
             }
         )
     )
@@ -107,7 +94,7 @@ class CustomUserCreationForm(UserCreationForm):
         widget=forms.PasswordInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': 'Password',
+                
             }
         )
     )
@@ -115,7 +102,7 @@ class CustomUserCreationForm(UserCreationForm):
         widget=forms.PasswordInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': 'Password',
+                
             }
         )
     )

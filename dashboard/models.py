@@ -13,11 +13,11 @@ class evento_abstract(models.Model):
         abstract = True
 
 class evento_miembro(evento_abstract):
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="eventos")
-    titulo = models.CharField(max_length=200)
-    descripcion = models.TextField()
+    titulo = models.CharField(max_length=255)
+    descripcion = models.CharField(max_length=255)
     comienza = models.DateTimeField()
     termina = models.DateTimeField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     
 
