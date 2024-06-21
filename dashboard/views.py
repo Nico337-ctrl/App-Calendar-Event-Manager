@@ -32,6 +32,7 @@ def session_signup(request):
                 user.save()
                 login(request, user)
                 enviarNotificacion(titulo='App Calend Event Manager', mensaje='Su registro ha sido exitoso')
+                enviarMensajeWhats('+573223829018', 'Hola, te habla tu plataforma de Eventos SENA, tu registro ha sido exitoso.')
                 return redirect('home')
             except IntegrityError:
                 return render(request, 'auth/signup.html', {

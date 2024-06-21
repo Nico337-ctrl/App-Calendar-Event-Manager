@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>DASHMIN - Bootstrap Admin Template</title>
+    <title> Registrate</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -48,17 +48,19 @@
             <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
                 <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
                     <div class="bg-light rounded p-4 p-sm-5 my-4 mx-3">
-                        <div class="d-flex align-items-center justify-content-between mb-3">
-                            <a href="index.html" class="">
-                                <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>DASHMIN</h3>
+                        <div class="d-flex align-items-center justify-content-center mb-3"> <!-- Alineación modificada aquí -->
+                            <a href="index.html" class="text-center"> <!-- Text-center para centrar el contenido -->
+                                <img style="width: 70px; height: 60px;" src="{% static 'src/images/sena-azul.png' %}" alt="">
                             </a>
-                            <h3>Sign Up</h3>
                         </div>
+                        <h4 style="text-align: center">Registrarse</h4>
                         {% block content %}
                         {% endblock %}
+                    </div>
                 </div>
             </div>
         </div>
+        
         <!-- Sign Up End -->
     </div>
 
