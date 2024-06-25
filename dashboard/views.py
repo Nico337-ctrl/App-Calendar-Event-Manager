@@ -1,3 +1,6 @@
+from django.db.models.base import Model as Model
+from django.db.models.query import QuerySet
+from django.forms import BaseModelForm
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
@@ -118,36 +121,58 @@ class EventoCreate(LoginRequiredMixin, CreateView):
             return render(request, self.template_name, context)
             
             
+class EventoDetail(LoginRequiredMixin, DetailView):
+    template_name = 'evento/evento_detail.html'
+    login_url = '/dashboard/auth/signin/'
+    redirect_field_name = 'redirect_to'
+    model = evento_miembro
+    context_object_name = 'evento'
         
-@login_required
-def evento_detail(request, evento_id):
-    evento = get_object_or_404(evento_miembro, pk=evento_id)
-    return render(request, 'evento/evento_detail.html', {
-        'evento': evento
-    })
+        
+class EventoEdit(LoginRequiredMixin, UpdateView):
+    template_name = 'evento/evento_edit.html'
+    login_url = '/dashboard/auth/signin/'
+    redirect_field_name = 'redirect_to'
+    model = evento_miembro
+    form_class = CustomEventForm
+    
+    def get_object(self, queryset=None):
+        pk = self.kwargs.get('pk')
+        return get_object_or_404(evento_miembro, pk=pk)
 
-@login_required
-def evento_edit(request, evento_id):
-    if request.method == 'GET':
-        evento = get_object_or_404(evento_miembro, pk=evento_id)
-        formulario = CustomEventForm(instance=evento)
-        return render(request, 'evento/evento_edit.html', {
-            'formulario': formulario,
-            'evento' : evento
-        })
-    else:
-        try:
-            evento = get_object_or_404(evento_miembro, pk=evento_id)
-            formulario = CustomEventForm(request.POST, instance=evento)
-            if formulario.is_valid():
-                #validacion de formulario
-                formulario.save()
-                return redirect('/dashboard/evento/')
-        except:
-            return render(request, 'evento/evento_edit.html', {
-            'formulario': formulario,
-            'error' : 'algo no esta funcionando bien '
-        })
+    def form_valid(self, form):
+        instacia = form.save(commit=False)
+        instacia.save()
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        return self.render_to_response(self.get_context_data(form=form, error='Los datos ingresados no son del todo correctos.'))
+
+    def get_success_url(self):
+        return reverse_lazy('evento/evento_index.html')
+
+# @login_required
+# def evento_edit(request, evento_id):
+#     if request.method == 'GET':
+#         evento = get_object_or_404(evento_miembro, pk=evento_id)
+#         formulario = CustomEventForm(instance=evento)
+#         return render(request, 'evento/evento_edit.html', {
+#             'formulario': formulario,
+#             'evento' : evento
+#         })
+#     else:
+#         try:
+#             evento = get_object_or_404(evento_miembro, pk=evento_id)
+#             formulario = CustomEventForm(request.POST, instance=evento)
+#             if formulario.is_valid():
+#                 #validacion de formulario
+#                 formulario.save()
+#                 return redirect('/dashboard/evento/')
+#         except:
+#             return render(request, 'evento/evento_edit.html', {
+#             'formulario': formulario,
+#             'error' : 'algo no esta funcionando bien '
+#         })
 
 @login_required
 def evento_delete(request, evento_id):
