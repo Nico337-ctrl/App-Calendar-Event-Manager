@@ -1,6 +1,10 @@
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import TemplateView, View, ListView, CreateView, UpdateView, DeleteView, DetailView
+from django.urls import reverse_lazy
 from django.db import IntegrityError
 from .forms import CustomEventForm, CustomAuthenticationForm, CustomUserCreationForm
 from .models import evento_miembro
@@ -12,80 +16,96 @@ from notifications.whatsapp.send_message import enviarMensajeWhats
 # Create your views here.
 
 
-#vista home o inicio
-@login_required
-def home_page(request):
-    enviarNotificacion(titulo='App Calend Event Manager', mensaje='Bienvenido usuario')
-    return render(request, 'home.html')
+""" Aqui comienzan las vistas Home de la dashboard """
+class HomeDashboard(LoginRequiredMixin, TemplateView):
+    template_name = 'home.html'
+    login_url = '/dashboard/auth/signin/'
+    redirect_field_name = 'redirect_to'
 
-#vistas modulo usuario  
-def session_signup(request):
-    if request.method == 'GET':
-        return render(request, 'auth/signup.html', {
-            'formulario' : CustomUserCreationForm
-        })
-    else:
+""" Aqui terminan las vistas Home de la dashboard """
+
+""" Aqui comienzan las vistas del modulo usuario """
+class SessionSignup(View):
+    template_name= 'auth/signup.html'
+
+    def get(self, request, *args, **kwargs):
+        context = {'formulario' : CustomUserCreationForm}
+        return render(request, self.template_name, context)
+    
+    def post(self, request, *args, **kwargs):
         if request.POST['password1'] == request.POST['password2']:
             try:
-                #registrando usuario
+                # Registrando usuario
                 user = User.objects.create_user(username=request.POST['username'], password=request.POST['password1'])
                 user.save()
                 login(request, user)
                 enviarNotificacion(titulo='App Calend Event Manager', mensaje='Su registro ha sido exitoso')
-                enviarMensajeWhats('+573223829018', 'Hola, te habla tu plataforma de Eventos SENA, tu registro ha sido exitoso.')
+                # enviarMensajeWhats('+573223829018', 'Hola, te habla tu plataforma de Eventos SENA, tu registro ha sido exitoso.')
                 return redirect('home')
             except IntegrityError:
-                return render(request, 'auth/signup.html', {
-                    'formulario' : CustomUserCreationForm,
-                    'error' : 'El nombre de usuario ya existe'
-                })
-        return render(request, 'auth/signup.html', {
-                    'formulario' : CustomUserCreationForm,
-                    'error' : 'La contraseña no coincide'
-                })
+                context = {
+                    'formulario': CustomUserCreationForm(),
+                    'error': 'El nombre de usuario ya existe'
+                }
+                return render(request, self.template_name, context)
+        else:
+            context = {
+                'formulario': CustomUserCreationForm(),
+                'error': 'La contraseña no coincide'
+            }
+            return render(request, self.template_name, context)
         
+            
+class SessionLogout(TemplateView):
+    template_name = 'signin'
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return redirect(reverse_lazy(self.template_name))
 
 
-def session_logout(request):
-    logout(request)
-    return redirect('/dashboard/auth/signin/')
-
-def session_signin(request):
-    if request.method == 'GET':
-        return render(request, 'auth/signin.html', {
-            'formulario' : CustomAuthenticationForm,
-        })
-    else:
+class SessionSignin(View):
+    template_name = 'auth/signin.html'
+    
+    def get(self, request, *args, **kwargs):
+        context = {'formulario':CustomAuthenticationForm}
+        return render(request, self.template_name, context)
+    
+    def post(self, request, *args, **kwargs):
         user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
         if user is None:
-            return render(request, 'auth/signin.html', {
-                'formulario' : CustomAuthenticationForm,
-                'error' : 'Usuario o contraseña incorrectos'
-            })
+            context = { 'formulario' : CustomAuthenticationForm, 'error' : 'Usuario o contraseña incorrectos'}
+            return render(request, self.template_name, context)
+
         else:
             login(request, user)
             enviarNotificacion(titulo='App Calend Event Manager', mensaje='Su inicio de sesion ha sido exitoso')
             return redirect('home')
 
-#aqui finaliza las vistas para usuarios
+""" Aqui finaliza las vistas para el modulo de usuario"""
 
 
-#vistas modulo productos
 
-@login_required
-def evento_index(request):
-    eventos = evento_miembro.objects.all()
-    return render(request, 'evento/evento_index.html', {
-        'eventos': eventos,
-    })
+""" Aqui comienzan las vistas para el modulo de eventos """
 
-@login_required
-def evento_create(request):
-    if request.method == 'GET':
-        return render(request, 'evento/evento_create.html',{
-            'formulario' : CustomEventForm
-        })
-    else:
+class EventoIndex(LoginRequiredMixin, ListView):
+    template_name= 'evento/evento_index.html'
+    queryset = evento_miembro.objects.all()
+    login_url = '/dashboard/auth/signin/'
+    redirect_field_name = 'redirect_to'
+    context_object_name = 'eventos'
+
+
+
+class EventoCreate(LoginRequiredMixin, CreateView):
+    template_name = 'evento/evento_create.html'
+    login_url = '/dashboard/auth/signin/'
+    redirect_field_name = 'redirect_to'
+
+    def get(self, request, *args, **kwargs):
+        context = {'formulario' : CustomEventForm}
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
         try:
             formulario = CustomEventForm(request.POST)
             nuevo_evento = formulario.save(commit=False)
@@ -94,10 +114,10 @@ def evento_create(request):
             enviarNotificacion(titulo='App Calend Event Manager', mensaje='Se ha registrado un evento de manera exitosa')
             return redirect('/dashboard/evento/')
         except ValueError:
-            return render(request, 'evento/evento_create.html',{
-                'formulario' : CustomEventForm,
-                'error' : 'Porfavor ingrese datos validos.'
-            })
+            context = {'formulario' : CustomEventForm, 'error' : 'Porfavor ingrese datos validos.'}
+            return render(request, self.template_name, context)
+            
+            
         
 @login_required
 def evento_detail(request, evento_id):
@@ -135,7 +155,7 @@ def evento_delete(request, evento_id):
         evento.delete()
         return redirect('/dashboard/evento/')
 
-#aqui termina las vistas para el modulo productos
+""" Aqui termina las vistas para el modulo de eventos """
 
 
 #aqui comienza las vistas para el modulo usuarios

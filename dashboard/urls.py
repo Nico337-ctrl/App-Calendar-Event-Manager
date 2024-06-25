@@ -4,16 +4,18 @@ from . import views
 urlpatterns = [
     
     #rutas modulo usuario
-    path('auth/signup/', views.session_signup, name='signup'),
-    path('auth/logout/', views.session_logout, name='logout'),
-    path('auth/signin/', views.session_signin, name='signin'),
+    path('auth/signup/', views.SessionSignup.as_view(), name='signup'),
+    path('auth/logout/', views.SessionLogout.as_view(), name='logout'),
+    path('auth/signin/', views.SessionSignin.as_view(), name='signin'),
 
     #ruta home o inicio
-    path('home/', views.home_page, name='home'),
+    path('home/', views.HomeDashboard.as_view(), name='home'),
 
     #rutas modulo eventos
-    path('evento/create/', views.evento_create, name='evento_create'),
-    path('evento/', views.evento_index, name='evento'),    
+    # path('evento/create/', views.evento_create, name='evento_create'),
+
+    path('evento/create/', views.EventoCreate.as_view(), name='evento_create'),
+    path('evento/', views.EventoIndex.as_view(), name='evento'),
     path('evento/detail/<int:evento_id>', views.evento_detail, name='evento_detail'),
     path('evento/edit/<int:evento_id>', views.evento_edit, name='evento_edit'),
     path('evento/delete/<int:evento_id>', views.evento_delete, name='evento_delete'),

@@ -7,7 +7,7 @@ def enviarNotificacion(mensaje, titulo):
     notificacion = Notify()
     notificacion.title = titulo
     notificacion.message = mensaje
-    notificacion.icon = "D:/Workspace/Nicolas/App-Calendar-Event-Manager/calendeventmanager/static/src/images/sena-azul.png"
+    #notificacion.icon = "D:/Workspace/Nicolas/App-Calendar-Event-Manager/calendeventmanager/static/src/images/sena-azul.png"
     notificacion.send()
     # icono = "logo-del-sena-01.png"
     # ruta = path.abspath(path.dirname(__file__))
