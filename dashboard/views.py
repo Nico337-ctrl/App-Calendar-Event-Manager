@@ -129,6 +129,23 @@ class EventoDetail(LoginRequiredMixin, DetailView):
     context_object_name = 'evento'
         
         
+# class EventoEdit(LoginRequiredMixin, UpdateView):
+#     template_name = 'evento/evento_edit.html'
+#     login_url = '/dashboard/auth/signin/'
+#     redirect_field_name = 'redirect_to'
+#     model = evento_miembro
+#     form_class = CustomEventForm
+    
+    
+#     def get(self, request, *args, **kwargs):
+#         context = { 'evento' : get_object_or_404(self.model, pk=self.kwargs['pk']), 'formulario' : self.form_class(instance=self.kwargs['pk']) }
+#         return render(request, self.template_name, context)
+
+#     def post(self, request, *args, **kwargs):
+#         context = { 'evento' : get_object_or_404(self.model, pk=self.kwargs['pk']), 'formulario' : self.form_class(instance=self.kwargs['pk']) }
+#         if context['formulario'].is_valid():
+#             context['formulario'].save()
+#         return redirect('evento/evento_index.html')
 class EventoEdit(LoginRequiredMixin, UpdateView):
     template_name = 'evento/evento_edit.html'
     login_url = '/dashboard/auth/signin/'
@@ -136,20 +153,23 @@ class EventoEdit(LoginRequiredMixin, UpdateView):
     model = evento_miembro
     form_class = CustomEventForm
     
-    def get_object(self, queryset=None):
-        pk = self.kwargs.get('pk')
-        return get_object_or_404(evento_miembro, pk=pk)
+    def get(self, request, *args, **kwargs):
+        evento = get_object_or_404(self.model, pk=self.kwargs['pk'])
+        formulario = self.form_class(instance=evento)
+        context = {'evento': evento, 'formulario': formulario}
+        return render(request, self.template_name, context)
 
-    def form_valid(self, form):
-        instacia = form.save(commit=False)
-        instacia.save()
-        return super().form_valid(form)
+    def post(self, request, *args, **kwargs):
+        evento = get_object_or_404(self.model, pk=self.kwargs['pk'])
+        formulario = self.form_class(request.POST, instance=evento)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect('evento_index')  # Replace with your actual URL name for redirection
+        # If form is not valid, you might want to handle this case (e.g., re-render the form with errors)
+        context = {'evento': evento, 'formulario': formulario}
+        return render(request, self.template_name, context)
 
-    def form_invalid(self, form):
-        return self.render_to_response(self.get_context_data(form=form, error='Los datos ingresados no son del todo correctos.'))
 
-    def get_success_url(self):
-        return reverse_lazy('evento/evento_index.html')
 
 # @login_required
 # def evento_edit(request, evento_id):
