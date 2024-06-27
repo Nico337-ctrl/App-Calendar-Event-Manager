@@ -22,9 +22,11 @@
     <script src="https://kit.fontawesome.com/91737524d4.js" crossorigin="anonymous"></script>
 
     <!-- Libraries Stylesheet -->
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <link href="{% static 'src/lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+    <link href="{% static 'src/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css' %}" rel="stylesheet" />
 
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{% static 'src/css/bootstrap.min.css' %}" rel="stylesheet">
 
@@ -209,6 +211,7 @@
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
 
     <script src=" {% static 'src/lib/chart/chart.min.js' %}"></script>
     <script src=" {% static 'src/lib/easing/easing.min.js' %}"></script>
@@ -220,4 +223,11 @@
 
     <!-- Template Javascript -->
     <script src=" {% static 'src/js/main.js' %}"></script>
+
+    <script>
+
+        $(document).ready( function () {
+            $('#dataTable').DataTable();
+        } );
+    </script>
 </body>

@@ -11,7 +11,7 @@
 
 <div class="bg-light rounded h-100 p-4">
     <h6 class="mb-4">Eventos</h6>
-    <table class="table">
+    <table class="hover" id="dataTable">
         <thead>
             <tr>
                 <th scope="col">Id</th>
@@ -39,7 +39,7 @@
                     <td><a href="{% url 'evento_edit' evento.id %}">Editar</a></td>
                     <td><a href="{% url 'evento_detail' evento.id %}">Detalles</a></td>
                     <td><a href="{% url 'evento_delete' evento.id %}">Eliminar</a></td>
-                
+                    <td></td>
                 
 
             </tr>
@@ -47,6 +47,8 @@
         </tbody>
     </table>
 </div>
+
+
 
 
 {% endblock %}

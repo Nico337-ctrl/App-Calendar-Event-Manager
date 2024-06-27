@@ -7,9 +7,9 @@ from email.mime.text import MIMEText
 
 
 load_dotenv()
-# # Configuración de Mailtrap
+# Configuración de Mailtrap
 # remitente = os.getenv('USER')
-# destinatario = 'samirdelportillo01@gmail.com'
+# destinatario = 'ojedacorreanicolas@gmail.com'
 # asunto = 'testeando'
 
 # msg = MIMEMultipart()
@@ -19,7 +19,7 @@ load_dotenv()
 # email['To'] = destinatario
 # email['Subject'] = 'email test'
 
-# with open('notifications/emails/email.html', 'r') as archivo:
+# with open('C:/Workspace/App EventosCalendario/notifications/emails/email.html', 'r') as archivo:
 #     html = archivo.read()
 
 # msg.attach(MIMEText(html, 'html'))
@@ -41,7 +41,7 @@ def enviarEmail(destinatario, asunto):
     email['To'] = destinatario
     email['Subject'] = asunto
 
-    with open('notifications/emails/email.html', 'r') as archivo:
+    with open('C:/Workspace/App EventosCalendario/notifications/emails/email.html', 'r') as archivo:
         html = archivo.read()
 
     msg.attach(MIMEText(html, 'html'))

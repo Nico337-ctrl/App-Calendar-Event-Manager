@@ -2,14 +2,14 @@
 
 {% load static %}
 
-{% block title %}Usuarios{% endblock %}
+<!-- {% block title %}Usuarios{% endblock %}
 {% block extra_content %}Usuarios{% endblock %}
-{% block extra_content2 %}Usuarios{% endblock %}
+{% block extra_content2 %}Usuarios{% endblock %} -->
 
 {% block content %}
 <div class="bg-light rounded h-100 p-4">
     <h6 class="mb-4">Usuarios</h6>
-    <table class="table">
+    <table class="hover" id="dataTable">
         <thead>
             <tr>
                 <th scope="col">Id</th>
@@ -33,7 +33,7 @@
                     <td><a href="{% url 'usuario_edit' usuario.id %}">Editar</a></td>
                     <td><a href="{% url 'usuario_detail' usuario.id %}">Detalles</a></td>
                     <td><a href="{% url 'usuario_delete' usuario.id %}">Eliminar</a></td>
-                
+                    <td></td>
                 
 
             </tr>

@@ -18,7 +18,7 @@ urlpatterns = [
     path('evento/', views.EventoIndex.as_view(), name='evento'),
     path('evento/detail/<int:pk>', views.EventoDetail.as_view(), name='evento_detail'),
     path('evento/edit/<int:pk>', views.EventoEdit.as_view(), name='evento_edit'),
-    path('evento/delete/<int:pk>', views.evento_delete, name='evento_delete'),
+    path('evento/delete/<int:pk>', views.EventoDelete.as_view(), name='evento_delete'),
     
     #rutas modulo usuarios
     path('usuario/create/', views.usuarios_create, name='usuario_create'),
