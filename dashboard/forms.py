@@ -1,16 +1,16 @@
 from django.forms import ModelForm
-from .models import evento_miembro
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from .models import EventoMiembro
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm
 from django import forms
 
 class event_form(ModelForm):
     class Meta:
-        model = evento_miembro
+        model = EventoMiembro
         fields = ['titulo', 'descripcion', 'comienza', 'termina']
         
 class CustomEventForm(forms.ModelForm):
     class Meta:
-        model = evento_miembro
+        model = EventoMiembro
         fields = ['titulo', 'descripcion', 'comienza', 'termina']
     
     # usuario = forms.CharField(
@@ -82,6 +82,32 @@ class CustomAuthenticationForm(AuthenticationForm):
 
 
 class CustomUserCreationForm(UserCreationForm):
+    username = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                
+            }
+        )
+    )
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control',
+                
+            }
+        )
+    )
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control',
+                
+            }
+        )
+    )
+
+class CustomUserChangeForm(UserChangeForm):
     username = forms.CharField(
         widget=forms.TextInput(
             attrs={

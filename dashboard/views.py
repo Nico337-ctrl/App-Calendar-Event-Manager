@@ -6,8 +6,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import *
 from django.urls import reverse_lazy
 from django.db import IntegrityError
-from .forms import CustomEventForm, CustomAuthenticationForm, CustomUserCreationForm
-from .models import evento_miembro
+from .forms import CustomEventForm, CustomAuthenticationForm, CustomUserCreationForm, CustomUserChangeForm
+from .models import EventoMiembro
 from django.contrib.auth.decorators import login_required
 from notifications.send_notification import enviarNotificacion
 from notifications.emails.send_email import enviarEmail
@@ -92,7 +92,7 @@ class SessionSignin(View):
 
 class EventoIndex(LoginRequiredMixin, ListView):
     template_name= 'evento/evento_index.html'
-    queryset = evento_miembro.objects.all()
+    queryset = EventoMiembro.objects.all()
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
     context_object_name = 'eventos'
@@ -126,7 +126,7 @@ class EventoDetail(LoginRequiredMixin, DetailView):
     template_name = 'evento/evento_detail.html'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
-    model = evento_miembro
+    model = EventoMiembro
     context_object_name = 'evento'
         
         
@@ -136,7 +136,7 @@ class EventoEdit(LoginRequiredMixin, UpdateView):
     success_url = 'evento/evento_index.html'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
-    model = evento_miembro
+    model = EventoMiembro
     form_class = CustomEventForm
     
     def get(self, request, *args, **kwargs):
@@ -154,13 +154,13 @@ class EventoEdit(LoginRequiredMixin, UpdateView):
 
 
 class EventoDelete(LoginRequiredMixin, DeleteView):
-    template_name = 'evento/evento_edit.html'
+    # template_name = 'evento/evento_edit.html'
     success_url = 'evento/evento_index.html'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
 
     def get(self, request, *args, **kwargs):
-        evento = evento_miembro.objects.get(id = self.kwargs['pk'])
+        evento = EventoMiembro.objects.get(id = self.kwargs['pk'])
         evento.delete()
         return redirect('/dashboard/evento/')
 
@@ -178,7 +178,7 @@ class EventoDelete(LoginRequiredMixin, DeleteView):
 
 
 # def ejecutar_acciones():
-#     eventos = evento_miembro.objects.all()
+#     eventos = EventoMiembro.objects.all()
 #     for evento in eventos:
 #         intervalos = calcular_intervalos(evento.comienza, evento.termina)
 #         for intervalo in intervalos:
@@ -203,77 +203,89 @@ class EventoDelete(LoginRequiredMixin, DeleteView):
 
 """ Aqui comienzan las vistas para el modulo de usuarios"""
 
-@login_required
-def usuarios_index(request):
-    usuarios = User.objects.all()
-    return render(request, 'usuario/usuario_index.html', {
-        'usuarios' : usuarios
-    })
+class UsuarioIndex(LoginRequiredMixin, ListView):
+    template_name= 'usuario/usuario_index.html'
+    queryset = User.objects.all()
+    login_url = '/dashboard/auth/signin/'
+    redirect_field_name = 'redirect_to'
+    context_object_name = 'usuarios'
 
 
-@login_required
-def usuarios_create(request):
-    if request.method == 'GET':
-        return render(request, 'usuario/usuario_create.html',{
-            'formulario' : CustomUserCreationForm
-        
-        })
+class UsuarioCreate(LoginRequiredMixin, CreateView):
+    template_name = 'usuario/usuario_create.html'
+    success_url = '/dashboard/usuario/'
+    login_url = '/dashboard/auth/signin/'
+    redirect_field_name = 'redirect_to'
 
-    else:
+    def get(self, request, *args, **kwargs):
+        context = {'formulario' : CustomEventForm}
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
         try:
             formulario = CustomUserCreationForm(request.POST)
-            if formulario.is_valid():
-                nuevo_usuario = formulario.save()
-                nuevo_usuario.save()
-                return redirect('usuario')
+            nuevo_usuario = formulario.save(commit=False)
+            nuevo_usuario.save()
+            enviar_notificaciones()
+            return redirect(self.success_url)
         except ValueError:
-            return render(request, 'usuario/usuario_create.html',{
-                'formulario' : CustomUserCreationForm,
-                'error' : 'Porfavor ingrese datos validos'
-            })
+            context = {'formulario' : CustomUserCreationForm, 'error' : 'Porfavor ingrese datos validos.'}
+            return render(request, self.template_name, context)
+        
 
-@login_required
-def usuarios_detail(request, usuario_id):
-    usuario = get_object_or_404(User, pk=usuario_id)
-    return render(request, 'usuario/usuario_detail.html', {
-        'usuario': usuario
-    })
 
-@login_required
-def usuarios_edit(request, usuario_id):
-    if request.method == 'GET':
-        usuario = get_object_or_404(User, pk=usuario_id)
-        formulario = CustomUserCreationForm(instance=usuario)
-        return render(request, 'usuario/usuario_edit.html', {
-            'formulario': formulario,
-            'usuario' : usuario
-        })
-    else:
-        try:
-            usuario = get_object_or_404(User, pk=usuario_id)
-            formulario = CustomUserCreationForm(request.POST, instance=usuario_id)
-            if formulario.is_valid():
-                #validacion de formulario
-                formulario.save()
-                return redirect('usuario')
-        except:
-            return render(request, 'usuario/usuario_edit.html', {
-            'formulario': formulario,
-            'error' : 'algo no esta funcionando bien'
-        })
+class UsuarioDetail(LoginRequiredMixin, DetailView):
+    template_name = 'usuario/usuaro_detail.html'
+    login_url = '/dashboard/auth/signin/'
+    redirect_field_name = 'redirect_to'
+    model = User
+    context_object_name = 'usuario'
 
-@login_required
-def usuarios_delete(request, usuario_id):
-        usuario = User.objects.get(id = usuario_id)
-        usuario.delete()
+
+
+
+class UsuarioEdit(LoginRequiredMixin, UpdateView):
+    template_name = 'usuario/usuario_edit.html'
+    success_url = 'usuario/usuario_index.html'
+    login_url = '/dashboard/auth/signin/'
+    redirect_field_name = 'redirect_to'
+    model = User
+    form_class = CustomUserChangeForm
+    
+    def get(self, request, *args, **kwargs):
+        usuario = get_object_or_404(self.model, pk=self.kwargs['pk'])
+        formulario = self.form_class(instance=usuario)
+        context = {'usuario': usuario, 'formulario': formulario}
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        usuario = get_object_or_404(self.model, pk=self.kwargs['pk'])
+        formulario = self.form_class(request.POST, instance=usuario)
+        if formulario.is_valid():
+            formulario.save()
         return redirect('/dashboard/usuario/')
+    
+
+
+class UsuarioDelete(LoginRequiredMixin, DeleteView):
+    # template_name = 'usuario/evento_edit.html'
+    success_url = 'usuario/usuario_index.html'
+    login_url = '/dashboard/auth/signin/'
+    redirect_field_name = 'redirect_to'
+
+    def get(self, request, *args, **kwargs):
+        evento = EventoMiembro.objects.get(id = self.kwargs['pk'])
+        evento.delete()
+        return redirect('/dashboard/usuario/')
+
+
 
 """ Aqui terminan las vistas para el modulo usuarios """
 
 """ Aqui comienzan las vistas para el template calendario """
 
 def calendario_index(request):
-    eventos = evento_miembro.objects.all()
+    eventos = EventoMiembro.objects.all()
     return render(request, 'calendario/calendario.html', {
         'eventos' : eventos,
     })

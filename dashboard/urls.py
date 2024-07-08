@@ -21,11 +21,11 @@ urlpatterns = [
     path('evento/delete/<int:pk>', views.EventoDelete.as_view(), name='evento_delete'),
     
     #rutas modulo usuarios
-    path('usuario/create/', views.usuarios_create, name='usuario_create'),
-    path('usuario/', views.usuarios_index, name='usuario'),    
-    path('usuario/detail/<int:usuario_id>', views.usuarios_detail, name='usuario_detail'),
-    path('usuario/edit/<int:usuario_id>', views.usuarios_edit, name='usuario_edit'),
-    path('usuario/delete/<int:usuario_id>', views.usuarios_delete, name='usuario_delete'),
+    path('usuario/create/', views.UsuarioCreate.as_view(), name='usuario_create'),
+    path('usuario/', views.UsuarioIndex.as_view(), name='usuario'),    
+    path('usuario/detail/<int:pk>', views.UsuarioDetail.as_view(), name='usuario_detail'),
+    path('usuario/edit/<int:pk>', views.UsuarioEdit.as_view(), name='usuario_edit'),
+    path('usuario/delete/<int:pk>', views.UsuarioDelete.as_view(), name='usuario_delete'),
     
     #rutas calendario
     path('calendario/', views.calendario_index, name='calendario'),

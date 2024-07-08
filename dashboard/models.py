@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-class evento_abstract(models.Model):
+class EventoAbstract(models.Model):
     is_active = models.BooleanField(default=True)
     is_deleted = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -12,7 +12,7 @@ class evento_abstract(models.Model):
     class Meta:
         abstract = True
 
-class evento_miembro(evento_abstract):
+class EventoMiembro(EventoAbstract):
     titulo = models.CharField(max_length=255)
     descripcion = models.CharField(max_length=255)
     comienza = models.DateTimeField()

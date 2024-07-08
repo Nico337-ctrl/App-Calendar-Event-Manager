@@ -1,8 +1,8 @@
 
 from django.contrib import admin
-from .models import evento_miembro
+from .models import EventoMiembro
 
 class AdminEvento(admin.ModelAdmin):
     list_display = ('titulo', 'descripcion', 'comienza', 'termina')
 
-admin.site.register(evento_miembro, AdminEvento)
+admin.site.register(EventoMiembro, AdminEvento)
