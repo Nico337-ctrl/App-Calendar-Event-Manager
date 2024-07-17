@@ -26,6 +26,7 @@ urlpatterns = [
     path('usuario/detail/<int:pk>', views.UsuarioDetail.as_view(), name='usuario_detail'),
     path('usuario/edit/<int:pk>', views.UsuarioEdit.as_view(), name='usuario_edit'),
     path('usuario/delete/<int:pk>', views.UsuarioDelete.as_view(), name='usuario_delete'),
+    path('usuario/changePassword/<int:pk>', views.UsuarioChangePassword.as_view(), name='usuario_changePassword'),
     
     #rutas calendario
     path('calendario/', views.calendario_index, name='calendario'),

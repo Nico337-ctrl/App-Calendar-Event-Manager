@@ -1,6 +1,4 @@
-{% extends 'layouts/base_dashboard.html' %}
-
-{% load static %}
+{% extends 'layouts/base_dashboard.html' %} {% load static %}
 
 <!-- {% block title %}Usuarios{% endblock %}
 {% block extra_content %}Usuarios{% endblock %}
@@ -8,39 +6,43 @@
 
 {% block content %}
 <div class="bg-light rounded h-100 p-4">
-    <h6 class="mb-4">Usuarios</h6>
-    <table class="hover" id="dataTable">
-        <thead>
-            <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Nombre Usuario</th>
-                <!-- <th scope="col">Password</th> -->
-                <th scope="col">Se registro</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"><a href="{% url 'usuario_create' %}">Crear usuario</a></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for usuario in usuarios %}
-            <tr>
-                
-                    <th>{{ usuario.id }}</th>
-                    <td>{{ usuario.username }}</td>
-                    <!-- <td>{{ usuario.password }}</td> -->
-                    <td>{{ usuario.date_joined }}</td>
-                    <td><a href="{% url 'usuario_edit' usuario.id %}">Editar</a></td>
-                    <td><a href="{% url 'usuario_detail' usuario.id %}">Detalles</a></td>
-                    <td><a href="{% url 'usuario_delete' usuario.id %}">Eliminar</a></td>
-                    <td></td>
-                
-
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+  <h6 class="mb-4">Usuarios</h6>
+  <table class="hover" id="dataTable">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Nombre Usuario</th>
+        <!-- <th scope="col">Password</th> -->
+        <th scope="col">Se registro</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col">
+          <a href="{% url 'usuario_create' %}">Crear usuario</a>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for usuario in usuarios %}
+      <tr>
+        <th>{{ usuario.id }}</th>
+        <td>{{ usuario.username }}</td>
+        <!-- <td>{{ usuario.password }}</td> -->
+        <td>{{ usuario.date_joined }}</td>
+        <td>
+          <a href="{% url 'usuario_changePassword' usuario.id %}"
+            >Cambiar Contraseña</a
+          >
+        </td>
+        <td><a href="{% url 'usuario_edit' usuario.id %}">Editar</a></td>
+        <td><a href="{% url 'usuario_detail' usuario.id %}">Detalles</a></td>
+        <td><a href="{% url 'usuario_delete' usuario.id %}">Eliminar</a></td>
+        <td></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
-
 
 {% endblock %}

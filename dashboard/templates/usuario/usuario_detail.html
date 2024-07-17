@@ -8,38 +8,32 @@
 {% block content %}
 
 <div class="bg-light rounded h-100 p-4">
-    <h6 class="mb-4">Usuarios</h6>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Usuario</th>
-                <th scope="col">Nombre Usuario</th>
-                <th scope="col">Password</th>
-                <th scope="col">Se registro</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"><a href="{% url 'usuario' %}">Volver</a></th>
-            </tr>
-        </thead>
-        <tbody>
-            
-            <tr>
-                
-                    <th>{{ user.id }}</th>
-                    <td>{{ user.username }}</td>
-                    <td>{{ user.password }}</td>
-                    <td>{{ user.date_joined }}</td>
-                    <!-- <td><a href="{% url 'usuario_edit' usuario.id %}">Editar</a></td>
-                    <td><a href="{% url 'usuario_detail' usuario.id %}">Detalles</a></td>
-                    <td><a href="{% url 'usuario_delete' usuario.id %}">Eliminar</a></td> -->
-                
-                
-
-            </tr>
-            
-        </tbody>
-    </table>
+  <h6 class="mb-4">Usuarios</h6>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Usuario</th>
+        <!--<th scope="col">Nombre Usuario</th>-->
+        <th scope="col">Password</th>
+        <th scope="col">Se registro</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"><a href="{% url 'usuario' %}">Volver</a></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>{{ user.id }}</th>
+        <td>{{ user.username }}</td>
+        <td>{{ user.password }}</td>
+        <td>{{ user.date_joined }}</td>
+        <!-- <td><a href="{% url 'usuario_edit' usuario.id %}">Editar</a></td>
+        <td><a href="{% url 'usuario_detail' usuario.id %}">Detalles</a></td>
+        <td><a href="{% url 'usuario_delete' usuario.id %}">Eliminar</a></td> -->
+      </tr>
+    </tbody>
+  </table>
 </div>
 {% endblock %}

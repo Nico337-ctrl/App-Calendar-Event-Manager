@@ -1,12 +1,13 @@
 from django.db.models.base import Model as Model
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 from django.views.generic import *
 from django.urls import reverse_lazy
 from django.db import IntegrityError
-from .forms import CustomEventForm, CustomAuthenticationForm, CustomUserCreationForm, CustomUserChangeForm
+from .forms import CustomEventForm, CustomAuthenticationForm, CustomUserCreationForm, CustomUserChangeForm, CustomPasswordChangeForm
 from .models import EventoMiembro
 from django.contrib.auth.decorators import login_required
 from notifications.send_notification import enviarNotificacion
@@ -27,7 +28,7 @@ class HomeDashboard(LoginRequiredMixin, TemplateView):
 
 """ Aqui terminan las vistas Home de la dashboard """
 
-""" Aqui comienzan las vistas del modulo usuario """
+""" Aqui comienzan las vistas del modulo de inicio de sesión """
 class SessionSignup(View):
     template_name= 'auth/signup.html'
 
@@ -84,8 +85,7 @@ class SessionSignin(View):
             enviarNotificacion(titulo='App Calend Event Manager', mensaje='Su inicio de sesion ha sido exitoso')
             return redirect('home')
 
-""" Aqui finaliza las vistas para el modulo de usuario"""
-
+""" Aqui finaliza las vistas para el modulo de inicio de sesión"""
 
 
 """ Aqui comienzan las vistas para el modulo de eventos """
@@ -235,7 +235,7 @@ class UsuarioCreate(LoginRequiredMixin, CreateView):
 
 
 class UsuarioDetail(LoginRequiredMixin, DetailView):
-    template_name = 'usuario/usuaro_detail.html'
+    template_name = 'usuario/usuario_detail.html'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
     model = User
@@ -274,9 +274,50 @@ class UsuarioDelete(LoginRequiredMixin, DeleteView):
     redirect_field_name = 'redirect_to'
 
     def get(self, request, *args, **kwargs):
-        evento = EventoMiembro.objects.get(id = self.kwargs['pk'])
-        evento.delete()
+        usuario = User.objects.get(id = self.kwargs['pk'])
+        usuario.delete()
         return redirect('/dashboard/usuario/')
+
+
+class UsuarioChangePassword(LoginRequiredMixin, View):
+    model = User
+    template_name = 'usuario/usuario_changePassword.html'
+    success_url = '/dashboard/usuario/'
+
+    def get(self, request, *args, **kwargs):
+        usuario = get_object_or_404(self.model, pk=self.kwargs['pk'])
+        formulario = CustomPasswordChangeForm(user=request.user)
+        context = {'usuario': usuario, 'formulario': formulario}
+        return render(request, self.template_name, context)
+    
+    def post(self, request, *args, **kwargs):
+        usuario = get_object_or_404(self.model, pk=self.kwargs['pk'])
+        formulario = CustomPasswordChangeForm(user=request.user, data=request.POST)
+        context = { 'usuario': usuario, 'formulario': formulario}
+        try:
+            if formulario.is_valid():
+                user = formulario.save()
+                update_session_auth_hash(request, user)
+                messages.success(request, '¡Tu contraseña ha sido cambiada exitosamente!')
+                return redirect(self.success_url)
+            else:
+                for field, errors in formulario.errors.items():
+                    for error in errors:
+                        messages.error(request, f"{error}")
+        except Exception as e:
+            messages.error(request, f"Ocurrió un error inesperado: {str(e)}")
+        
+        return render(request, self.template_name, context)
+    
+        # if formulario.is_valid():
+        #     user = formulario.save()
+        #     update_session_auth_hash(request, user)  # Esto es importante para mantener la sesión del usuario después del cambio de contraseña
+        #     messages.success(request, '¡Tu contraseña ha sido cambiada exitosamente!')
+        #     return redirect(self.success_url, context)
+        # else:
+        #     messages.error(request, 'Por favor corrige los errores a continuación.')
+        #     context = { 'usuario': usuario, 'formulario': formulario}
+        #     return render(request, self.template_name, context)
 
 
 
