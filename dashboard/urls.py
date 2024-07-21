@@ -4,23 +4,31 @@ from . import views
 urlpatterns = [
     
     #rutas modulo usuario
-    path('auth/signup/', views.session_signup, name='signup'),
-    path('auth/logout/', views.session_logout, name='logout'),
-    path('auth/signin/', views.session_signin, name='signin'),
+    path('auth/signup/', views.SessionSignup.as_view(), name='signup'),
+    path('auth/logout/', views.SessionLogout.as_view(), name='logout'),
+    path('auth/signin/', views.SessionSignin.as_view(), name='signin'),
 
     #ruta home o inicio
-    path('home/', views.home_page, name='home'),
+    path('home/', views.HomeDashboard.as_view(), name='home'),
 
-    #rutas modulo productos
-    path('producto/create/', views.productos_create, name='producto_create'),
-    path('producto/', views.productos_index, name='producto'),    
-    path('producto/detail/<int:producto_id>', views.productos_detail, name='producto_detail'),
-    path('producto/edit/<int:producto_id>', views.productos_edit, name='producto_edit'),
+    #rutas modulo eventos
+    # path('evento/create/', views.evento_create, name='evento_create'),
+
+    path('evento/create/', views.EventoCreate.as_view(), name='evento_create'),
+    path('evento/', views.EventoIndex.as_view(), name='evento'),
+    path('evento/detail/<int:pk>', views.EventoDetail.as_view(), name='evento_detail'),
+    path('evento/edit/<int:pk>', views.EventoEdit.as_view(), name='evento_edit'),
+    path('evento/delete/<int:pk>', views.EventoDelete.as_view(), name='evento_delete'),
     
     #rutas modulo usuarios
-    path('usuario/create/', views.usuarios_create, name='usuario_create'),
-    path('usuario/', views.usuarios_index, name='usuario'),    
-    path('usuario/detail/<int:usuario_id>', views.usuarios_detail, name='usuario_detail'),
-    path('usuario/edit/<int:usuario_id>', views.usuarios_edit, name='usuario_edit'),
+    path('usuario/create/', views.UsuarioCreate.as_view(), name='usuario_create'),
+    path('usuario/', views.UsuarioIndex.as_view(), name='usuario'),    
+    path('usuario/detail/<int:pk>', views.UsuarioDetail.as_view(), name='usuario_detail'),
+    path('usuario/edit/<int:pk>', views.UsuarioEdit.as_view(), name='usuario_edit'),
+    path('usuario/delete/<int:pk>', views.UsuarioDelete.as_view(), name='usuario_delete'),
+    path('usuario/changePassword/<int:pk>', views.UsuarioChangePassword.as_view(), name='usuario_changePassword'),
+    
+    #rutas calendario
+    path('calendario/', views.calendario_index, name='calendario'),
     
 ]

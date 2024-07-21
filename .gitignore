@@ -1,4 +1,10 @@
 venv/
 dashboard/__pycache__
 dashboard/migrations/__pycache__
-dashboard/migrations
+dashboard/migrations/
+calendeventmanager/__pycache__
+notifications/__pycache__
+notifications/migrations/__pycache__
+
+db.sqlite3
+__pycache__
