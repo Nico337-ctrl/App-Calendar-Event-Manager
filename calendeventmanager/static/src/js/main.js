@@ -1,4 +1,7 @@
 (function ($) {
+    
+
+
     "use strict";
 
     // Spinner
@@ -198,6 +201,8 @@
             responsive: true
         }
     });
+
+    
 
     
 })(jQuery);

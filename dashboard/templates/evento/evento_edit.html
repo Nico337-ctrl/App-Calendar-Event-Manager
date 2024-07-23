@@ -1,48 +1,46 @@
 {% extends 'layouts/base_dashboard.html' %}
 
-<!-- {% block title %}Productos{% endblock %}
-{% block extra_content %}Productos{% endblock %}
-{% block extra_content2 %}Productos{% endblock %}
-{% block extra_content3 %}Editar{% endblock %} -->
-
 {% block content %}
-<div class="bg-light rounded h-100 p-4">
-    <h6 class="mb-4">Editar Evento</h6>
-    <form action="{% url 'evento_edit' evento.id %}" method="POST">
-        {% csrf_token %}
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Titulo</label>
-            <!-- <input type="email" class="form-control" id="exampleInputEmail1"
-                aria-describedby="emailHelp"> -->
-            {{ formulario.titulo }}
-        </div>
-        <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Descripcion</label>
-            <!-- <input type="password" class="form-control" id="exampleInputPassword1"> -->
-            {{ formulario.descripcion }}
-        </div>
-        <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Comienza</label>
-            <!-- <input type="password" class="form-control" id="exampleInputPassword1"> -->
-            {{ formulario.comienza }}
-        </div>
-        <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Termina</label>
-            <!-- <input type="password" class="form-control" id="exampleInputPassword1"> -->
-            {{ formulario.termina }}
-        </div>
-        <!-- <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">Check me out</label>
-        </div> -->
-        {% if error %}
-            <div id="emailHelp" class="form-text">{{ error }}</div>
-        {% endif %}
-        <button type="submit" class="btn btn-primary">Guardar</button>
-        <a href="{% url 'evento' %}" class="btn btn-secondary">Volver</a>
+<!-- Botón para abrir el modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarEventoModal">
+  Editar Evento
+</button>
 
-    </form>
-
+<!-- Modal -->
+<div class="modal fade" id="editarEventoModal" tabindex="-1" aria-labelledby="editarEventoModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editarEventoModalLabel">Editar Evento</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="{% url 'evento_edit' evento.id %}" method="POST">
+          {% csrf_token %}
+          <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Titulo</label>
+              {{ formulario.titulo }}
+          </div>
+          <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Descripcion</label>
+              {{ formulario.descripcion }}
+          </div>
+          <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Comienza</label>
+              {{ formulario.comienza }}
+          </div>
+          <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Termina</label>
+              {{ formulario.termina }}
+          </div>
+          {% if error %}
+              <div id="emailHelp" class="form-text">{{ error }}</div>
+          {% endif %}
+          <button type="submit" class="btn btn-primary">Guardar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
-
 {% endblock %}

@@ -13,6 +13,7 @@ from django.contrib.auth.decorators import login_required
 from notifications.send_notification import enviarNotificacion
 from notifications.emails.send_email import enviarEmail
 from dashboard.auto_notificacion import enviar_notificaciones
+from django.shortcuts import get_object_or_404, redirect
 # from notifications.whatsapp.send_message import enviarMensajeWhats
 from datetime import timedelta
 from django.utils import timezone
@@ -154,7 +155,7 @@ class EventoEdit(LoginRequiredMixin, UpdateView):
 
 
 class EventoDelete(LoginRequiredMixin, DeleteView):
-    # template_name = 'evento/evento_edit.html'
+    template_name = 'evento/evento_index.html'
     success_url = 'evento/evento_index.html'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
