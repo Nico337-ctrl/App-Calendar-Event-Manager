@@ -1,6 +1,6 @@
 from datetime import timedelta
 from django.utils import timezone
-from .models import EventoMiembro
+from .models import Eventos
 from notifications.send_notification import enviarNotificacion
 from notifications.emails.send_email import enviarEmail
 
@@ -17,7 +17,7 @@ def realizar_accion(evento, momento):
 
 def enviar_notificaciones():
     ahora = timezone.now()
-    eventos = EventoMiembro.objects.filter(comienza__lte=ahora + timedelta(minutes=20), termina__gte=ahora)
+    eventos = Eventos.objects.filter(comienza__lte=ahora + timedelta(minutes=20), termina__gte=ahora)
     
     for evento in eventos:
         if ahora >= evento.comienza - timedelta(minutes=20):

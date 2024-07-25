@@ -19,6 +19,14 @@ urlpatterns = [
     path('evento/detail/<int:pk>', views.EventoDetail.as_view(), name='evento_detail'),
     path('evento/edit/<int:pk>', views.EventoEdit.as_view(), name='evento_edit'),
     path('evento/delete/<int:pk>', views.EventoDelete.as_view(), name='evento_delete'),
+
+
+    path('evento/etiqueta/create/', views.EventoEtiquetaCreate.as_view(), name='evento_etiqueta_create'),
+    path('evento/etiqueta/', views.EventoEtiquetaIndex.as_view(), name='evento_etiqueta'),
+    path('evento/etiqueta/detail/<int:pk>', views.EventoEtiquetaDetail.as_view(), name='evento_etiqueta_detail'),
+    path('evento/etiqueta/edit/<int:pk>', views.EventoEtiquetaEdit.as_view(), name='evento_etiqueta_edit'),
+    path('evento/etiqueta/delete/<int:pk>', views.EventoEtiquetaDelete.as_view(), name='evento_etiqueta_delete'),
+
     
     #rutas modulo usuarios
     path('usuario/create/', views.UsuarioCreate.as_view(), name='usuario_create'),
@@ -29,6 +37,8 @@ urlpatterns = [
     path('usuario/changePassword/<int:pk>', views.UsuarioChangePassword.as_view(), name='usuario_changePassword'),
     
     #rutas calendario
-    path('calendario/', views.calendario_index, name='calendario'),
+    path('calendario/', views.CalendarioIndex.as_view(), name='calendario'),
+    
+    path('registro/', views.RegistroIndex.as_view(), name='registro'),
     
 ]

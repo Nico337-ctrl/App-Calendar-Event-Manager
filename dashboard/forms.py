@@ -1,25 +1,14 @@
 from django.forms import ModelForm
-from .models import EventoMiembro
+from .models import Eventos, EtiquetaEvento
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm, PasswordChangeForm
 from django import forms
 
-class event_form(ModelForm):
-    class Meta:
-        model = EventoMiembro
-        fields = ['titulo', 'descripcion', 'comienza', 'termina']
-        
+
 class CustomEventForm(forms.ModelForm):
     class Meta:
-        model = EventoMiembro
-        fields = ['titulo', 'descripcion', 'comienza', 'termina']
+        model = Eventos
+        fields = ['titulo', 'descripcion', 'info_extra', 'inicia_el', 'termina_el']
     
-    # usuario = forms.CharField(
-    #     widget=forms.TextInput(
-    #         attrs={
-    #             'class': 'form-control',
-    #         }
-    #     )
-    # )
     titulo = forms.CharField(
         widget=forms.TextInput(
             attrs={
@@ -27,6 +16,7 @@ class CustomEventForm(forms.ModelForm):
             }
         )
     )
+    
     descripcion = forms.CharField(
         widget=forms.TextInput(
             attrs={
@@ -34,7 +24,16 @@ class CustomEventForm(forms.ModelForm):
             }
         )
     )
-    comienza = forms.DateTimeField(
+    
+    info_extra = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    
+    inicia_el = forms.DateTimeField(
         widget=forms.DateTimeInput(
             attrs={
                 'class': 'form-control',
@@ -42,7 +41,7 @@ class CustomEventForm(forms.ModelForm):
             }
         )
     )
-    termina = forms.DateTimeField(
+    termina_el = forms.DateTimeField(
         widget=forms.DateTimeInput(
             attrs={
                 'class': 'form-control',
@@ -50,18 +49,45 @@ class CustomEventForm(forms.ModelForm):
             }
         )
     )
+
+
+class CustomEtiqEventForm(forms.ModelForm):
+    class Meta:
+        model = EtiquetaEvento
+        fields = ['titulo', 'descripcion', 'imagen']
+    
+    titulo = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    
+    descripcion = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    
+    image = forms.ImageField(
+        widget=forms.ClearableFileInput(
+            attrs={
+                'class': 'form-control',
+                'accept': 'image/*',
+                'type': 'image',
+            }
+        )
+    )
+    
+    
     
 
 
-# class CustomProductoForm(producto_form):
+
     
-
-
-
-
-
-
-
 class CustomAuthenticationForm(AuthenticationForm):
     username = forms.CharField(
         widget=forms.TextInput(

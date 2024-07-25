@@ -6,10 +6,10 @@
     <table class="hover" id="dataTable">
         <thead>
             <tr>
-                <th scope="col">ID</th>
                 <th scope="col">Usuario</th>
                 <th scope="col">Titulo</th>
                 <th scope="col">Descripcion</th>
+                <th scope="col">Info Extra</th>
                 <th scope="col">Comienza</th>
                 <th scope="col">Termina</th>
                 <th scope="col"></th>
@@ -20,12 +20,12 @@
         <tbody>
             {% for evento in eventos %}
             <tr>
-                <td>{{ evento.id }}</td>
-                <td>{{ evento.user }}</td>
+                <td>{{ evento.usuario }}</td>
                 <td>{{ evento.titulo }}</td>
                 <td>{{ evento.descripcion }}</td>
-                <td>{{ evento.comienza }}</td>
-                <td>{{ evento.termina }}</td>
+                <td>{{ evento.info_extra }}</td>
+                <td>{{ evento.inicia_el }}</td>
+                <td>{{ evento.termina_el }}</td>
                 <td>
                     <!-- Texto amarillo para editar -->
                     <span style="color: #29a900; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarEventoModal{{ evento.id }}">
@@ -81,12 +81,12 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <p><strong>ID:</strong> {{ evento.id }}</p>
-                                    <p><strong>Usuario:</strong> {{ evento.user }}</p>
+                                    <p><strong>Usuario:</strong> {{ evento.usuario }}</p>
                                     <p><strong>Titulo:</strong> {{ evento.titulo }}</p>
                                     <p><strong>Descripcion:</strong> {{ evento.descripcion }}</p>
-                                    <p><strong>Comienza:</strong> {{ evento.comienza }}</p>
-                                    <p><strong>Termina:</strong> {{ evento.termina }}</p>
+                                    <p><strong>Descripcion:</strong> {{ evento.info_extra }}</p>
+                                    <p><strong>Inicia el:</strong> {{ evento.inicia_el }}</p>
+                                    <p><strong>Termina el:</strong> {{ evento.termina_el }}</p>
                                 </div>
                             </div>
                         </div>

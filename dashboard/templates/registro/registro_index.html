@@ -1,0 +1,32 @@
+{% extends 'layouts/base_dashboard.html' %} {% load static %}
+
+{% block content %}
+<div class="bg-light rounded h-100 p-4">
+  <h6 class="mb-4">Registros</h6>
+  <table class="hover" id="dataTable">
+    <thead>
+      <tr>
+        <th scope="col">Tipo</th>
+        <th scope="col">Usuario</th>
+        <th scope="col">Evento</th>
+        <th scope="col">Creado el</th>
+        <th scope="col">Actualizado el</th>
+        <th scope="col">Origen</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for registro in registros %}
+      <tr>
+        <th>{{ registro.tipo }}</th>
+        <td>{{ registro.usuario }}</td>
+        <td>{{ registro.evento }}</td>
+        <td>{{ registro.creado_el }}</td>
+        <td>{{ registro.actualizado_el }}</td>
+        <td>{{ registro.tabla_origen }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

@@ -7,8 +7,8 @@ from django.contrib import messages
 from django.views.generic import *
 from django.urls import reverse_lazy
 from django.db import IntegrityError
-from .forms import CustomEventForm, CustomAuthenticationForm, CustomUserCreationForm, CustomUserChangeForm, CustomPasswordChangeForm
-from .models import EventoMiembro
+from .forms import CustomEventForm,  CustomEtiqEventForm, CustomAuthenticationForm, CustomUserCreationForm, CustomUserChangeForm, CustomPasswordChangeForm
+from .models import Eventos, EtiquetaEvento, Registros
 from django.contrib.auth.decorators import login_required
 from notifications.send_notification import enviarNotificacion
 from notifications.emails.send_email import enviarEmail
@@ -93,7 +93,7 @@ class SessionSignin(View):
 
 class EventoIndex(LoginRequiredMixin, ListView):
     template_name= 'evento/evento_index.html'
-    queryset = EventoMiembro.objects.all()
+    queryset = Eventos.objects.all()
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
     context_object_name = 'eventos'
@@ -115,6 +115,7 @@ class EventoCreate(LoginRequiredMixin, CreateView):
             formulario = CustomEventForm(request.POST)
             nuevo_evento = formulario.save(commit=False)
             nuevo_evento.user = request.user
+            nuevo_evento.etiqueta = request
             nuevo_evento.save()
             enviar_notificaciones()
             return redirect(self.success_url)
@@ -127,7 +128,7 @@ class EventoDetail(LoginRequiredMixin, DetailView):
     template_name = 'evento/evento_detail.html'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
-    model = EventoMiembro
+    model = Eventos
     context_object_name = 'evento'
         
         
@@ -137,7 +138,7 @@ class EventoEdit(LoginRequiredMixin, UpdateView):
     success_url = 'evento/evento_index.html'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
-    model = EventoMiembro
+    model = Eventos
     form_class = CustomEventForm
     
     def get(self, request, *args, **kwargs):
@@ -161,45 +162,90 @@ class EventoDelete(LoginRequiredMixin, DeleteView):
     redirect_field_name = 'redirect_to'
 
     def get(self, request, *args, **kwargs):
-        evento = EventoMiembro.objects.get(id = self.kwargs['pk'])
+        evento = Eventos.objects.get(id = self.kwargs['pk'])
         evento.delete()
         return redirect('/dashboard/evento/')
 
-
-
-
-# def calcular_intervalos(fecha_inicio, fecha_fin, num_intervalos=3):
-#     duracion = fecha_fin - fecha_inicio
-#     intervalos = []
-#     for i in range(num_intervalos):
-#         intervalo_inicio = fecha_inicio + i * (duracion / num_intervalos)
-#         intervalo_fin = fecha_inicio + (i + 1) * (duracion / num_intervalos)
-#         intervalos.append((intervalo_inicio, intervalo_fin))
-#     return intervalos
-
-
-# def ejecutar_acciones():
-#     eventos = EventoMiembro.objects.all()
-#     for evento in eventos:
-#         intervalos = calcular_intervalos(evento.comienza, evento.termina)
-#         for intervalo in intervalos:
-#             realizar_accion(evento, intervalo[0], intervalo[1])
-
-# def realizar_accion(evento, intervalo_inicio, intervalo_fin):
-#     # Aquí defines la acción que deseas realizar
-#     enviarNotificacion(titulo='App Calend Event Manager', mensaje='Recuerda que el evento')
-#     enviarEmail(destinatario='ojedacorreanicolas@gmail.com', asunto='Haz sido invitado a este evento')
-#     print(f"Realizando acción para {evento.titulo} del {intervalo_inicio.strftime('%d-%m-%Y %H:%M')} al {intervalo_fin.strftime('%d-%m-%Y %H:%M')}")
-
-# # Ejecutar las acciones
-# ejecutar_acciones()
-
-
-
-
-
-
 """ Aqui termina las vistas para el modulo de eventos """
+
+
+""" Aqui comienzan las vistas para el modulo de etiquetas eventos """
+
+class EventoEtiquetaIndex(LoginRequiredMixin, ListView):
+    template_name= 'evento/etiqueta/etiqueta_index.html'
+    queryset = EtiquetaEvento.objects.all()
+    login_url = '/dashboard/auth/signin/'
+    redirect_field_name = 'redirect_to'
+    context_object_name = 'etiquetas'
+
+
+
+class EventoEtiquetaCreate(LoginRequiredMixin, CreateView):
+    template_name = 'evento/etiqueta/etiqueta_create.html'
+    success_url = '/dashboard/evento/etiqueta/'
+    login_url = '/dashboard/auth/signin/'
+    redirect_field_name = 'redirect_to'
+
+    def get(self, request, *args, **kwargs):
+        context = {'formulario' : CustomEtiqEventForm}
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        try:
+            formulario = CustomEtiqEventForm(request.POST)
+            nueva_etiqueta = formulario.save(commit=False)
+            nueva_etiqueta.save()
+            enviar_notificaciones()
+            return redirect(self.success_url)
+        except ValueError:
+            context = {'formulario' : CustomEtiqEventForm, 'error' : 'Porfavor ingrese datos validos.'}
+            return render(request, self.template_name, context)
+            
+            
+class EventoEtiquetaDetail(LoginRequiredMixin, DetailView):
+    template_name = 'evento/etiqueta/etiqueta_detail.html'
+    login_url = '/dashboard/auth/signin/'
+    redirect_field_name = 'redirect_to'
+    model = EtiquetaEvento
+    context_object_name = 'etiqueta'
+        
+        
+
+class EventoEtiquetaEdit(LoginRequiredMixin, UpdateView):
+    template_name = 'evento/etiqueta/etiqueta_edit.html'
+    success_url = 'evento/etiqueta/etiqueta_index.html'
+    login_url = '/dashboard/auth/signin/'
+    redirect_field_name = 'redirect_to'
+    model = EtiquetaEvento
+    form_class = CustomEtiqEventForm
+    
+    def get(self, request, *args, **kwargs):
+        etiquetaEvento = get_object_or_404(self.model, pk=self.kwargs['pk'])
+        formulario = self.form_class(instance=etiquetaEvento)
+        context = {'etiqueta': etiquetaEvento, 'formulario': formulario}
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        etiquetaEvento = get_object_or_404(self.model, pk=self.kwargs['pk'])
+        formulario = self.form_class(request.POST, instance=etiquetaEvento)
+        if formulario.is_valid():
+            formulario.save()
+        return redirect('/dashboard/evento/etiqueta/')
+
+
+class EventoEtiquetaDelete(LoginRequiredMixin, DeleteView):
+    template_name = 'evento/etiqueta/etiqueta_index.html'
+    success_url = 'evento/etiqueta/etiqueta_index.html'
+    login_url = '/dashboard/auth/signin/'
+    redirect_field_name = 'redirect_to'
+
+    def get(self, request, *args, **kwargs):
+        etiquetaEvento = Eventos.objects.get(id = self.kwargs['pk'])
+        etiquetaEvento.delete()
+        return redirect('/dashboard/evento/etiqueta/')
+
+
+""" Aqui termina las vistas para el modulo de etiquetas de eventos """
 
 
 """ Aqui comienzan las vistas para el modulo de usuarios"""
@@ -310,26 +356,29 @@ class UsuarioChangePassword(LoginRequiredMixin, View):
         
         return render(request, self.template_name, context)
     
-        # if formulario.is_valid():
-        #     user = formulario.save()
-        #     update_session_auth_hash(request, user)  # Esto es importante para mantener la sesión del usuario después del cambio de contraseña
-        #     messages.success(request, '¡Tu contraseña ha sido cambiada exitosamente!')
-        #     return redirect(self.success_url, context)
-        # else:
-        #     messages.error(request, 'Por favor corrige los errores a continuación.')
-        #     context = { 'usuario': usuario, 'formulario': formulario}
-        #     return render(request, self.template_name, context)
-
 
 
 """ Aqui terminan las vistas para el modulo usuarios """
 
 """ Aqui comienzan las vistas para el template calendario """
 
-def calendario_index(request):
-    eventos = EventoMiembro.objects.all()
-    return render(request, 'calendario/calendario.html', {
-        'eventos' : eventos,
-    })
+class CalendarioIndex(LoginRequiredMixin, ListView):
+    template_name= 'calendario/calendario.html'
+    queryset = Eventos.objects.all()
+    login_url = '/dashboard/auth/signin/'
+    redirect_field_name = 'redirect_to'
+    context_object_name = 'eventos'
 
 """ Aqui terminan las vistas para el template calendario """
+
+
+""" Aqui comienzan las vistas para el modulo de registros """
+class RegistroIndex(LoginRequiredMixin, ListView):
+    template_name= 'registro/registro_index.html'
+    queryset = Registros.objects.all()
+    login_url = '/dashboard/auth/signin/'
+    redirect_field_name = 'redirect_to'
+    context_object_name = 'registros'
+
+""" Aqui terminan las vistas para el modulo de registros """
+
