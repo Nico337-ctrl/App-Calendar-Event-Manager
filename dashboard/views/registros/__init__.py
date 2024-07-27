@@ -1,0 +1,1 @@
+from .registro_views import *

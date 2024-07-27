@@ -22,6 +22,6 @@ from django.views.generic.base import RedirectView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('dashboard/', include("dashboard.urls")),
-    path('', RedirectView.as_view(url='/dashboard/auth/signin/', permanent=True)),
+    path('', RedirectView.as_view(url='dashboard.urls.auth.signin', permanent=True)),
     # path('notifications/', include("notifications.urls")),
 ]
