@@ -19,7 +19,7 @@
             <tr>
                 <td>{{ etiqueta.titulo }}</td>
                 <td>{{ etiqueta.descripcion }}</td>
-                <td>{{ etiqueta.imagen }}</td>
+                <td><img src="{{ etiqueta.imagen.url }}" alt="{{ etiqueta.titulo }}" width="50"></td>
                 <td>
                     <!-- Texto amarillo para editar -->
                     <span style="color: #29a900; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editaretiquetaModal{{ etiqueta.id }}">
@@ -43,7 +43,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="descripcion" class="form-label">Descripcion</label>
-                                            <input class="form-control" id="descripcion" name="descripcion">{{ etiqueta.descripcion }}</input>
+                                            <input class="form-control" id="descripcion" name="descripcion" value="{{ etiqueta.descripcion }}"></input>
                                         </div>
                                         <div class="mb-3">
                                             <label for="comienza" class="form-label">Imagen</label>
@@ -71,9 +71,9 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <p><strong>Usuario:</strong> {{ etiqueta.titulo }}</p>
-                                    <p><strong>Titulo:</strong> {{ etiqueta.descripcion }}</p>
-                                    <p><strong>Descripcion:</strong> {{ etiqueta.imagen }}</p>
+                                    <p><strong>Titulo:</strong> {{ etiqueta.titulo }}</p>
+                                    <p><strong>Descripcion:</strong> {{ etiqueta.descripcion }}</p>
+                                    <p><strong>Imagen:</strong> {{ etiqueta.imagen }}</p>
                                 </div>
                             </div>
                         </div>
@@ -89,14 +89,14 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="eliminaretiquetaModalLabel{{ etiqueta.id }}">¿Estás seguro de que deseas eliminar este etiqueta?</h5>
+                                    <h5 class="modal-title" id="eliminaretiquetaModalLabel{{ etiqueta.id }}">¿Estás seguro de que deseas eliminar esta etiqueta?</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     <!-- Detalles del etiqueta que se eliminará -->
-                                    <p>{{ etiqueta.titulo }}</p>
-                                    <p>{{ etiqueta.descripcion }}</p>
-                                    <p>Comienza: {{ etiqueta.imagen }}</p>
+                                    <p>Titulo: {{ etiqueta.titulo }}</p>
+                                    <p>Descripcion: {{ etiqueta.descripcion }}</p>
+                                    <p>Imagen: {{ etiqueta.imagen }}</p>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>

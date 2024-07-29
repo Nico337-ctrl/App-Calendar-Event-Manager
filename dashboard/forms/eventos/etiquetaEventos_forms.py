@@ -23,12 +23,12 @@ class EtiquetaEventoForm(forms.ModelForm):
         )
     )
     
-    image = forms.ImageField(
+    imagen = forms.ImageField(
         widget=forms.ClearableFileInput(
             attrs={
                 'class': 'form-control',
                 'accept': 'image/*',
-                'type': 'image',
+                
             }
         )
     )

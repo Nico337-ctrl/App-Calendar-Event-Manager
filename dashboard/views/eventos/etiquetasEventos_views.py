@@ -30,12 +30,13 @@ class EventoEtiquetaCreate(LoginRequiredMixin, CreateView):
 
     def post(self, request, *args, **kwargs):
         try:
-            formulario = EtiquetaEventoForm(request.POST)
-            nueva_etiqueta = formulario.save(commit=False)
-            nueva_etiqueta.save()
+            formulario = EtiquetaEventoForm(request.POST, request.FILES)
+            if formulario.is_valid():
+                nueva_etiqueta = formulario.save(commit=False)
+                nueva_etiqueta.save()
 
-            enviarNotificacion(titulo='Haz credo una nueva etiqueta', 
-                               mensaje=f'El evento {formulario.titulo}')
+                enviarNotificacion(titulo='Haz credo una nueva etiqueta', 
+                                mensaje=f'La etiqueta de evento: {nueva_etiqueta.titulo}')
             
             return redirect(self.success_url)
         except ValueError as e:
