@@ -1,11 +1,11 @@
 from django.forms import ModelForm
-from dashboard.models.eventos import Eventos
+from dashboard.models.eventos import Eventos, EtiquetaEvento
 from django import forms
 
 class FormEventos(forms.ModelForm):
     class Meta:
         model = Eventos
-        fields = ['titulo', 'descripcion', 'info_extra', 'inicia_el', 'termina_el']
+        fields = ['titulo', 'descripcion', 'info_extra', 'inicia_el', 'termina_el', 'etiqueta']
     
     titulo = forms.CharField(
         widget=forms.TextInput(
@@ -47,3 +47,16 @@ class FormEventos(forms.ModelForm):
             }
         )
     )
+    
+    etiqueta = forms.ModelChoiceField(
+        queryset=EtiquetaEvento.objects.all(),
+        widget=forms.Select(
+            attrs={
+                'class': 'form-control',
+                
+                
+            }
+        )
+    )
+    
+    
