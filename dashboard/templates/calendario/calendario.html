@@ -20,6 +20,10 @@
         <p><strong>Titulo:</strong> <span id="eventoTitulo"></span></p>
         <p><strong>Descripcion:</strong> <span id="eventoDescripcion"></span></p>
         <p><strong>Fechas:</strong> <span id="eventoFechas"></span></p>
+        <p><strong>Etiqueta:</strong> <span id="eventoEtiqueta"></span></p>
+
+        
+
         <div class="btn-group">
           <style>
             #editLink{
@@ -40,54 +44,56 @@
 
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js"></script>
 <script>
-  document.addEventListener('DOMContentLoaded', function(){
-    var calendarEl = document.getElementById('calendar');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      headerToolbar: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-      },
-      initialView: 'dayGridMonth',
-      events: [
-        {% for evento in eventos %}
-        {
-          title: "{{ evento.titulo }}",
-          start: "{{ evento.comienza | date:"Y-m-d" }}",
-          end: "{{ evento.termina | date:"Y-m-d" }}",
-          descripcion: "{{ evento.descripcion | escapejs }}",
-          id: "{{ evento.id }}"
-        }
-        {% if not forloop.last %},{% endif %}
-        {% endfor %}
-      ],
-      eventClick: function(info) {
-        var evento = info.event;
-        document.getElementById('eventoTitulo').textContent = evento.title;
-        var fechas = formatDate(evento.start);
-        if (evento.end) {
-          fechas += ' - ' + formatDate(evento.end);
-        }
-        document.getElementById('eventoFechas').textContent = fechas;
-        document.getElementById('eventoDescripcion').textContent = evento.extendedProps.descripcion || '';
-        document.getElementById('editLink').href = "{% url 'evento_edit' 0 %}".replace('0', evento.id);
-        document.getElementById('eliminarLink').href = "{% url 'evento_delete' 0 %}".replace('0', evento.id);
-        var modal = new bootstrap.Modal(document.getElementById('eventoModal'));
-        modal.show();
-      },
-      locale: 'es'
-    });
-    calendar.render();
-
-    function formatDate(date) {
-      return new Intl.DateTimeFormat('es', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric'
-      }).format(date);
-    }
+  document.addEventListener('DOMContentLoaded', function() {
+  var calendarEl = document.getElementById('calendar');
+  var calendar = new FullCalendar.Calendar(calendarEl, {
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+    },
+    initialView: 'dayGridMonth',
+    events: [
+      {% for evento in eventos %}
+      {
+        title: "{{ evento.titulo }}",
+        start: "{{ evento.inicia_el | date:"Y-m-d" }}",
+        end: "{{ evento.termina_el | date:"Y-m-d" }}",
+        descripcion: "{{ evento.descripcion | escapejs }}",
+        etiqueta: "{{ evento.etiqueta.titulo }}",  <!-- Asegúrate de que esta propiedad esté presente -->
+        id: "{{ evento.id }}"
+      }
+      {% if not forloop.last %},{% endif %}
+      {% endfor %}
+    ],
+    eventClick: function(info) {
+      var evento = info.event;
+      document.getElementById('eventoTitulo').textContent = evento.title;
+      var fechas = formatDate(evento.start);
+      if (evento.end) {
+        fechas += ' - ' + formatDate(evento.end);
+      }
+      document.getElementById('eventoFechas').textContent = fechas;
+      document.getElementById('eventoEtiqueta').textContent = evento.extendedProps.etiqueta || ''; // Asegúrate de usar el nombre correcto
+      document.getElementById('eventoDescripcion').textContent = evento.extendedProps.descripcion || '';
+      document.getElementById('editLink').href = "{% url 'evento_edit' 0 %}".replace('0', evento.id);
+      document.getElementById('eliminarLink').href = "{% url 'evento_delete' 0 %}".replace('0', evento.id);
+      var modal = new bootstrap.Modal(document.getElementById('eventoModal'));
+      modal.show();
+    },
+    locale: 'es'
   });
+  calendar.render();
+
+  function formatDate(date) {
+    return new Intl.DateTimeFormat('es', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric'
+    }).format(date);
+  }
+});
 </script>
 {% endblock %}
