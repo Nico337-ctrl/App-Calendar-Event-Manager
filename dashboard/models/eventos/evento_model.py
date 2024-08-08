@@ -4,6 +4,7 @@ from .etiquetaEvento_model import EtiquetaEvento
 
 
 class Eventos(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     titulo = models.CharField(max_length=255)
     descripcion = models.CharField(max_length=255)
     info_extra = models.CharField(max_length=255)
@@ -11,8 +12,8 @@ class Eventos(models.Model):
     termina_el = models.DateTimeField()
     est_activo = models.BooleanField(default=True)
     est_desactivo = models.BooleanField(default=False)
-    etiqueta = models.ForeignKey(EtiquetaEvento,on_delete=models.PROTECT, default=None )
-    usuario = models.ForeignKey(User, on_delete=models.PROTECT )
+    etiqueta = models.ForeignKey(EtiquetaEvento,on_delete=models.CASCADE)
+    
     
     @property
     def nombre_tabla(self):

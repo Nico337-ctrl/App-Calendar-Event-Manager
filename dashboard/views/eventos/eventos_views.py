@@ -18,6 +18,8 @@ class EventoIndex(LoginRequiredMixin, ListView):
 
 
 
+                
+
 class EventoCreate(LoginRequiredMixin, CreateView):
     template_name = 'evento/evento_create.html'
     success_url = '/dashboard/evento/'
@@ -25,26 +27,31 @@ class EventoCreate(LoginRequiredMixin, CreateView):
     redirect_field_name = 'redirect_to'
 
     def get(self, request, *args, **kwargs):
-        context = {'formulario' : FormEventos }
+        context = {'formulario' : FormEventos}
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        try:
-            formulario = (request.POST)
-            nuevo_evento = formulario.save(commit=False)
-            nuevo_evento.user = request.user
-            nuevo_evento.etiqueta = request
-            nuevo_evento.save()
+            try:
+                formulario = FormEventos(request.POST)
+                if formulario.is_valid():
+                    nuevo_evento = formulario.save(commit=False)
+                    nuevo_evento.usuario = request.user
+                    nuevo_evento.save()
 
-            enviarNotificacion(titulo='Haz credo un nuevo evento', 
-                               mensaje=f'El evento {formulario.titulo}')
-            
+                    enviarNotificacion(titulo='Haz credo un nuevo evento', 
+                                    mensaje=f'El evento {nuevo_evento.titulo}')
 
-            return redirect(self.success_url)
-        except ValueError as e:
-            context = {'formulario' :  FormEventos}
-            messages.error(request, f"Por favor ingrese datos validos. {str(e)}")
-            return render(request, self.template_name, context)
+                return redirect(self.success_url)
+            except ValueError as e:
+                context = {'formulario' :  FormEventos}
+                messages.error(request, f"Por favor ingrese datos validos. {str(e)}")
+                return render(request, self.template_name, context)
+
+            # # for field, errors in formulario.erros.items():
+            # #     for error in errors:
+            # #         messages.error(request, f"{field}: {error}")
+                    
+
             
             
 class EventoDetail(LoginRequiredMixin, DetailView):

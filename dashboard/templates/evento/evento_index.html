@@ -12,6 +12,7 @@
                 <th scope="col">Info Extra</th>
                 <th scope="col">Comienza</th>
                 <th scope="col">Termina</th>
+                <th scope="col">Etiqueta</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
                 <th scope="col"><a href="{% url 'evento_create' %}" style="color: #29a900">Crear evento</a></th>
@@ -26,6 +27,7 @@
                 <td>{{ evento.info_extra }}</td>
                 <td>{{ evento.inicia_el }}</td>
                 <td>{{ evento.termina_el }}</td>
+                <td>{{ evento.etiqueta.titulo }}</td>
                 <td>
                     <!-- Texto amarillo para editar -->
                     <span style="color: #29a900; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarEventoModal{{ evento.id }}">
@@ -52,12 +54,16 @@
                                             <textarea class="form-control" id="descripcion" name="descripcion">{{ evento.descripcion }}</textarea>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="comienza" class="form-label">Comienza</label>
-                                            <input type="datetime-local" class="form-control" id="comienza" name="comienza" value="{{ evento.comienza }}">
+                                            <label for="inicia_el" class="form-label">Comienza</label>
+                                            <input type="datetime-local" class="form-control" id="inicia_el" name="inicia_el" value="{{ evento.inicia_el }}">
                                         </div>
                                         <div class="mb-3">
                                             <label for="termina" class="form-label">Termina</label>
-                                            <input type="datetime-local" class="form-control" id="termina" name="termina" value="{{ evento.termina }}">
+                                            <input type="datetime-local" class="form-control" id="termina" name="termina" value="{{ evento.termina_el }}">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="termina" class="form-label">Etiqueta</label>
+                                            <input type="datetime-local" class="form-control" id="termina" name="termina" value="{{ evento.etiqueta }}">
                                         </div>
                                         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -87,6 +93,7 @@
                                     <p><strong>Descripcion:</strong> {{ evento.info_extra }}</p>
                                     <p><strong>Inicia el:</strong> {{ evento.inicia_el }}</p>
                                     <p><strong>Termina el:</strong> {{ evento.termina_el }}</p>
+                                    <p><strong>Etiqueta:</strong> {{ evento.etiqueta.titulo }}</p>
                                 </div>
                             </div>
                         </div>
@@ -109,8 +116,8 @@
                                     <!-- Detalles del evento que se eliminará -->
                                     <p>{{ evento.titulo }}</p>
                                     <p>{{ evento.descripcion }}</p>
-                                    <p>Comienza: {{ evento.comienza }}</p>
-                                    <p>Termina: {{ evento.termina }}</p>
+                                    <p>Comienza: {{ evento.inicia_el }}</p>
+                                    <p>Termina: {{ evento.termina_el }}</p>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
