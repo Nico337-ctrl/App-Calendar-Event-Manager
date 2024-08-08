@@ -1,7 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import User
+from dashboard.models.usuarios import User
 from .tipoRegistro_model import TipoRegistro
 from dashboard.models.eventos import Eventos
+
 
 
 class Registros(models.Model):

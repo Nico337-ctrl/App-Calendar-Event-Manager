@@ -14,6 +14,11 @@
         <th scope="col">Nombre Usuario</th>
         <!-- <th scope="col">Password</th> -->
         <th scope="col">Se registro</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Apellidos</th>
+        <th scope="col">Email</th>
+        <th scope="col">Telefono</th>
+        <th scope="col">Imagen</th>
         <th scope="col"></th>
         <th scope="col"></th>
         <th scope="col"></th>
@@ -30,6 +35,11 @@
         <td>{{ usuario.username }}</td>
         <!-- <td>{{ usuario.password }}</td> -->
         <td>{{ usuario.date_joined }}</td>
+        <td>{{ usuario.first_name}}</td>
+        <td>{{ usuario.last_name}}</td>
+        <td>{{ usuario.email}}</td>
+        <td>{{ usuario.telefono}}</td>
+        <td>{{ usuario.imagen}}</td>
         <td>
           <a href="{% url 'usuario_changePassword' usuario.id %}"
             >Cambiar Contraseña</a

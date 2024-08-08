@@ -22,3 +22,4 @@ dashboard/urls/eventos/__pycache__
 dashboard/urls/home/__pycache__
 dashboard/urls/registros/__pycache__
 dashboard/urls/users/__pycache__
+media/

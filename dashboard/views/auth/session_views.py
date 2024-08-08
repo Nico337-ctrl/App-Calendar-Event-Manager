@@ -1,6 +1,6 @@
 from django.db.models.base import Model as Model
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.models import User
+from dashboard.models.usuarios import User
 from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages

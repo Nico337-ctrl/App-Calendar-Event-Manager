@@ -10,6 +10,13 @@
 {% block content %}
 <div class="bg-light rounded h-100 p-4">
     <h6 class="mb-4">Crear Usuario</h6>
+    {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li style="color: red;">{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
     <form action="{% url 'usuario_create' %}" method="POST">
         {% csrf_token %}
         <div class="mb-3">
@@ -27,6 +34,31 @@
             <label for="exampleInputPassword1" class="form-label">Confirmar contraseña</label>
             <!-- <input type="password" class="form-control" id="exampleInputPassword1"> -->
             {{ formulario.password2 }}
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputNombres1" class="form-label">Nombres</label>
+            <!-- <input type="password" class="form-control" id="exampleInputPassword1"> -->
+            {{ formulario.first_name }}
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputApellidos1" class="form-label">Apellidos</label>
+            <!-- <input type="password" class="form-control" id="exampleInputPassword1"> -->
+            {{ formulario.last_name }}
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email</label>
+            <!-- <input type="password" class="form-control" id="exampleInputPassword1"> -->
+            {{ formulario.email }}
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputTelefono1" class="form-label">Telefono</label>
+            <!-- <input type="password" class="form-control" id="exampleInputPassword1"> -->
+            {{ formulario.telefono }}
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputTelefono" class="form-label">Imagen</label>
+            <!-- <input type="password" class="form-control" id="exampleInputPassword1"> -->
+            {{ formulario.imagen }}
         </div>
         <!-- <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Termina</label>

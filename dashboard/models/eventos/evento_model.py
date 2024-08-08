@@ -1,6 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import User
+from dashboard.models.usuarios import User
 from .etiquetaEvento_model import EtiquetaEvento
+
 
 class Eventos(models.Model):
     titulo = models.CharField(max_length=255)
