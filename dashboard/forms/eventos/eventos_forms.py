@@ -49,12 +49,10 @@ class FormEventos(forms.ModelForm):
     )
     
     etiqueta = forms.ModelChoiceField(
-        queryset=EtiquetaEvento.objects.all(),
+        queryset=EtiquetaEvento.objects.all().values_list('titulo', flat=True),
         widget=forms.Select(
             attrs={
                 'class': 'form-control',
-                
-                
             }
         )
     )
