@@ -6,12 +6,10 @@
   <table class="hover" id="dataTable">
     <thead>
       <tr>
-        <th scope="col">Tipo</th>
+        <th scope="col">Tipo de registro</th>
         <th scope="col">Usuario</th>
-        <th scope="col">Evento</th>
-        <th scope="col">Creado el</th>
-        <th scope="col">Actualizado el</th>
-        <th scope="col">Origen</th>
+        <th scope="col">Entidad</th>
+        <th scope="col">Elemento</th>
       </tr>
     </thead>
     <tbody>
@@ -19,10 +17,9 @@
       <tr>
         <th>{{ registro.tipo }}</th>
         <td>{{ registro.usuario }}</td>
-        <td>{{ registro.evento }}</td>
-        <td>{{ registro.creado_el }}</td>
-        <td>{{ registro.actualizado_el }}</td>
-        <td>{{ registro.tabla_origen }}</td>
+        <td>{{ registro.entidad }}</td>
+        <td>{{ registro.elemento_id }}</td>
+
       </tr>
       {% endfor %}
     </tbody>

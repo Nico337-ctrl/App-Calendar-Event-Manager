@@ -9,8 +9,7 @@ class Registros(models.Model):
     tipo = models.ForeignKey(TipoRegistro, on_delete=models.PROTECT)
     usuario = models.ForeignKey(User, on_delete=models.PROTECT )
     entidad = models.ForeignKey(EntidadRegistro, on_delete=models.PROTECT)
-    creado_el = models.DateTimeField(auto_now_add=True)
-    actualizado_el = models.DateTimeField(auto_now=True)
+    elemento_id = models.PositiveIntegerField(unique=True)
 
 
 
