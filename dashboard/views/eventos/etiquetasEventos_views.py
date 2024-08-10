@@ -33,6 +33,7 @@ class EventoEtiquetaCreate(LoginRequiredMixin, CreateView):
             formulario = EtiquetaEventoForm(request.POST, request.FILES)
             if formulario.is_valid():
                 nueva_etiqueta = formulario.save(commit=False)
+                nueva_etiqueta.usuario = request.user
                 nueva_etiqueta.save()
 
                 enviarNotificacion(titulo='Haz credo una nueva etiqueta', 
