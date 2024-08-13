@@ -1,9 +1,9 @@
 {% extends 'layouts/base_dashboard.html' %}
 
 {% block content %}
-<div class="bg-light rounded h-100 p-4">
-    <h6 class="mb-4">Eventos </h6> 
-    <table class="hover" id="dataTable">
+<div class="bg-light rounded h-100 p-4" style="font-family: 'Work Sans', sans-serif; max-width: 100%; margin: auto;">    
+    <h4 class="mb-4" style="color: #39a900">Eventos </h4> 
+    <table class="table table-striped table-hover text-center" id="dataTable" style="background-color: white; border-radius: 10px; overflow: hidden;">
         <thead>
             <tr>
                 <th scope="col">Usuario</th>
@@ -15,7 +15,7 @@
                 <th scope="col">Etiqueta</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
-                <th scope="col"><a href="{% url 'evento_create' %}" style="color: #29a900">Crear evento</a></th>
+                <th scope="col"><a href="{% url 'evento_create' %}" style="color: #39a900">Crear evento</a></th>
             </tr>
         </thead>
         <tbody>
@@ -30,13 +30,14 @@
                 <td>{{ evento.etiqueta.titulo }}</td>
                 <td>
                     <!-- Texto amarillo para editar -->
-                    <span style="color: #29a900; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarEventoModal{{ evento.id }}">
+                    <button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#editarEventoModal{{ evento.id }}">
                         Editar Evento
-                    </span>
+                    </button>
                     <!-- Modal de editar evento -->
                     <div class="modal fade" id="editarEventoModal{{ evento.id }}" tabindex="-1" aria-labelledby="editarEventoModalLabel{{ evento.id }}" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
+                                
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="editarEventoModalLabel{{ evento.id }}">Editar Evento</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -62,8 +63,8 @@
                                             <input type="datetime-local" class="form-control" id="termina" name="termina" value="{{ evento.termina_el }}">
                                         </div>
                                         <div class="mb-3">
-                                            <label for="termina" class="form-label">Etiqueta</label>
-                                            <input type="datetime-local" class="form-control" id="termina" name="termina" value="{{ evento.etiqueta }}">
+                                            <label for="etiqueta" class="form-label">Etiqueta</label>
+                                            <input type="" class="form-control" id="etiqueta" name="etiqueta" value="{{ evento.etiqueta }}">
                                         </div>
                                         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -75,9 +76,9 @@
                 </td>
                 <td>
                     <!-- Texto azul para detalles -->
-                    <span style="color: #29a900; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#detallesEventoModal{{ evento.id }}">
+                    <button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#detallesEventoModal{{ evento.id }}">
                         Detalles
-                    </span>
+                    </button>
                     <!-- Modal de detalles del evento -->
                     <div class="modal fade" id="detallesEventoModal{{ evento.id }}" tabindex="-1" aria-labelledby="detallesEventoModalLabel{{ evento.id }}" aria-hidden="true">
                         <div class="modal-dialog">
@@ -101,9 +102,9 @@
                 </td>
                 <td>
                     <!-- Texto rojo para eliminar -->
-                    <span style="color: red; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#eliminarEventoModal{{ evento.id }}">
-                        Eliminar Evento
-                    </span>
+                    <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#eliminarEventoModal{{ evento.id }}">
+                        Eliminar
+                    </button>
                     <!-- Modal de confirmación de eliminación -->
                     <div class="modal fade" id="eliminarEventoModal{{ evento.id }}" tabindex="-1" aria-labelledby="eliminarEventoModalLabel{{ evento.id }}" aria-hidden="true">
                         <div class="modal-dialog">
