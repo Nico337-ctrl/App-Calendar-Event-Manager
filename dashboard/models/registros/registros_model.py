@@ -9,7 +9,7 @@ class Registros(models.Model):
     tipo = models.ForeignKey(TipoRegistro, on_delete=models.PROTECT)
     usuario = models.ForeignKey(User, on_delete=models.PROTECT )
     entidad = models.ForeignKey(EntidadRegistro, on_delete=models.PROTECT)
-    elemento_id = models.PositiveIntegerField(unique=True)
+    elemento_id = models.PositiveIntegerField(unique=False)
 
 
 
