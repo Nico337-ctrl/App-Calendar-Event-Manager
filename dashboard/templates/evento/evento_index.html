@@ -13,9 +13,8 @@
                 <th scope="col">Comienza</th>
                 <th scope="col">Termina</th>
                 <th scope="col">Etiqueta</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
                 <th scope="col"><a href="{% url 'evento_create' %}" style="color: #39a900">Crear evento</a></th>
+
             </tr>
         </thead>
         <tbody>
@@ -28,107 +27,8 @@
                 <td>{{ evento.inicia_el }}</td>
                 <td>{{ evento.termina_el }}</td>
                 <td>{{ evento.etiqueta.titulo }}</td>
-                <td>
-                    <!-- Texto amarillo para editar -->
-                    <button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#editarEventoModal{{ evento.id }}">
-                        Editar Evento
-                    </button>
-                    <!-- Modal de editar evento -->
-                    <div class="modal fade" id="editarEventoModal{{ evento.id }}" tabindex="-1" aria-labelledby="editarEventoModalLabel{{ evento.id }}" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="editarEventoModalLabel{{ evento.id }}">Editar Evento</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <!-- Formulario de edición -->
-                                    <form action="{% url 'evento_edit' evento.id %}" method="POST">
-                                        {% csrf_token %}
-                                        <div class="mb-3">
-                                            <label for="titulo" class="form-label">Titulo</label>
-                                            <input type="text" class="form-control" id="titulo" name="titulo" value="{{ evento.titulo }}">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="descripcion" class="form-label">Descripcion</label>
-                                            <textarea class="form-control" id="descripcion" name="descripcion">{{ evento.descripcion }}</textarea>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="inicia_el" class="form-label">Comienza</label>
-                                            <input type="datetime-local" class="form-control" id="inicia_el" name="inicia_el" value="{{ evento.inicia_el }}">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="termina" class="form-label">Termina</label>
-                                            <input type="datetime-local" class="form-control" id="termina" name="termina" value="{{ evento.termina_el }}">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="etiqueta" class="form-label">Etiqueta</label>
-                                            <input type="" class="form-control" id="etiqueta" name="etiqueta" value="{{ evento.etiqueta }}">
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <!-- Texto azul para detalles -->
-                    <button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#detallesEventoModal{{ evento.id }}">
-                        Detalles
-                    </button>
-                    <!-- Modal de detalles del evento -->
-                    <div class="modal fade" id="detallesEventoModal{{ evento.id }}" tabindex="-1" aria-labelledby="detallesEventoModalLabel{{ evento.id }}" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="detallesEventoModalLabel{{ evento.id }}">Detalles del Evento</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p><strong>Usuario:</strong> {{ evento.usuario }}</p>
-                                    <p><strong>Titulo:</strong> {{ evento.titulo }}</p>
-                                    <p><strong>Descripcion:</strong> {{ evento.descripcion }}</p>
-                                    <p><strong>Descripcion:</strong> {{ evento.info_extra }}</p>
-                                    <p><strong>Inicia el:</strong> {{ evento.inicia_el }}</p>
-                                    <p><strong>Termina el:</strong> {{ evento.termina_el }}</p>
-                                    <p><strong>Etiqueta:</strong> {{ evento.etiqueta.titulo }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <!-- Texto rojo para eliminar -->
-                    <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#eliminarEventoModal{{ evento.id }}">
-                        Eliminar
-                    </button>
-                    <!-- Modal de confirmación de eliminación -->
-                    <div class="modal fade" id="eliminarEventoModal{{ evento.id }}" tabindex="-1" aria-labelledby="eliminarEventoModalLabel{{ evento.id }}" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="eliminarEventoModalLabel{{ evento.id }}">¿Estás seguro de que deseas eliminar este evento?</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <!-- Detalles del evento que se eliminará -->
-                                    <p>{{ evento.titulo }}</p>
-                                    <p>{{ evento.descripcion }}</p>
-                                    <p>Comienza: {{ evento.inicia_el }}</p>
-                                    <p>Termina: {{ evento.termina_el }}</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                    <!-- Enlace para eliminar el evento -->
-                                    <a class="btn btn-danger" href="{% url 'evento_delete' evento.id %}">Eliminar</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </td>
+                <td></td>
+
             </tr>
             {% endfor %}
         </tbody>

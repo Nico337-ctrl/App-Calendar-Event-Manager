@@ -9,7 +9,11 @@
         <th scope="col">Tipo de registro</th>
         <th scope="col">Usuario</th>
         <th scope="col">Entidad</th>
-        <th scope="col">Elemento</th>
+        <th scope="col">Campo</th>
+        <th scope="col">Valor anterior</th>
+        <th scope="col">Valor nuevo</th>
+        <th scope="col">Fecha</th>
+
       </tr>
     </thead>
     <tbody>
@@ -18,7 +22,10 @@
         <th>{{ registro.tipo }}</th>
         <td>{{ registro.usuario }}</td>
         <td>{{ registro.entidad.nombre_entidad }}</td>
-        <td>{{ registro.elemento_id }}</td>
+        <td>{{ registro.campo_modificado }}</td>
+        <td>{{ registro.valor_anterior }}</td>
+        <td>{{ registro.valor_nuevo }}</td>
+        <td>{{ registro.fecha }}</td>
 
       </tr>
       {% endfor %}
