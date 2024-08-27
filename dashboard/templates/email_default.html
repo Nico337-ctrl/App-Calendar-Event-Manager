@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="format-detection" content="telephone=no">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{contact.EMAIL | default : 'Nule'}}</title>
+    <title>{{ contacto }}</title>
     <style type="text/css" emogrify="no">
         #outlook a {
             padding: 0;
@@ -588,7 +588,7 @@
                                                                                 <tr>
                                                                                     <td height="0"
                                                                                         style="font-size: 0px; line-height: 0px;">
-                                                                                        ­</td>
+                                                                                        Estas invitado!­</td>
                                                                                 </tr>
                                                                             </table>
                                                                         </td>
@@ -610,7 +610,7 @@
                                                                 <div>
                                                                     <h1 class="default-heading1"
                                                                         style="margin: 0; color: #fff; font-family: Alegreya Sans,Arial,Helvetica,sans-serif; font-size: 55px; word-break: break-word;">
-                                                                        Nuevo Evento Agendado</h1>
+                                                                        Nuevo Evento: {{ evento.titulo }}</h1>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -694,7 +694,7 @@
                                                                 <div>
                                                                     <h2 class="default-heading2"
                                                                         style="margin: 0; color: #39a900; font-family: Alegreya Sans,Arial,Helvetica,sans-serif; font-size: 28px; word-break: break-word;">
-                                                                        No lo olvides!</h2>
+                                                                        El Sena te invita!</h2>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -728,7 +728,7 @@
                                                                             style="color: #39a900; font-family: Lato,Arial,Helvetica,sans-serif; font-size: 17px; line-height: 1.25; word-break: break-word; text-align: left; valign: top;">
                                                                             <div>
                                                                                 <p style="margin: 0;">Evento Agendado
-                                                                                    para el 26 de junio</p>
+                                                                                    {{ evento.inicia_el }}</p>
                                                                             </div>
                                                                         </td>
                                                                     </tr>
@@ -764,9 +764,9 @@
                                                                             align="left"
                                                                             style="color: #39a900; font-family: Lato,Arial,Helvetica,sans-serif; font-size: 17px; line-height: 1.25; word-break: break-word; text-align: left; valign: top;">
                                                                             <div>
-                                                                                <p style="margin: 0;">Descripcion:</p>
-                                                                                <p style="margin: 0;">Karaoke a cargo de
-                                                                                    Bienestar del Aprendiz </p>
+                                                                                <p style="margin: 0;">Descripcion: {{ evento.descripcion }}</p>
+                                                                                <p style="margin: 0;">Info: {{ evento.info_extra }} un evento de tipo  
+                                                                                    {{ evento.etiqueta }} </p>
                                                                             </div>
                                                                         </td>
                                                                     </tr>
@@ -814,7 +814,8 @@
                                                                                             title="Button Title"
                                                                                             data-btn="1"
                                                                                             style="font-style: normal; font-weight: normal; line-height: 1.15; text-decoration: none; word-break: break-word; word-wrap: break-word; display: block; -webkit-text-size-adjust: none; color: #ffffff; font-family: Lato, Arial, Helvetica, sans-serif; font-size: 18px;">
-                                                                                            More Information</a> </td>
+                                                                                            Más Informacion</a>
+                                                                                    </td>
                                                                                 </tr>
                                                                             </table>
                                                                         </td>
@@ -853,7 +854,8 @@
                                                                             <div>
                                                                                 <h4 class="default-heading4"
                                                                                     style="margin: 0; color: #39a900; font-family: Lato,Arial,Helvetica,sans-serif; font-size: 16px; word-break: break-word;">
-                                                                                    <strong>Legal Notice</strong></h4>
+                                                                                    <strong>Legal Notice</strong>
+                                                                                </h4>
                                                                             </div>
                                                                         </td>
                                                                     </tr>
@@ -873,7 +875,8 @@
                                                                                     <span style="color: #39a900;">Cra.
                                                                                         54 #68 – 80, Nte. Centro
                                                                                         Historico, Barranquilla,
-                                                                                        Atlántico</span></div>
+                                                                                        Atlántico</span>
+                                                                                </div>
                                                                                 <div class="sib_class_16_pink"
                                                                                     style="color: #f9bac5; font-family: Lato,Arial,Helvetica,sans-serif; font-size: 16px; word-break: break-word;">
                                                                                     <br><a href="http://"

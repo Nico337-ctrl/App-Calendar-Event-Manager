@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import *
 from dashboard.forms.eventos.etiquetaEventos_forms import EtiquetaEventoForm
 from dashboard.models.eventos import EtiquetaEvento
-from notifications.send_notification import enviarNotificacion
+from notifications.send_notification import notificacion
 from django.contrib import messages
 
 """ Aqui comienzan las vistas para el modulo de etiquetas eventos """
@@ -36,8 +36,8 @@ class EventoEtiquetaCreate(LoginRequiredMixin, CreateView):
                 nueva_etiqueta.usuario = request.user
                 nueva_etiqueta.save()
 
-                enviarNotificacion(titulo='Haz credo una nueva etiqueta', 
-                                mensaje=f'La etiqueta de evento: {nueva_etiqueta.titulo}')
+                notificacion(titulo='Nueva Etiqueta', 
+                                mensaje=f'La etiqueta {nueva_etiqueta.titulo} ha sido creada.')
             
             return redirect(self.success_url)
         except ValueError as e:
@@ -74,6 +74,8 @@ class EventoEtiquetaEdit(LoginRequiredMixin, UpdateView):
         formulario = self.form_class(request.POST, instance=etiquetaEvento)
         if formulario.is_valid():
             formulario.save()
+            notificacion(titulo='Etiqueta Modificada', 
+                                mensaje=f'La Etiqueta {etiquetaEvento.titulo} ha sido actualizada.')
         return redirect('/dashboard/evento/etiqueta/')
 
 
@@ -86,6 +88,8 @@ class EventoEtiquetaDelete(LoginRequiredMixin, DeleteView):
     def get(self, request, *args, **kwargs):
         etiquetaEvento = EtiquetaEvento.objects.get(id = self.kwargs['pk'])
         etiquetaEvento.delete()
+        notificacion(titulo='Etiqueta Eliminada', 
+                                mensaje=f'La Etiqueta {etiquetaEvento.titulo} ha sido eliminada. ')
         return redirect('/dashboard/evento/etiqueta/')
 
 

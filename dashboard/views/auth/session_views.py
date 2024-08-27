@@ -9,8 +9,7 @@ from django.urls import reverse_lazy
 from django.db import IntegrityError
 from dashboard.forms.users import *
 from django.contrib.auth.decorators import login_required
-from notifications.send_notification import enviarNotificacion
-from notifications.emails.send_email import enviarEmail
+from notifications.send_notification import notificacion
 from django.shortcuts import get_object_or_404, redirect
 
 from datetime import timedelta
@@ -30,8 +29,8 @@ class SessionSignup(View):
                 user = User.objects.create_user(username=request.POST['username'], password=request.POST['password1'])
                 user.save()
                 login(request, user)
-                enviarNotificacion(titulo='App Calend Event Manager', mensaje='Su registro ha sido exitoso')
-                # enviarMensajeWhats('+573223829018', 'Hola, te habla tu plataforma de Eventos SENA, tu registro ha sido exitoso.')
+                notificacion(titulo='Bievenido a la plataforma', 
+                                mensaje=f'{user.username} se ha registrado con exito.')
                 return redirect('home')
             except IntegrityError:
                 context = {
@@ -51,6 +50,8 @@ class SessionLogout(TemplateView):
     template_name = 'signin'
     def get(self, request, *args, **kwargs):
         logout(request)
+        notificacion(titulo='Se ha cerrado la sesion', 
+                                mensaje='')
         return redirect(reverse_lazy(self.template_name))
 
 
@@ -69,7 +70,8 @@ class SessionSignin(View):
 
         else:
             login(request, user)
-            enviarNotificacion(titulo='App Calend Event Manager', mensaje='Su inicio de sesion ha sido exitoso')
+            notificacion(titulo='Bievenido a la plataforma', 
+                                mensaje=f'{user.username} ha iniciado sesion con exito.')
             return redirect('home')
 
 """ Aqui finaliza las vistas para el modulo de inicio de sesión"""

@@ -4,8 +4,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import *
 from dashboard.forms.eventos.eventos_forms import FormEventos
 from dashboard.models.eventos import Eventos
-from notifications.send_notification import enviarNotificacion
-from django.contrib import messages
+from notifications.send_notification import notificacion
+
 
 """ Aqui comienzan las vistas para el modulo de eventos """
 
@@ -37,20 +37,46 @@ class EventoCreate(LoginRequiredMixin, CreateView):
                     nuevo_evento = formulario.save(commit=False)
                     nuevo_evento.usuario = request.user
                     nuevo_evento.save()
-
-                    enviarNotificacion(titulo='Haz credo un nuevo evento', 
-                                    mensaje=f'El evento {nuevo_evento.titulo}')
-
+                    notificacion(titulo='Nuevo Evento', 
+                                mensaje=f'El evento {nuevo_evento.titulo} ha sido creada.')
+                    
+                    
                 return redirect(self.success_url)
             except ValueError as e:
                 context = {'formulario' :  FormEventos}
                 messages.error(request, f"Por favor ingrese datos validos. {str(e)}")
                 return render(request, self.template_name, context)
+            
+        
+        
 
-            # # for field, errors in formulario.erros.items():
-            # #     for error in errors:
-            # #         messages.error(request, f"{field}: {error}")
-                    
+
+
+
+    # def correo(self, request, nuevo_evento):
+    #     if nuevo_evento.notificar:
+    #         if nuevo_evento.notificar_a == 'todos':
+    #             usuarios = User.objects.all()
+    #             agg = destinatarios.append(usuarios)
+    #         elif nuevo_evento.notificar_a == 'roles':
+    #             usuarios = User.objects.filter(groups__in=nuevo_evento.roles.all()).distinct()
+    #             agg = destinatarios.append(usuarios)
+    #         elif nuevo_evento.notificar_a == 'manual':
+    #             usuarios = nuevo_evento.usuarios.all()
+    #             agg = destinatarios.append(usuarios)
+        
+    #     destinatarios = []
+    #     datos = {}
+    #     datos.update({'Titulo': {nuevo_evento.titulo},
+    #                   'Descripcion': {nuevo_evento.descripcion},
+    #                   'Info Extra': {nuevo_evento.info_extra},
+    #                   'Inicia el': {nuevo_evento.inicia_el},
+    #                   'Termina_el': {nuevo_evento.termina_el},
+    #                   'Estado:':{nuevo_evento.est_activo},
+    #                   'Estado:':{nuevo_evento.etiqueta}
+    #                   })
+    #     enviar_correo(destinatarios, asusnto=nuevo_evento.titulo, tipo_correo=nuevo_evento.etiqueta, datos=datos )
+
 
             
             
@@ -82,6 +108,8 @@ class EventoEdit(LoginRequiredMixin, UpdateView):
         formulario = self.form_class(request.POST, instance=evento)
         if formulario.is_valid():
             formulario.save()
+            notificacion(titulo='Evento Modificado', 
+                                mensaje=f'El evento {evento.titulo} ha sido actualizado. ')
         return redirect('/dashboard/evento/')
 
 
@@ -94,6 +122,8 @@ class EventoDelete(LoginRequiredMixin, DeleteView):
     def get(self, request, *args, **kwargs):
         evento = Eventos.objects.get(id = self.kwargs['pk'])
         evento.delete()
+        notificacion(titulo='Evento Eliminado', 
+                                mensaje=f'El evento {evento.titulo} ha sido eliminado. ')
         return redirect('/dashboard/evento/')
 
 """ Aqui termina las vistas para el modulo de eventos """
