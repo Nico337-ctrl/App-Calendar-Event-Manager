@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.views.generic import *
 from django.urls import reverse_lazy
 from django.db import IntegrityError
-from dashboard.forms.users import *
+from dashboard.forms.users import User_RegisterForm, user_AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from notifications.send_notification import notificacion
 from django.shortcuts import get_object_or_404, redirect
@@ -19,7 +19,7 @@ class SessionSignup(View):
     template_name= 'auth/signup.html'
 
     def get(self, request, *args, **kwargs):
-        context = {'formulario' : User_CreationForm}
+        context = {'formulario' : User_RegisterForm}
         return render(request, self.template_name, context)
     
     def post(self, request, *args, **kwargs):
@@ -34,13 +34,13 @@ class SessionSignup(View):
                 return redirect('home')
             except IntegrityError:
                 context = {
-                    'formulario': User_CreationForm(),
+                    'formulario': User_RegisterForm(),
                     'error': 'El nombre de usuario ya existe'
                 }
                 return render(request, self.template_name, context)
         else:
             context = {
-                'formulario': User_CreationForm(),
+                'formulario': User_RegisterForm(),
                 'error': 'La contraseña no coincide'
             }
             return render(request, self.template_name, context)

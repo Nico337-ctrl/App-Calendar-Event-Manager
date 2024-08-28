@@ -6,9 +6,9 @@ from .entidadRegistro_model import EntidadRegistro
 
 
 class Registros(models.Model):
-    tipo = models.ForeignKey(TipoRegistro, on_delete=models.PROTECT)
-    usuario = models.ForeignKey(User, on_delete=models.PROTECT)
-    entidad = models.ForeignKey(EntidadRegistro, on_delete=models.PROTECT)
+    tipo = models.ForeignKey(TipoRegistro, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    entidad = models.ForeignKey(EntidadRegistro, on_delete=models.CASCADE)
     elemento_id = models.PositiveIntegerField()
     campo_modificado = models.CharField(max_length=255)
     valor_anterior = models.TextField(null=True, blank=True)
