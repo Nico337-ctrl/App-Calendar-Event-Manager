@@ -1,54 +1,60 @@
-{% extends 'layouts/base_dashboard.html' %} {% load static %}
-
-<!-- {% block title %}Usuarios{% endblock %}
-{% block extra_content %}Usuarios{% endblock %}
-{% block extra_content2 %}Usuarios{% endblock %} -->
+{% extends 'layouts/base_dashboard.html' %}
+{% load static %}
 
 {% block content %}
-<div class="bg-light rounded h-100 p-4" style="font-family: 'Work Sans', sans-serif; max-width: 100%; margin: auto;">    
-  <h4 class="mb-4" style="color: #39a900">Usuarios </h4> 
-  <table class="table table-striped table-hover text-center" id="dataTable" style="background-color: white; border-radius: 10px; overflow: hidden;">
-    <thead>
-      <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Nombre Usuario</th>
-        <!-- <th scope="col">Password</th> -->
-        <th scope="col">Se registro</th>
-        <th scope="col">Nombre</th>
-        <th scope="col">Apellidos</th>
-        <th scope="col">Email</th>
-        <th scope="col">Telefono</th>
-        <th scope="col">Imagen</th>
-        <th scope="col"></th>
-        <th scope="col"></th>
-        <th scope="col"></th>
-        <th scope="col"></th>
-        <th scope="col">
-          <a href="{% url 'usuario_create' %}">Crear usuario</a>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for usuario in usuarios %}
-      <tr>
-        <th>{{ usuario.id }}</th>
-        <td>{{ usuario.username }}</td>
-        <!-- <td>{{ usuario.password }}</td> -->
-        <td>{{ usuario.date_joined }}</td>
-        <td>{{ usuario.first_name}}</td>
-        <td>{{ usuario.last_name}}</td>
-        <td>{{ usuario.email}}</td>
-        <td>{{ usuario.telefono}}</td>
-        <td>{{ usuario.imagen}}</td>
-        <td><a href="{% url 'usuario_changePassword' usuario.id %}"class="btn btn-outline-info btn-sm" >Cambiar Contraseña</a></td>
-        <td><a href="{% url 'usuario_edit' usuario.id %}" class="btn btn-outline-info btn-sm"  >Editar</a></td>
-        <td><a href="{% url 'usuario_detail' usuario.id %}" class="btn btn-outline-info btn-sm"  >Detalles</a></td>
-        <td><a href="{% url 'usuario_delete' usuario.id %}" class="btn btn-outline-danger btn-sm" >Eliminar</a></td>
-        <td></td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<div class="bg-light rounded h-100 p-4" style="font-family: 'Work Sans', sans-serif; max-width: 100%; margin: auto;">
+    <h4 class="mb-4" style="color: #39a900">Usuarios</h4>
+    <table class="table table-striped table-hover text-center" id="dataTable" style="background-color: white; border-radius: 10px; overflow: hidden;">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nombre de Usuario</th>
+                <th scope="col">Fecha de Registro</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellidos</th>
+                <th scope="col">Correo Electrónico</th>
+                <th scope="col">Teléfono</th>
+                <th scope="col">Imagen de Usuario</th>
+                <th scope="col">Cambiar Contraseña</th>
+                <th scope="col">Editar</th>
+                <th scope="col">Detalles</th>
+                <th scope="col">Eliminar</th>
+                <th scope="col">
+                    <a href="{% url 'usuario_create' %}" class="btn btn-success btn-sm" style="color: #fff; background-color: #39a900; border: none; padding: 5px 10px; border-radius: 5px;">Crear Usuario</a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if usuarios %}
+                {% for usuario in usuarios %}
+                <tr>
+                    <td>{{ usuario.id }}</td>
+                    <td>{{ usuario.username }}</td>
+                    <td>{{ usuario.date_joined }}</td>
+                    <td>{{ usuario.first_name }}</td>
+                    <td>{{ usuario.last_name }}</td>
+                    <td>{{ usuario.email }}</td>
+                    <td>{{ usuario.telefono }}</td>
+                    <td>
+                        {% if usuario.imagen %}
+                            <img src="{{ usuario.imagen.url }}" alt="Imagen de {{ usuario.username }}" style="width: 50px; height: 50px; border-radius: 50%;">
+                        {% else %}
+                            <span>No disponible</span>
+                        {% endif %}
+                    </td>
+                    <td><a href="{% url 'usuario_changePassword' usuario.id %}" class="btn btn-outline-info btn-sm"><i class="fa-solid fa-file-invoice"></i></a></td>
+                    <td><a href="{% url 'usuario_edit' usuario.id %}" class="btn btn-outline-info btn-sm"><i class="fa-solid fa-user-pen"></i></a></td>
+                    <td><a href="{% url 'usuario_detail' usuario.id %}" class="btn btn-outline-info btn-sm"><i class="fa-solid fa-plus"></i></a></td>
+                    <td><a href="{% url 'usuario_delete' usuario.id %}" class="btn btn-outline-danger btn-sm"><i class="fa-solid fa-trash-can"></i></a></td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="13">No hay usuarios disponibles.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
 </div>
-
 {% endblock %}
+
