@@ -2,16 +2,18 @@
 
 {% block content %}
 <div class="bg-light rounded h-100 p-4" style="font-family: 'Work Sans', sans-serif; max-width: 100%; margin: auto;">
-    <h4 class="mb-4" style="color: #39a900"> Etiquetas </h4> 
+    <h4 class="mb-4" style="color: #39a900;">Etiquetas</h4> 
     <table class="table table-striped table-hover text-center" id="dataTable" style="background-color: white; border-radius: 10px; overflow: hidden;">
         <thead>
             <tr>
-                <th scope="col">Titulo</th>
-                <th scope="col">Descripcion</th>
+                <th scope="col">Título</th>
+                <th scope="col">Descripción</th>
                 <th scope="col">Imagen</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
-                <th scope="col"><a href="{% url 'evento_etiqueta_create' %}" style="color: #39a900">Crear etiqueta</a></th>
+                <th scope="col">
+                    <a href="{% url 'evento_etiqueta_create' %}" style="color: #39a900;">Crear etiqueta</a>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -19,13 +21,15 @@
             <tr>
                 <td>{{ etiqueta.titulo }}</td>
                 <td>{{ etiqueta.descripcion }}</td>
-                <td><img src="{{ etiqueta.imagen.url }}" alt="{{ etiqueta.titulo }}" width="50"></td>
                 <td>
-                    <!-- Texto amarillo para editar -->
-                    <button class="btn btn-outline-info btn-sm"   data-bs-toggle="modal" data-bs-target="#editaretiquetaModal{{ etiqueta.id }}">
+                    <img src="{{ etiqueta.imagen.url }}" alt="{{ etiqueta.titulo }}" width="50">
+                </td>
+                <td>
+                    <!-- Botón para editar -->
+                    <button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#editaretiquetaModal{{ etiqueta.id }}">
                         Editar etiqueta
                     </button>
-                    <!-- Modal de editar etiqueta -->
+                    <!-- Modal para editar etiqueta -->
                     <div class="modal fade" id="editaretiquetaModal{{ etiqueta.id }}" tabindex="-1" aria-labelledby="editaretiquetaModalLabel{{ etiqueta.id }}" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -38,16 +42,16 @@
                                     <form action="{% url 'evento_etiqueta_edit' etiqueta.id %}" method="POST">
                                         {% csrf_token %}
                                         <div class="mb-3">
-                                            <label for="titulo" class="form-label">Titulo</label>
+                                            <label for="titulo" class="form-label">Título</label>
                                             <input type="text" class="form-control" id="titulo" name="titulo" value="{{ etiqueta.titulo }}">
                                         </div>
                                         <div class="mb-3">
-                                            <label for="descripcion" class="form-label">Descripcion</label>
-                                            <input class="form-control" id="descripcion" name="descripcion" value="{{ etiqueta.descripcion }}"></input>
+                                            <label for="descripcion" class="form-label">Descripción</label>
+                                            <input type="text" class="form-control" id="descripcion" name="descripcion" value="{{ etiqueta.descripcion }}">
                                         </div>
                                         <div class="mb-3">
-                                            <label for="comienza" class="form-label">Imagen</label>
-                                            <input type="image" class="form-control" id="comienza" name="comienza" value="{{ etiqueta.imagen }}">
+                                            <label for="imagen" class="form-label">Imagen</label>
+                                            <input type="text" class="form-control" id="imagen" name="imagen" value="{{ etiqueta.imagen.url }}">
                                         </div>
                                         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -58,33 +62,33 @@
                     </div>
                 </td>
                 <td>
-                    <!-- Texto azul para detalles -->
+                    <!-- Botón para ver detalles -->
                     <button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#detallesetiquetaModal{{ etiqueta.id }}">
                         Detalles
                     </button>
-                    <!-- Modal de detalles del etiqueta -->
+                    <!-- Modal para detalles de la etiqueta -->
                     <div class="modal fade" id="detallesetiquetaModal{{ etiqueta.id }}" tabindex="-1" aria-labelledby="detallesetiquetaModalLabel{{ etiqueta.id }}" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="detallesetiquetaModalLabel{{ etiqueta.id }}">Detalles del etiqueta</h5>
+                                    <h5 class="modal-title" id="detallesetiquetaModalLabel{{ etiqueta.id }}">Detalles de la etiqueta</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <p><strong>Titulo:</strong> {{ etiqueta.titulo }}</p>
-                                    <p><strong>Descripcion:</strong> {{ etiqueta.descripcion }}</p>
-                                    <p><strong>Imagen:</strong> {{ etiqueta.imagen }}</p>
+                                    <p><strong>Título:</strong> {{ etiqueta.titulo }}</p>
+                                    <p><strong>Descripción:</strong> {{ etiqueta.descripcion }}</p>
+                                    <p><strong>Imagen:</strong> <img src="{{ etiqueta.imagen.url }}" alt="{{ etiqueta.titulo }}" width="100"></p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </td>
                 <td>
-                    <!-- Texto rojo para eliminar -->
-                    <button class="btn btn-outline-danger btn-sm"  data-bs-toggle="modal" data-bs-target="#eliminaretiquetaModal{{ etiqueta.id }}">
+                    <!-- Botón para eliminar -->
+                    <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#eliminaretiquetaModal{{ etiqueta.id }}">
                         Eliminar etiqueta
                     </button>
-                    <!-- Modal de confirmación de eliminación -->
+                    <!-- Modal de confirmación para eliminar -->
                     <div class="modal fade" id="eliminaretiquetaModal{{ etiqueta.id }}" tabindex="-1" aria-labelledby="eliminaretiquetaModalLabel{{ etiqueta.id }}" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -93,14 +97,12 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <!-- Detalles del etiqueta que se eliminará -->
-                                    <p>Titulo: {{ etiqueta.titulo }}</p>
-                                    <p>Descripcion: {{ etiqueta.descripcion }}</p>
-                                    <p>Imagen: {{ etiqueta.imagen }}</p>
+                                    <p>Título: {{ etiqueta.titulo }}</p>
+                                    <p>Descripción: {{ etiqueta.descripcion }}</p>
+                                    <p>Imagen: <img src="{{ etiqueta.imagen.url }}" alt="{{ etiqueta.titulo }}" width="100"></p>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                    <!-- Enlace para eliminar el etiqueta -->
                                     <a class="btn btn-danger" href="{% url 'evento_etiqueta_delete' etiqueta.id %}">Eliminar</a>
                                 </div>
                             </div>
@@ -113,6 +115,7 @@
     </table>
 </div>
 {% endblock %}
+
 
 
 
