@@ -10,6 +10,11 @@
         <label for="floatingText">Nombre de usuario</label>
     </div>
     <div class="form-floating mb-3">
+        <!-- <input type="text" class="form-control" id="floatingText" placeholder="jhondoe"> -->
+        {{ formulario.email }}
+        <label for="floatingText">Correo</label>
+    </div>
+    <div class="form-floating mb-3">
         <!-- <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com"> -->
         {{ formulario.password1 }}
         <label for="floatingInput">Contraseña</label>
@@ -32,7 +37,7 @@
     </div>
     {% endif %}
     <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Registrarse</button>
-    <p class="text-center mb-0">Ya tienes una cuenta? <a href="{% url 'signin' %}">Iniciar sesion</a></p>
+    <p class="text-center mb-0">Ya tienes una cuenta? <a href="{% url 'signin' %}">Iniciar sesión</a></p>
 
 </form>
 

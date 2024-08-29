@@ -1,16 +1,18 @@
 from django.forms import ModelForm
 from dashboard.models.eventos import Eventos, EtiquetaEvento
 from django import forms
+from django.contrib.auth.models import Group
+from dashboard.models.usuarios import User
 
 class FormEventos(forms.ModelForm):
     class Meta:
         model = Eventos
-        fields = ['titulo', 'descripcion', 'info_extra', 'inicia_el', 'termina_el', 'etiqueta']
+        fields = ['titulo', 'descripcion', 'info_extra', 'inicia_el', 'termina_el', 'etiqueta', 'notificar']
         
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['etiqueta'].label_from_instance = lambda obj: obj.titulo
-        
+
 
     titulo = forms.CharField(
         widget=forms.TextInput(
@@ -61,5 +63,18 @@ class FormEventos(forms.ModelForm):
             }
         )
     )
+
+    notificar = forms.BooleanField(
+        required=False,
+        initial=True,
+        widget=forms.CheckboxInput(
+            attrs={
+                'class': 'styled-checkbox',
+                'style': 'width:20px; height:20px;'
+            }
+        )
+    )    
+
+
     
     

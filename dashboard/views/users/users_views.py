@@ -5,7 +5,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import *
 from dashboard.forms.users import *
 from dashboard.models.usuarios import User
-from notifications.send_notification import enviarNotificacion
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 
