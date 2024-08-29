@@ -58,7 +58,7 @@
         start: "{{ evento.inicia_el | date:"Y-m-d" }}",
         end: "{{ evento.termina_el | date:"Y-m-d" }}",
         descripcion: "{{ evento.descripcion | escapejs }}",
-        etiqueta: "{{ evento.etiqueta.titulo }}",  <!-- Asegúrate de que esta propiedad esté presente -->
+        etiqueta: "{{ evento.etiqueta.titulo }}",
         id: "{{ evento.id }}"
       }
       {% if not forloop.last %},{% endif %}
@@ -88,8 +88,6 @@
       year: 'numeric',
       month: 'short',
       day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric'
     }).format(date);
   }
 });

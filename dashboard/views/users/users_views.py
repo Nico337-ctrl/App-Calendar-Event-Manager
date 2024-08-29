@@ -63,6 +63,7 @@ class UsuarioDetail(LoginRequiredMixin, PermissionRequiredMixin ,DetailView):
 
 class UsuarioEdit(LoginRequiredMixin, PermissionRequiredMixin ,UpdateView):
     template_name = 'usuario/usuario_edit.html'
+    success_url = '/dashboard/usuario/'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
     model = User
@@ -71,7 +72,7 @@ class UsuarioEdit(LoginRequiredMixin, PermissionRequiredMixin ,UpdateView):
     
     def get_success_url(self):
         return reverse('usuario')
-    
+
     def get(self, request, *args, **kwargs):
         usuario = get_object_or_404(self.model, pk=self.kwargs['pk'])
         formulario = self.form_class(instance=usuario)
@@ -165,5 +166,11 @@ class UsuarioChangePassword(LoginRequiredMixin, PermissionRequiredMixin, View):
         return render(request, self.template_name, context)
     
     
+class UsuarioProfile(DetailView):
+    template_name = 'usuario/perfil_usuario.html'
+    login_url = '/dashboard/auth/signin/'
+    redirect_field_name = 'redirect_to'
+    model = User
+    context_object_name = 'usuario'
 
 """ Aqui terminan las vistas para el modulo usuarios """

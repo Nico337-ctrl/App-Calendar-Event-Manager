@@ -1,48 +1,43 @@
-{% extends 'layouts/base_dashboard.html' %}
-
-{% block content %}
-<!-- Botón para abrir el modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarEventoModal">
-  Editar Evento
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="editarEventoModal" tabindex="-1" aria-labelledby="editarEventoModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+<div class="modal fade" id="editEventoModal" tabindex="-1" aria-labelledby="editEventoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="editarEventoModalLabel">Editar Evento</h5>
+        <h5 class="modal-title" id="editEventoModalLabel">Editar Evento</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form action="{% url 'evento_edit' evento.id %}" method="POST">
           {% csrf_token %}
+          
           <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Titulo</label>
+              <label for="titulo" class="form-label">Título</label>
               {{ formulario.titulo }}
           </div>
           <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label">Descripcion</label>
-              {{ formulario.descripcion }}
+              <label for="descripcion" class="form-label">Descripción</label>
+              {{ formulario.descripcion}}
           </div>
           <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label">Comienza</label>
-              {{ formulario.inicia_el }}
+              <label for="info_extra" class="form-label">Info Extra</label>
+              {{ formulario.info_extra }}
           </div>
           <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label">Termina</label>
-              {{ formulario.termina_el }}
+              <label for="inicia_el" class="form-label">Comienza</label>
+              {{ formulario.inicia_el}}
+          </div>
+          
+          <div class="mb-3">
+              <label for="termina_el" class="form-label">Termina</label>
+              {{ formulario.termina_el}}
           </div>
           <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Etiqueta</label>
+            <label for="id_etiqueta" class="form-label">Etiqueta</label>
             {{ formulario.etiqueta }}
         </div>
-          
-          <button type="submit" class="btn btn-primary">Guardar</button>
+          <button type="submit" class="btn btn-primary">Guardar Cambios</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
         </form>
       </div>
     </div>
   </div>
 </div>
-{% endblock %}

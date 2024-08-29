@@ -1,0 +1,56 @@
+{% extends 'layouts/base_dashboard.html' %}
+{% load static %}
+
+{% block content %}
+<body>
+    <header>
+    </header>
+    <main class="profile-container">
+        <section class="profile-header">
+            <h2>Hola {{ user.username }}!</h2>
+            <div class="user-image-wrapper">
+              {% if user.imagen %}
+                  <img src="{{ user.imagen }}" alt="User Avatar" class="user-image">
+              {% else %}
+                  <img src="{% static 'src/images/perfil.png' %}" alt="Default Avatar" class="user-image">
+              {% endif %}
+          </div>
+        </section>
+        <section class="account-info">
+            <div class="user-account">
+                <h3>My account</h3>
+                <div class="user-info-grid">
+                    <div class="user-info-item">
+                        <label>Username</label>
+                        <input type="text" value="{{ user.username }}" disabled>
+                    </div>
+                    <div class="user-info-item">
+                        <label>Email address</label>
+                        <input type="email" value="{{ user.email }}" disabled>
+                    </div>
+                    <div class="user-info-item">
+                        <label>First name</label>
+                        <input type="text" value="{{ user.first_name }}" disabled>
+                    </div>
+                    <div class="user-info-item">
+                        <label>Last name</label>
+                        <input type="text" value="{{ user.lastname }}" disabled>
+                    </div>
+                </div>
+            </div>
+            {% comment %} <div class="user-stats">
+                <img src="user-avatar.jpg" alt="User Avatar">
+                <button class="btn-connect">Connect</button>
+                <button class="btn-message">Message</button>
+                <div class="stats">
+                    <span>22 Friends</span>
+                    <span>10 Photos</span>
+                    <span>89 Comments</span>
+                </div>
+            </div> {% endcomment %}
+        </section>
+    </main>
+</body>
+</html>
+
+{% endblock %}

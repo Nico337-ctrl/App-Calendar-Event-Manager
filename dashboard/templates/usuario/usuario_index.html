@@ -58,5 +58,55 @@
         </tbody>
     </table>
 </div>
+
+<div id="modalContainer"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const modalContainer = document.getElementById('modalContainer');
+    let currentModal = null;
+    $('#dataTable').DataTable();
+
+    function loadModal(url, targetId) {
+        if (currentModal) {
+            currentModal.hide();
+            currentModal.dispose();
+            currentModal = null;
+        }
+        fetch(url)
+            .then(response => response.text())
+            .then(html => {
+                modalContainer.innerHTML = html;
+                const modalElement = document.getElementById(targetId);
+                if (modalElement) {
+                    setTimeout(() => {
+                        currentModal = new bootstrap.Modal(modalElement);
+                        currentModal.show();
+                        
+                        if (targetId.includes('Usuario')) {ww
+                            initDatepicker();
+                        }
+                    }, 0);
+                } else {
+                    console.error(`Modal element with id ${targetId} not found`);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // Event delegation para los botones de cambiar contraseña, editar, detalles y eliminar
+    document.body.addEventListener('click', function(e) {
+        const link = e.target.closest('.change-password, .edit-usuario, .detail-usuario, .delete-usuario');
+        if (link) {
+            e.preventDefault();
+            const url = link.getAttribute('data-url');
+            const targetId = link.getAttribute('data-bs-target').slice(1);
+            console.log(`Loading modal: URL=${url}, targetId=${targetId}`);
+            loadModal(url, targetId);
+        }
+    });
+});
+</script>
+
 {% endblock %}
 
