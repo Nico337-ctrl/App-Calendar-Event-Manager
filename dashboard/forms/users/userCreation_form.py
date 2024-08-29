@@ -2,13 +2,18 @@ from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from dashboard.models.usuarios import User
+from django.contrib.auth.models import Group
 
 
 class User_CreationForm(UserCreationForm):
     
     class Meta:
         model = User
-        fields = ['username', 'password1', 'password2' , 'first_name', 'last_name', 'email']
+        fields = ['username', 'password1', 'password2' , 'first_name', 'last_name', 'email', 'telefono', 'imagen', 'group']
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['group'].label_from_instace = lambda obj: obj.name
     
     username = forms.CharField(
         widget=forms.TextInput(
@@ -74,12 +79,12 @@ class User_CreationForm(UserCreationForm):
             ),
         required=False
         )
-    
-    
-    
-    # def save(self, commit=True):
-    #     user = super(User_CreationForm, self).save(commit=False)
-    #     user.set_password(self.cleaned_data['password'])
-    #     if commit:
-    #         user.save()
-    #     return user
+    group = forms.ModelChoiceField(
+        queryset=Group.objects.all(),
+        widget=forms.Select(
+            attrs={
+                'class': 'form-control',
+                    
+            }
+        )
+    )

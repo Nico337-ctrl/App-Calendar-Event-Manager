@@ -14,6 +14,7 @@
                 <th scope="col">Apellidos</th>
                 <th scope="col">Correo Electrónico</th>
                 <th scope="col">Teléfono</th>
+                <th scope="col">Rol</th>
                 <th scope="col">Imagen de Usuario</th>
                 <th scope="col">Cambiar Contraseña</th>
                 <th scope="col">Editar</th>
@@ -35,6 +36,7 @@
                     <td>{{ usuario.last_name }}</td>
                     <td>{{ usuario.email }}</td>
                     <td>{{ usuario.telefono }}</td>
+                    <td>{{ usuario.group.name }}</td>
                     <td>
                         {% if usuario.imagen %}
                             <img src="{{ usuario.imagen.url }}" alt="Imagen de {{ usuario.username }}" style="width: 50px; height: 50px; border-radius: 50%;">

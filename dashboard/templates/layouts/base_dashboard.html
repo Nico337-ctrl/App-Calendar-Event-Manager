@@ -75,8 +75,9 @@
                     <div class="ms-3">
                         {% if user.is_authenticated %}
                         <h6 class="mb-0">{{ user.username }}</h6>
+                        <span>{{ user.group.name }}</span>
                         {% endif %}
-                        <span>Admin</span>
+                        
                     </div>
                 </div>
                 <div class="navbar-nav w-100">

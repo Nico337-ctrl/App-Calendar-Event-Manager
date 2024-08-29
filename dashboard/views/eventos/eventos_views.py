@@ -1,6 +1,6 @@
 from django.db.models.base import Model as Model
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import *
 from dashboard.forms.eventos.eventos_forms import FormEventos
 from dashboard.models.eventos import Eventos
@@ -9,22 +9,24 @@ from notifications.send_notification import notificacion
 
 """ Aqui comienzan las vistas para el modulo de eventos """
 
-class EventoIndex(LoginRequiredMixin, ListView):
+class EventoIndex(LoginRequiredMixin, PermissionRequiredMixin ,ListView):
     template_name= 'evento/evento_index.html'
     queryset = Eventos.objects.all()
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
     context_object_name = 'eventos'
+    permission_required = 'dashboard.view_eventos'
 
 
 
                 
 
-class EventoCreate(LoginRequiredMixin, CreateView):
+class EventoCreate(LoginRequiredMixin, PermissionRequiredMixin ,CreateView):
     template_name = 'evento/evento_create.html'
     success_url = '/dashboard/evento/'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
+    permission_required = 'dashboard.add_eventos'
 
     def get(self, request, *args, **kwargs):
         context = {'formulario' : FormEventos}
@@ -80,22 +82,24 @@ class EventoCreate(LoginRequiredMixin, CreateView):
 
             
             
-class EventoDetail(LoginRequiredMixin, DetailView):
+class EventoDetail(LoginRequiredMixin, PermissionRequiredMixin ,DetailView):
     template_name = 'evento/evento_detail.html'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
     model = Eventos
     context_object_name = 'evento'
+    permission_required = 'dashboard.view_eventos'
         
         
 
-class EventoEdit(LoginRequiredMixin, UpdateView):
+class EventoEdit(LoginRequiredMixin, PermissionRequiredMixin ,UpdateView):
     template_name = 'evento/evento_edit.html'
     success_url = 'evento/evento_index.html'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
     model = Eventos
     form_class =  FormEventos
+    permission_required = 'dashboard.change_eventos'
     
     def get(self, request, *args, **kwargs):
         evento = get_object_or_404(self.model, pk=self.kwargs['pk'])
@@ -113,11 +117,12 @@ class EventoEdit(LoginRequiredMixin, UpdateView):
         return redirect('/dashboard/evento/')
 
 
-class EventoDelete(LoginRequiredMixin, DeleteView):
+class EventoDelete(LoginRequiredMixin, PermissionRequiredMixin ,DeleteView):
     template_name = 'evento/evento_index.html'
     success_url = 'evento/evento_index.html'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
+    permission_required = 'dashboard.delete_eventos'
 
     def get(self, request, *args, **kwargs):
         evento = Eventos.objects.get(id = self.kwargs['pk'])
