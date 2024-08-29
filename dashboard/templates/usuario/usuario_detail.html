@@ -1,39 +1,28 @@
-{% extends 'layouts/base_dashboard.html' %}
-
-<!-- {% block title %}Productos{% endblock %}
-{% block extra_content %}Productos{% endblock %}
-{% block extra_content2 %}Productos{% endblock %}
-{% block extra_content3 %}Detalles{% endblock %} -->
-
-{% block content %}
-
-<div class="bg-light rounded h-100 p-4">
-  <h6 class="mb-4">Usuarios</h6>
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Usuario</th>
-        <!--<th scope="col">Nombre Usuario</th>-->
-        <th scope="col">Password</th>
-        <th scope="col">Se registro</th>
-        <th scope="col"></th>
-        <th scope="col"></th>
-        <th scope="col"></th>
-        <th scope="col"><a href="{% url 'usuario' %}">Volver</a></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th>{{ user.id }}</th>
-        <td>{{ user.username }}</td>
-        <td>{{ user.password }}</td>
-        <td>{{ user.date_joined }}</td>
-        <!-- <td><a href="{% url 'usuario_edit' usuario.id %}">Editar</a></td>
-        <td><a href="{% url 'usuario_detail' usuario.id %}">Detalles</a></td>
-        <td><a href="{% url 'usuario_delete' usuario.id %}">Eliminar</a></td> -->
-      </tr>
-    </tbody>
-  </table>
+<div class="modal fade" id="detailUsuarioModal" tabindex="-1" aria-labelledby="detailUsuarioModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="detailUsuarioModalLabel">Detalles del Usuario</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+            <p><strong>Nombre:
+            </strong> {{ user.first_name }}</p>
+        </div>
+        <div class="mb-3">
+            <p><strong>Apellido:
+            </strong> {{ user.last_name }}</p>
+        </div>
+        <div class="mb-3">
+            <p><strong>Email:
+            </strong> {{ user.email }}</p>
+        </div>
+        <div class="mb-3">
+            <p><strong>Telefono:
+            </strong> {{ user.telefono }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-{% endblock %}

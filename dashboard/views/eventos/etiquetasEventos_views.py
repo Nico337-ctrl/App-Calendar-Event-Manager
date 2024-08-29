@@ -19,7 +19,7 @@ class EventoEtiquetaIndex(LoginRequiredMixin, ListView):
 
 
 class EventoEtiquetaCreate(LoginRequiredMixin, CreateView):
-    template_name = 'evento/etiqueta/etiqueta_create.html'
+    template_name = 'evento/etiqueta/evento_etiqueta_create.html'
     success_url = '/dashboard/evento/etiqueta/'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
@@ -47,7 +47,7 @@ class EventoEtiquetaCreate(LoginRequiredMixin, CreateView):
             
             
 class EventoEtiquetaDetail(LoginRequiredMixin, DetailView):
-    template_name = 'evento/etiqueta/etiqueta_detail.html'
+    template_name = 'evento/etiqueta/evento_etiqueta_detail.html'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
     model = EtiquetaEvento
@@ -56,7 +56,7 @@ class EventoEtiquetaDetail(LoginRequiredMixin, DetailView):
         
 
 class EventoEtiquetaEdit(LoginRequiredMixin, UpdateView):
-    template_name = 'evento/etiqueta/etiqueta_edit.html'
+    template_name = 'evento/etiqueta/evento_etiqueta_edit.html'
     success_url = 'evento/etiqueta/etiqueta_index.html'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
@@ -78,7 +78,7 @@ class EventoEtiquetaEdit(LoginRequiredMixin, UpdateView):
 
 
 class EventoEtiquetaDelete(LoginRequiredMixin, DeleteView):
-    template_name = 'evento/etiqueta/etiqueta_index.html'
+    template_name = 'evento/etiqueta/evento_etiqueta_index.html'
     success_url = 'evento/etiqueta/etiqueta_index.html'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'

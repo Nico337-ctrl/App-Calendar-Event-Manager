@@ -1,17 +1,17 @@
 {% extends 'layouts/base_dashboard.html' %}
+{% load static %}
 
 {% block content %}
 <div class="bg-light rounded h-100 p-4">
-    <h6 class="mb-4">Etiquetas </h6> 
-    <table class="hover" id="dataTable">
+    <h6 class="mb-4">Etiquetas</h6>
+    <a href="{% url 'evento_etiqueta_create' %}" style="color: #29a900" class="mt-4 d-flex justify-content-end">Crear etiqueta</a>
+    <table class="table table-hover" id="dataTable">
         <thead>
             <tr>
-                <th scope="col">Titulo</th>
-                <th scope="col">Descripcion</th>
+                <th scope="col">Título</th>
+                <th scope="col">Descripción</th>
                 <th scope="col">Imagen</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"><a href="{% url 'evento_etiqueta_create' %}" style="color: #29a900">Crear etiqueta</a></th>
+                <th scope="col">Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -19,100 +19,70 @@
             <tr>
                 <td>{{ etiqueta.titulo }}</td>
                 <td>{{ etiqueta.descripcion }}</td>
-                <td><img src="{{ etiqueta.imagen.url }}" alt="{{ etiqueta.titulo }}" width="50"></td>
                 <td>
-                    <!-- Texto amarillo para editar -->
-                    <span style="color: #29a900; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editaretiquetaModal{{ etiqueta.id }}">
-                        Editar etiqueta
-                    </span>
-                    <!-- Modal de editar etiqueta -->
-                    <div class="modal fade" id="editaretiquetaModal{{ etiqueta.id }}" tabindex="-1" aria-labelledby="editaretiquetaModalLabel{{ etiqueta.id }}" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="editaretiquetaModalLabel{{ etiqueta.id }}">Editar etiqueta</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <!-- Formulario de edición -->
-                                    <form action="{% url 'evento_etiqueta_edit' etiqueta.id %}" method="POST">
-                                        {% csrf_token %}
-                                        <div class="mb-3">
-                                            <label for="titulo" class="form-label">Titulo</label>
-                                            <input type="text" class="form-control" id="titulo" name="titulo" value="{{ etiqueta.titulo }}">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="descripcion" class="form-label">Descripcion</label>
-                                            <input class="form-control" id="descripcion" name="descripcion" value="{{ etiqueta.descripcion }}"></input>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="comienza" class="form-label">Imagen</label>
-                                            <input type="image" class="form-control" id="comienza" name="comienza" value="{{ etiqueta.imagen }}">
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {% if etiqueta.imagen %}
+                        <img src="{{ etiqueta.imagen.url }}" width="50" alt="Imagen de {{ etiqueta.titulo }}">
+                    {% else %}
+                        No disponible
+                    {% endif %}
                 </td>
                 <td>
-                    <!-- Texto azul para detalles -->
-                    <span style="color: #29a900; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#detallesetiquetaModal{{ etiqueta.id }}">
-                        Detalles
-                    </span>
-                    <!-- Modal de detalles del etiqueta -->
-                    <div class="modal fade" id="detallesetiquetaModal{{ etiqueta.id }}" tabindex="-1" aria-labelledby="detallesetiquetaModalLabel{{ etiqueta.id }}" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="detallesetiquetaModalLabel{{ etiqueta.id }}">Detalles del etiqueta</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p><strong>Titulo:</strong> {{ etiqueta.titulo }}</p>
-                                    <p><strong>Descripcion:</strong> {{ etiqueta.descripcion }}</p>
-                                    <p><strong>Imagen:</strong> {{ etiqueta.imagen }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <!-- Texto rojo para eliminar -->
-                    <span style="color: red; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#eliminaretiquetaModal{{ etiqueta.id }}">
-                        Eliminar etiqueta
-                    </span>
-                    <!-- Modal de confirmación de eliminación -->
-                    <div class="modal fade" id="eliminaretiquetaModal{{ etiqueta.id }}" tabindex="-1" aria-labelledby="eliminaretiquetaModalLabel{{ etiqueta.id }}" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="eliminaretiquetaModalLabel{{ etiqueta.id }}">¿Estás seguro de que deseas eliminar esta etiqueta?</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <!-- Detalles del etiqueta que se eliminará -->
-                                    <p>Titulo: {{ etiqueta.titulo }}</p>
-                                    <p>Descripcion: {{ etiqueta.descripcion }}</p>
-                                    <p>Imagen: {{ etiqueta.imagen }}</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                    <!-- Enlace para eliminar el etiqueta -->
-                                    <a class="btn btn-danger" href="{% url 'evento_etiqueta_delete' etiqueta.id %}">Eliminar</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <a href="#" class="edit-etiqueta" data-id="{{ etiqueta.id }}" data-url="{% url 'evento_etiqueta_edit' etiqueta.id %}" data-bs-toggle="modal" data-bs-target="#editEtiquetaModal">Editar</a> |
+                    <a href="#" class="detail-etiqueta" data-id="{{ etiqueta.id }}" data-url="{% url 'evento_etiqueta_detail' etiqueta.id %}" data-bs-toggle="modal" data-bs-target="#detailEtiquetaModal">Detalles</a> |
+                    <a href="#" class="delete-etiqueta" data-id="{{ etiqueta.id }}" data-url="{% url 'evento_etiqueta_delete' etiqueta.id %}" data-bs-toggle="modal" data-bs-target="#deleteEtiquetaModal" style="color: red;">Eliminar</a>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
+
+<!-- Aquí se cargará el modal dinámicamente -->
+<div id="modalContainer"></div>
+
+<!-- Script para cargar los modales -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const modalContainer = document.getElementById('modalContainer');
+    let currentModal = null;
+
+    function loadModal(url, targetId) {
+        // Si hay un modal abierto, lo cerramos primero
+        if (currentModal) {
+            currentModal.hide();
+            currentModal.dispose();
+            currentModal = null;
+        }
+
+        fetch(url)
+            .then(response => response.text())
+            .then(html => {
+                modalContainer.innerHTML = html;
+                const modalElement = document.getElementById(targetId);
+                if (modalElement) {
+                    setTimeout(() => {
+                        currentModal = new bootstrap.Modal(modalElement);
+                        currentModal.show();
+                    }, 0);
+                } else {
+                    console.error(`Modal element with id ${targetId} not found`);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // Event delegation para los botones de editar, detalles y eliminar
+    document.body.addEventListener('click', function(e) {
+        const link = e.target.closest('.edit-etiqueta, .detail-etiqueta, .delete-etiqueta');
+        if (link) {
+            e.preventDefault();
+            const url = link.getAttribute('data-url');
+            const targetId = link.getAttribute('data-bs-target').slice(1);
+            console.log(`Loading modal: URL=${url}, targetId=${targetId}`);
+            loadModal(url, targetId);
+        }
+    });
+});
+</script>
+
 {% endblock %}
-
-
-

@@ -1,51 +1,37 @@
-{% extends 'layouts/base_dashboard.html' %}
+<!-- Este archivo se llamará usuario_detail_modal.html y estará en la carpeta de templates -->
 
-{% block content %}
-<!-- Botón para abrir el modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detallesEventoModal">
-  Ver Detalles
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="detallesEventoModal" tabindex="-1" aria-labelledby="detallesEventoModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+<div class="modal fade" id="detailUsuarioModal" tabindex="-1" aria-labelledby="detailUsuarioModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="detallesEventoModalLabel">Detalles del Evento</h5>
+        <h5 class="modal-title" id="detailUsuarioModalLabel">Detalles del Usuario</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div class="bg-light rounded h-100 p-4">
-          <h6 class="mb-4">Eventos</h6>
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Usuario</th>
-                <th scope="col">Titulo</th>
-                <th scope="col">Descripcion</th>
-                <th scope="col">Comienza</th>
-                <th scope="col">Termina</th>
-                <th scope="col">Etiqueta</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th>{{ evento.id }}</th>
-                <td>{{ evento.user }}</td>
-                <td>{{ evento.titulo }}</td>
-                <td>{{ evento.descripcion }}</td>
-                <td>{{ evento.inicia_el }}</td>
-                <td>{{ evento.termina_el }}</td>
-                <td>{{ evento.etiqueta }}</td>
-                
-              </tr>
-            </tbody>
-          </table>
+        <div class="mb-3">
+            <p><strong>Nombre de Usuario:
+            </strong> {{ user.username }}</p>
         </div>
+        <div class="mb-3">
+            <p><strong>Nombres:
+            </strong> {{ user.first_name }}</p>
+        </div>
+        <div class="mb-3">
+            <p><strong>Apellidos:
+            </strong> {{ user.last_name }}</p>
+        </div>
+        <div class="mb-3">
+            <p><strong>Email:
+            </strong> {{ user.email }}</p>
+        </div>
+        <div class="mb-3">
+            <p><strong>Teléfono:
+            </strong> {{ user.telefono }}</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
 </div>
-{% endblock %}
-

@@ -65,12 +65,12 @@ class EventoDetail(LoginRequiredMixin, DetailView):
 
 class EventoEdit(LoginRequiredMixin, UpdateView):
     template_name = 'evento/evento_edit.html'
-    success_url = 'evento/evento_index.html'
+    success_url = '/dashboard/evento/'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
     model = Eventos
     form_class =  FormEventos
-    
+
     def get(self, request, *args, **kwargs):
         evento = get_object_or_404(self.model, pk=self.kwargs['pk'])
         formulario = self.form_class(instance=evento)

@@ -1,58 +1,100 @@
-{% extends 'layouts/base_dashboard.html' %} {% load static %}
-
-<!-- {% block title %}Usuarios{% endblock %}
-{% block extra_content %}Usuarios{% endblock %}
-{% block extra_content2 %}Usuarios{% endblock %} -->
+{% extends 'layouts/base_dashboard.html' %}
+{% load static %}
 
 {% block content %}
 <div class="bg-light rounded h-100 p-4">
   <h6 class="mb-4">Usuarios</h6>
-  <table class="hover" id="dataTable">
+  <a href="{% url 'usuario_create' %}" style="color: #29a900" class="mt-4 d-flex justify-content-end">Crear usuario</a>
+  <table class="table table-hover" id="dataTable">
     <thead>
       <tr>
         <th scope="col">Id</th>
         <th scope="col">Nombre Usuario</th>
-        <!-- <th scope="col">Password</th> -->
-        <th scope="col">Se registro</th>
+        <th scope="col">Se registró</th>
         <th scope="col">Nombre</th>
         <th scope="col">Apellidos</th>
         <th scope="col">Email</th>
-        <th scope="col">Telefono</th>
+        <th scope="col">Teléfono</th>
         <th scope="col">Imagen</th>
-        <th scope="col"></th>
-        <th scope="col"></th>
-        <th scope="col"></th>
-        <th scope="col"></th>
-        <th scope="col">
-          <a href="{% url 'usuario_create' %}">Crear usuario</a>
-        </th>
+        <th scope="col">Editar</th>
+        <th scope="col">Detalles</th>
+        <th scope="col">Eliminar</th>
       </tr>
     </thead>
     <tbody>
       {% for usuario in usuarios %}
+      
       <tr>
         <th>{{ usuario.id }}</th>
         <td>{{ usuario.username }}</td>
-        <!-- <td>{{ usuario.password }}</td> -->
         <td>{{ usuario.date_joined }}</td>
-        <td>{{ usuario.first_name}}</td>
-        <td>{{ usuario.last_name}}</td>
-        <td>{{ usuario.email}}</td>
-        <td>{{ usuario.telefono}}</td>
-        <td>{{ usuario.imagen}}</td>
+        <td>{{ usuario.first_name }}</td>
+        <td>{{ usuario.last_name }}</td>
+        <td>{{ usuario.email }}</td>
+        <td>{{ usuario.telefono }}</td>
+        <td><img src="{{ usuario.imagen }}" alt="Imagen de {{ usuario.username }}" class="img-thumbnail" style="max-width: 100px;"></td>
         <td>
-          <a href="{% url 'usuario_changePassword' usuario.id %}"
-            >Cambiar Contraseña</a
-          >
+          <a href="#" class="edit-usuario" data-id="{{ usuario.id }}" data-url="{% url 'usuario_edit' usuario.id %}" data-bs-toggle="modal" data-bs-target="#editUsuarioModal">Editar</a>
         </td>
-        <td><a href="{% url 'usuario_edit' usuario.id %}">Editar</a></td>
-        <td><a href="{% url 'usuario_detail' usuario.id %}">Detalles</a></td>
-        <td><a href="{% url 'usuario_delete' usuario.id %}">Eliminar</a></td>
-        <td></td>
+        <td>
+          <a href="#" class="detail-usuario" data-id="{{ usuario.id }}" data-url="{% url 'usuario_detail' usuario.id %}" data-bs-toggle="modal" data-bs-target="#detailUsuarioModal">Detalles</a>
+        </td>
+        <td>
+          <a href="#" class="delete-usuario" data-id="{{ usuario.id }}" data-url="{% url 'usuario_delete' usuario.id %}" data-bs-toggle="modal" data-bs-target="#deleteUsuarioModal">Eliminar</a>
+        </td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
 </div>
+
+<div id="modalContainer"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const modalContainer = document.getElementById('modalContainer');
+    let currentModal = null;
+    $('#dataTable').DataTable();
+
+    function loadModal(url, targetId) {
+        if (currentModal) {
+            currentModal.hide();
+            currentModal.dispose();
+            currentModal = null;
+        }
+        fetch(url)
+            .then(response => response.text())
+            .then(html => {
+                modalContainer.innerHTML = html;
+                const modalElement = document.getElementById(targetId);
+                if (modalElement) {
+                    setTimeout(() => {
+                        currentModal = new bootstrap.Modal(modalElement);
+                        currentModal.show();
+                        
+                        if (targetId.includes('Usuario')) {ww
+                            initDatepicker();
+                        }
+                    }, 0);
+                } else {
+                    console.error(`Modal element with id ${targetId} not found`);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // Event delegation para los botones de cambiar contraseña, editar, detalles y eliminar
+    document.body.addEventListener('click', function(e) {
+        const link = e.target.closest('.change-password, .edit-usuario, .detail-usuario, .delete-usuario');
+        if (link) {
+            e.preventDefault();
+            const url = link.getAttribute('data-url');
+            const targetId = link.getAttribute('data-bs-target').slice(1);
+            console.log(`Loading modal: URL=${url}, targetId=${targetId}`);
+            loadModal(url, targetId);
+        }
+    });
+});
+</script>
 
 {% endblock %}
