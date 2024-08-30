@@ -5,19 +5,19 @@ from django.views.generic import *
 from dashboard.forms.eventos.eventos_forms import FormEventos
 from dashboard.models.eventos import Eventos
 from notifications.send_notification import notificacion
+from dashboard.views.mixins import *
 
 
 """ Aqui comienzan las vistas para el modulo de eventos """
 
-class EventoIndex(LoginRequiredMixin, PermissionRequiredMixin ,ListView):
+class EventoIndex(LoginRequiredMixin, PermissionRequiredMixin, UserGroupContextMixin ,ListView):
     template_name= 'evento/evento_index.html'
     queryset = Eventos.objects.all()
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
     context_object_name = 'eventos'
     permission_required = 'dashboard.view_eventos'
-
-
+    
 
                 
 
@@ -31,7 +31,7 @@ class EventoCreate(LoginRequiredMixin, PermissionRequiredMixin ,CreateView):
     def get(self, request, *args, **kwargs):
         context = {'formulario' : FormEventos}
         return render(request, self.template_name, context)
-
+    
     def post(self, request, *args, **kwargs):
             try:
                 formulario = FormEventos(request.POST)
@@ -130,5 +130,8 @@ class EventoDelete(LoginRequiredMixin, PermissionRequiredMixin ,DeleteView):
         notificacion(titulo='Evento Eliminado', 
                                 mensaje=f'El evento {evento.titulo} ha sido eliminado. ')
         return redirect('/dashboard/evento/')
+    
+    
+
 
 """ Aqui termina las vistas para el modulo de eventos """

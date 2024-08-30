@@ -7,19 +7,21 @@ from dashboard.forms.users import *
 from dashboard.models.usuarios import User
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
+from dashboard.views.mixins import *
 
 
 """ Aqui comienzan las vistas para el modulo de usuarios"""
 
-class UsuarioIndex(LoginRequiredMixin, PermissionRequiredMixin ,ListView):
+class UsuarioIndex(LoginRequiredMixin, PermissionRequiredMixin , UserGroupContextMixin ,ListView):
     template_name= 'usuario/usuario_index.html'
     queryset = User.objects.all()
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
     context_object_name = 'usuarios'
     permission_required = 'dashboard.view_user'
+    
 
-class UsuarioCreate(LoginRequiredMixin, PermissionRequiredMixin ,CreateView):
+class UsuarioCreate(LoginRequiredMixin, PermissionRequiredMixin , UserGroupContextMixin ,CreateView):
     template_name = 'usuario/usuario_create.html'
     success_url = '/dashboard/usuario/'
     login_url = '/dashboard/auth/signin/'
@@ -29,7 +31,7 @@ class UsuarioCreate(LoginRequiredMixin, PermissionRequiredMixin ,CreateView):
     def get(self, request, *args, **kwargs):
         context = {'formulario': User_CreationForm()}
         return render(request, self.template_name, context)
-
+    
     def post(self, request, *args, **kwargs):
         formulario = User_CreationForm(request.POST)
         if formulario.is_valid():

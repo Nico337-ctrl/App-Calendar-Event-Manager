@@ -6,11 +6,12 @@ from dashboard.forms.eventos.etiquetaEventos_forms import EtiquetaEventoForm
 from dashboard.models.eventos import EtiquetaEvento
 from notifications.send_notification import notificacion
 from django.contrib import messages
+from dashboard.views.mixins import *
 
 """ Aqui comienzan las vistas para el modulo de etiquetas eventos """
 
-class EventoEtiquetaIndex(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    template_name= 'evento/etiqueta/etiqueta_index.html'
+class EventoEtiquetaIndex(LoginRequiredMixin, PermissionRequiredMixin, UserGroupContextMixin ,ListView):
+    template_name= 'evento/etiqueta/evento_etiqueta_index.html'
     queryset = EtiquetaEvento.objects.all()
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
@@ -18,9 +19,8 @@ class EventoEtiquetaIndex(LoginRequiredMixin, PermissionRequiredMixin, ListView)
     permission_required = 'dashboard.view_etiquetaevento'
 
 
-
 class EventoEtiquetaCreate(LoginRequiredMixin, PermissionRequiredMixin ,CreateView):
-    template_name = 'evento/etiqueta/etiqueta_create.html'
+    template_name = 'evento/etiqueta/evento_etiqueta_create.html'
     success_url = '/dashboard/evento/etiqueta/'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
@@ -46,10 +46,18 @@ class EventoEtiquetaCreate(LoginRequiredMixin, PermissionRequiredMixin ,CreateVi
             context = {'formulario' : EtiquetaEventoForm}
             messages.error(request, f"Por favor ingrese datos validos. {str(e)}")
             return render(request, self.template_name, context)
-            
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+
+        context['is_admin_or_collaborator'] = ( user.groups.filter(name='Administrador').exists() or user.groups.filter(name='Colaborador').exists() )
+        context['is_assistant'] =  ( user.groups.filter(name='Asistente').exists() )
+        
+        return context
             
 class EventoEtiquetaDetail(LoginRequiredMixin, PermissionRequiredMixin ,DetailView):
-    template_name = 'evento/etiqueta/etiqueta_detail.html'
+    template_name = 'evento/etiqueta/evento_etiqueta_detail.html'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
     model = EtiquetaEvento
@@ -59,7 +67,7 @@ class EventoEtiquetaDetail(LoginRequiredMixin, PermissionRequiredMixin ,DetailVi
         
 
 class EventoEtiquetaEdit(LoginRequiredMixin, PermissionRequiredMixin ,UpdateView):
-    template_name = 'evento/etiqueta/etiqueta_edit.html'
+    template_name = 'evento/etiqueta/evento_etiqueta_edit.html'
     success_url = 'evento/etiqueta/etiqueta_index.html'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
@@ -84,7 +92,7 @@ class EventoEtiquetaEdit(LoginRequiredMixin, PermissionRequiredMixin ,UpdateView
 
 
 class EventoEtiquetaDelete(LoginRequiredMixin, PermissionRequiredMixin ,DeleteView):
-    template_name = 'evento/etiqueta/etiqueta_index.html'
+    template_name = 'evento/etiqueta/evento_etiqueta_index.html'
     success_url = 'evento/etiqueta/etiqueta_index.html'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'

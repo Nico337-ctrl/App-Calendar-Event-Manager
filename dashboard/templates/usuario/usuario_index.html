@@ -48,6 +48,7 @@
                     <td><a href="{% url 'usuario_edit' usuario.id %}" class="btn btn-outline-info btn-sm"><i class="fa-solid fa-user-pen"></i></a></td>
                     <td><a href="{% url 'usuario_detail' usuario.id %}" class="btn btn-outline-info btn-sm"><i class="fa-solid fa-plus"></i></a></td>
                     <td><a href="{% url 'usuario_delete' usuario.id %}" class="btn btn-outline-danger btn-sm"><i class="fa-solid fa-trash-can"></i></a></td>
+                    <td></td>
                 </tr>
                 {% endfor %}
             {% else %}

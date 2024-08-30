@@ -83,7 +83,9 @@
                         
                     </div>
                 </div>
-                <div class="navbar-nav w-100">
+                
+                    <div class="navbar-nav w-100">
+                    
                     <a href="{% url 'home' %}" class="nav-item nav-link"><i class="fa-solid fa-house"></i> Inicio</a>
                     <!-- <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
@@ -94,12 +96,9 @@
                             <a href="element.html" class="dropdown-item">Other Elements</a>
                         </div>
                     </div> -->
-                    
                     <a href="/dashboard/calendario/" class="nav-item nav-link"><i class="fa-solid fa-calendar-days"></i> Calendario</a>
-
-
-                    
                     <!-- <a href="chart.html" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a> -->
+                    {% if is_admin_or_collaborator %}
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
                                 class="far fa-file-alt me-2"></i>Gestionar</a>
@@ -108,7 +107,6 @@
                             <a href="/dashboard/evento/etiqueta/" class="dropdown-item">Etiquetas de eventos</a>                         
                         </div>
                     </div>
-
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
                                 class="far fa-file-alt me-2"></i>Administrar</a>
@@ -118,7 +116,26 @@
                             <a href="/dashboard/perfil/" class="nav-item nav-link">Perfil</a>             
                         </div>
                     </div>
+                    {% comment %} {% else %}
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
+                                class="far fa-file-alt me-2"></i>Gestionar</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="/dashboard/evento/" class="dropdown-item">Eventos</a>                        
+                        </div>
+                    </div> {% endcomment %}
+                    {% endif %}
                 </div>
+                
+                {% comment %} {% if is_assistant %}
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
+                            class="far fa-file-alt me-2"></i>Gestionar</a>
+                    <div class="dropdown-menu bg-transparent border-0">
+                        <a href="/dashboard/evento/" class="dropdown-item">Eventos</a                  
+                    </div>
+                </div>
+                {% endif %} {% endcomment %}
             </nav>
         </div>
         <!-- Sidebar End -->
