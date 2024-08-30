@@ -1,58 +1,96 @@
 {% extends 'layouts/base_dashboard.html' %}
-<!-- {% block title %}Productos{% endblock %}
-
-{% block extra_content %}Productos{% endblock %}
-
-{% block extra_content2 %}Productos{% endblock %}
-{% block extra_content3 %}Crear{% endblock %} -->
 {% block content %}
-<div class="bg-light rounded h-100 p-4">
-    <h6 class="mb-4">Crear Evento</h6>
+<div class="form-container">
+    <h2>Crear evento</h2>
     <form action="{% url 'evento_create' %}" method="POST">
         {% csrf_token %}
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Titulo</label>
-            <!-- <input type="email" class="form-control" id="exampleInputEmail1"
-                aria-describedby="emailHelp"> -->
+        <div class="form-group">
+            <label for="titulo">Titulo</label>
             {{ formulario.titulo }}
         </div>
-        <div class="mb-3">
-            <label for="{{ formulario.descripcion.id_for_label }}" class="form-label">Descripcion</label>
-            <!-- <input type="password" class="form-control" id="exampleInputPassword1"> -->
+        <div class="form-group">
+            <label for="email">Descripcion</label>
             {{ formulario.descripcion }}
         </div>
-        <div class="mb-3">
-            <label for="{{ formulario.info_extra.id_for_label }}" class="form-label">Informacion extra</label>
-            <!-- <input type="password" class="form-control" id="exampleInputPassword1"> -->
+        <div class="form-group">
+            <label for="budget">Informacion extra</label>
             {{ formulario.info_extra }}
         </div>
-        <div class="mb-3">
-            <label for="{{ formulario.inicia_el.id_for_label }}" class="form-label">Comienza</label>
-            <!-- <input type="password" class="form-control" id="exampleInputPassword1"> -->
+        <div class="form-group">
+            <label for="message">Inicia</label>
             {{ formulario.inicia_el }}
         </div>
-        <div class="mb-3">
-            <label for="{{ formulario.termina_el.id_for_label }}" class="form-label">Termina</label>
-            <!-- <input type="password" class="form-control" id="exampleInputPassword1"> -->
+        <div class="form-group">
+            <label for="message">Termina</label>
             {{ formulario.termina_el }}
         </div>
-        <div class="mb-3">
-            <label for="{{ formulario.etiqueta.id_for_label }}" class="form-label">Etiqueta</label>
-            <!-- <input type="password" class="form-control" id="exampleInputPassword1"> -->
+        <div class="form-group">
+            <label for="message">Eqtiqueta</label>
             {{ formulario.etiqueta }}
         </div>
-        <div class="mb-3">
-            <label for="{{ formulario.etiqueta.id_for_label }}" class="form-label">Notificar: </label>
-            <!-- <input type="password" class="form-control" id="exampleInputPassword1"> -->
-            {{ formulario.notificar }}
-        </div>
-        <!-- <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">Check me out</label>
-        </div> -->
-        
-        <br>
-        <button type="submit" class="btn btn-primary">Guardar</button>
+        <button type="submit" class="btn btn-primary">Send Message</button>
+        <a href="{% url 'evento_etiqueta' %}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
+
+<style>
+    .form-container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    .form-container h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        font-weight: 700;
+        color: #333;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-group label {
+        display: block;
+        font-size: 14px;
+        margin-bottom: 5px;
+        color: #666;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        color: #333;
+    }
+    
+    .form-group textarea {
+        resize: vertical;
+    }
+    
+    .btn-submit {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #29a900;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        box-shadow: 0px 1px 3px rgbargba(57, 169, 0, 0.5);
+    }
+    
+    .btn-submit:hover {
+        background-color: #29c900;
+    }
+</style>
 {% endblock %}

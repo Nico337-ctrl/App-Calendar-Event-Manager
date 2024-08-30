@@ -2,10 +2,10 @@
 {% load static %}
 
 {% block content %}
-<div class="bg-light rounded h-100 p-4">
-    <h6 class="mb-4">Eventos</h6>
-    <a href="{% url 'evento_create' %}" style="color: #29a900" class="mt-4 d-flex justify-content-end">Crear evento</a>
-    <table class="table table-hover" id="dataTable">
+<div class="bg-light rounded h-100 p-4" style="font-family: 'Work Sans', sans-serif; max-width: 100%; margin: auto;">
+  <h4 class="mb-4" style="color: #39a900;">Evento</h4> 
+  <a href="{% url 'evento_create' %}" style="color: #39a900" class="mt-4 d-flex justify-content-end">Crear evento</a>
+  <table class="table table-striped table-hover text-center" id="dataTable" style="background-color: white; border-radius: 10px; overflow: hidden;">
         <thead>
             <tr>
                 <th scope="col">Usuario</th>
@@ -29,10 +29,11 @@
                 <td>{{ evento.inicia_el }}</td>
                 <td>{{ evento.termina_el }}</td>
                 <td>
-                    <a href="#" class="edit-evento" data-id="{{ evento.id }}" data-url="{% url 'evento_edit' evento.id %}" data-bs-toggle="modal" data-bs-target="#editEventoModal">Editar</a> |
+                    <a href="#" class="edit-evento btn btn-outline-info btn-sm" data-id="{{ evento.id }}" data-url="{% url 'evento_edit' evento.id %}" data-bs-toggle="modal" data-bs-target="#editEventoModal"><i class="fa-solid fa-pen"></i></a>
                     
-                    <a href="#" class="detail-usuario" data-id="{{ usuario.id }}" data-url="{% url 'evento_detail' evento.id %}" data-bs-toggle="modal" data-bs-target="#detailUsuarioModal">Detalles</a> |
-                    <a href="{% url 'evento_delete' evento.id %}" style="color: red;">Eliminar</a>
+                    <a href="#" class="detail-usuario btn btn-outline-info btn-sm" data-id="{{ usuario.id }}" data-url="{% url 'evento_detail' evento.id %}" data-bs-toggle="modal" data-bs-target="#detailUsuarioModal"><i class="fa-solid fa-plus"></i></a>
+                    
+                    <a href="{% url 'evento_delete' evento.id %}" class="deleate-evento btn btn-outline-danger btn-sm"><i class="fa-solid fa-trash-can"></i></a>
                 </td>
             </tr>
             {% endfor %}

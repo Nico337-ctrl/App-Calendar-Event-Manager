@@ -13,68 +13,76 @@ class FormEventos(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['etiqueta'].label_from_instance = lambda obj: obj.titulo
 
-
     titulo = forms.CharField(
+        label="Name *",
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
+                'placeholder': 'Tu titulo de evento'
             }
         )
     )
     
     descripcion = forms.CharField(
+        label="Message *",
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
+                'placeholder': 'Describe el evento a detalle'
             }
         )
     )
     
     info_extra = forms.CharField(
+        label="Budget",
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
+                'placeholder': 'Informacion extra sobre el evento'
             }
         )
     )
     
     inicia_el = forms.DateTimeField(
+        label="Start Date",
         widget=forms.DateTimeInput(
             attrs={
                 'class': 'form-control',
-                'type' : 'datetime-local'
+                'type': 'datetime-local'
             }
         )
     )
+    
     termina_el = forms.DateTimeField(
+        label="End Date",
         widget=forms.DateTimeInput(
             attrs={
                 'class': 'form-control',
-                'type' : 'datetime-local'
+                'type': 'datetime-local'
             }
         )
     )
     
     etiqueta = forms.ModelChoiceField(
+        label="Tag",
         queryset=EtiquetaEvento.objects.all(),
         widget=forms.Select(
             attrs={
                 'class': 'form-control',
+                'placeholder': 'Etiqueta a utilizar para el evento'
             }
         )
     )
 
     notificar = forms.BooleanField(
+        label="Notify",
         required=False,
         initial=True,
         widget=forms.CheckboxInput(
             attrs={
                 'class': 'styled-checkbox',
-                'style': 'width:20px; height:20px;'
+                'style': 'width:20px; height:20px;',
+                'label_suffix': ' '
             }
         )
-    )    
-
-
-    
-    
+    )

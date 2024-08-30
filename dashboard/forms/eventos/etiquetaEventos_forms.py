@@ -11,14 +11,18 @@ class EtiquetaEventoForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
+                'placeholder': 'Introduce el título de la etiqueta',
+                'autofocus': 'autofocus',
             }
         )
     )
     
     descripcion = forms.CharField(
-        widget=forms.TextInput(
+        widget=forms.TextInput(  # Cambié TextInput a Textarea
             attrs={
                 'class': 'form-control',
+                'placeholder': 'Describe la etiqueta en detalle',
+                'rows': 4,  # Esto ajusta la altura del textarea
             }
         )
     )
@@ -28,7 +32,6 @@ class EtiquetaEventoForm(forms.ModelForm):
             attrs={
                 'class': 'form-control',
                 'accept': 'image/*',
-                
             }
         )
     )

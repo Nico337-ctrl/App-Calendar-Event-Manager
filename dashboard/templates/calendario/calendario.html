@@ -74,7 +74,7 @@
       document.getElementById('eventoFechas').textContent = fechas;
       document.getElementById('eventoEtiqueta').textContent = evento.extendedProps.etiqueta || ''; // Asegúrate de usar el nombre correcto
       document.getElementById('eventoDescripcion').textContent = evento.extendedProps.descripcion || '';
-      document.getElementById('editLink').href = "{% url 'evento_edit' 0 %}".replace('0', evento.id);
+      document.getElementById('editLink').href = "{% url 'evento' %}".replace('0', evento.id);
       document.getElementById('eliminarLink').href = "{% url 'evento_delete' 0 %}".replace('0', evento.id);
       var modal = new bootstrap.Modal(document.getElementById('eventoModal'));
       modal.show();

@@ -142,7 +142,7 @@ class UsuarioEdit(LoginRequiredMixin, UpdateView):
 
 
 class UsuarioDelete(LoginRequiredMixin, DeleteView):
-    # template_name = 'usuario/evento_edit.html'
+    template_name = 'usuario/evento_edit.html'
     success_url = 'usuario/usuario_index.html'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
