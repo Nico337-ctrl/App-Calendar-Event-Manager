@@ -1,39 +1,46 @@
 from django.db.models.base import Model as Model
 from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import *
 from dashboard.forms.users import *
 from dashboard.models.usuarios import User
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
+from dashboard.views.mixins import *
 
 
 """ Aqui comienzan las vistas para el modulo de usuarios"""
 
-class UsuarioIndex(LoginRequiredMixin, ListView):
+class UsuarioIndex(LoginRequiredMixin, PermissionRequiredMixin , UserGroupContextMixin ,ListView):
     template_name= 'usuario/usuario_index.html'
     queryset = User.objects.all()
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
     context_object_name = 'usuarios'
+    permission_required = 'dashboard.view_user'
+    
 
-class UsuarioCreate(LoginRequiredMixin, CreateView):
+class UsuarioCreate(LoginRequiredMixin, PermissionRequiredMixin , UserGroupContextMixin ,CreateView):
     template_name = 'usuario/usuario_create.html'
     success_url = '/dashboard/usuario/'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
+    permission_required = 'dashboard.add_user'
 
     def get(self, request, *args, **kwargs):
         context = {'formulario': User_CreationForm()}
         return render(request, self.template_name, context)
-
+    
     def post(self, request, *args, **kwargs):
         formulario = User_CreationForm(request.POST)
         if formulario.is_valid():
             try:
                 nuevo_usuario = formulario.save(commit=False)
                 nuevo_usuario.save()
+                selected_group = formulario.cleaned_data.get('group')
+                if selected_group:
+                    nuevo_usuario.groups.add(selected_group)
                 # enviarNotificacion()
                 return redirect(self.success_url)
             except Exception as e:
@@ -41,59 +48,30 @@ class UsuarioCreate(LoginRequiredMixin, CreateView):
         else:
             for field, errors in formulario.errors.items():
                 for error in errors:
-                    messages.error(request, f"{field}: {error}")
+                    messages.error(request, f"{error}")
 
         context = {'formulario': formulario}
         return render(request, self.template_name, context)
 
 
-# class UsuarioCreate(LoginRequiredMixin, CreateView):
-#     template_name = 'usuario/usuario_create.html'
-#     success_url = '/dashboard/usuario/'
-#     login_url = '/dashboard/auth/signin/'
-#     redirect_field_name = 'redirect_to'
-
-#     def get(self, request, *args, **kwargs):
-#         context = {'formulario' : User_CreationForm}
-#         return render(request, self.template_name, context)
-
-#     def post(self, request, *args, **kwargs):
-#         formulario = User_CreationForm(request.POST)
-#         try:
-#             if formulario.is_valid():
-#                 nuevo_usuario = formulario.save(commit=False)
-#                 nuevo_usuario.save()
-
-#                 enviarNotificacion()
-
-#                 return redirect(self.success_url)
-#             else:
-#                 for field, errors in formulario.errors.items():
-#                     for error in errors:
-#                         messages.error(request, f"{error}")
-#         except ValueError:
-#             context = {'formulario' : User_CreationForm, 'error' : 'Porfavor ingrese datos validos.'}
-#             print(formulario)
-#             return render(request, self.template_name, context)
-        
-
-
-class UsuarioDetail(LoginRequiredMixin, DetailView):
+class UsuarioDetail(LoginRequiredMixin, PermissionRequiredMixin ,DetailView):
     template_name = 'usuario/usuario_detail.html'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
     model = User
     context_object_name = 'usuario'
+    permission_required = 'dashboard.detailview_user'
 
 
-class UsuarioEdit(LoginRequiredMixin, UpdateView):
+class UsuarioEdit(LoginRequiredMixin, PermissionRequiredMixin ,UpdateView):
     template_name = 'usuario/usuario_edit.html'
     success_url = '/dashboard/usuario/'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
     model = User
     form_class = User_ChangeForm
-
+    permission_required = 'dashboard.change_user'
+    
     def get_success_url(self):
         return reverse('usuario')
 
@@ -110,6 +88,9 @@ class UsuarioEdit(LoginRequiredMixin, UpdateView):
             formulario.save()
             return redirect(self.get_success_url())
         else:
+            for field, errors in formulario.errors.items():
+                for error in errors:
+                    messages.error(request, f"{error}")
             # Opcional: puedes agregar un mensaje de error aquí
             context = {'usuario': usuario, 'formulario': formulario}
             
@@ -142,10 +123,12 @@ class UsuarioEdit(LoginRequiredMixin, UpdateView):
 
 
 class UsuarioDelete(LoginRequiredMixin, DeleteView):
-    template_name = 'usuario/evento_edit.html'
+    # template_name = 'usuario/evento_edit.html'
     success_url = 'usuario/usuario_index.html'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
+    permission_required = 'dashboard.delete_user'
+    
 
     def get(self, request, *args, **kwargs):
         usuario = User.objects.get(id = self.kwargs['pk'])
@@ -153,10 +136,11 @@ class UsuarioDelete(LoginRequiredMixin, DeleteView):
         return redirect('/dashboard/usuario/')
 
 
-class UsuarioChangePassword(LoginRequiredMixin, View):
+class UsuarioChangePassword(LoginRequiredMixin, PermissionRequiredMixin, View):
     model = User
     template_name = 'usuario/usuario_changePassword.html'
     success_url = '/dashboard/usuario/'
+    permission_required = 'dashboard.change_user'
 
     def get(self, request, *args, **kwargs):
         usuario = get_object_or_404(self.model, pk=self.kwargs['pk'])

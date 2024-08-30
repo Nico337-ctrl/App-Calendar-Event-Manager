@@ -1,28 +1,30 @@
 from django.db.models.base import Model as Model
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import *
 from dashboard.forms.eventos.etiquetaEventos_forms import EtiquetaEventoForm
 from dashboard.models.eventos import EtiquetaEvento
 from notifications.send_notification import notificacion
 from django.contrib import messages
+from dashboard.views.mixins import *
 
 """ Aqui comienzan las vistas para el modulo de etiquetas eventos """
 
-class EventoEtiquetaIndex(LoginRequiredMixin, ListView):
+class EventoEtiquetaIndex(LoginRequiredMixin, PermissionRequiredMixin, UserGroupContextMixin ,ListView):
     template_name= 'evento/etiqueta/evento_etiqueta_index.html'
     queryset = EtiquetaEvento.objects.all()
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
     context_object_name = 'etiquetas'
+    permission_required = 'dashboard.view_etiquetaevento'
 
 
-
-class EventoEtiquetaCreate(LoginRequiredMixin, CreateView):
+class EventoEtiquetaCreate(LoginRequiredMixin, PermissionRequiredMixin ,CreateView):
     template_name = 'evento/etiqueta/evento_etiqueta_create.html'
     success_url = '/dashboard/evento/etiqueta/'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
+    permission_required = 'dashboard.add_etiquetaevento'
 
     def get(self, request, *args, **kwargs):
         context = {'formulario' : EtiquetaEventoForm}
@@ -44,24 +46,34 @@ class EventoEtiquetaCreate(LoginRequiredMixin, CreateView):
             context = {'formulario' : EtiquetaEventoForm}
             messages.error(request, f"Por favor ingrese datos validos. {str(e)}")
             return render(request, self.template_name, context)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+
+        context['is_admin_or_collaborator'] = ( user.groups.filter(name='Administrador').exists() or user.groups.filter(name='Colaborador').exists() )
+        context['is_assistant'] =  ( user.groups.filter(name='Asistente').exists() )
+        
+        return context
             
-            
-class EventoEtiquetaDetail(LoginRequiredMixin, DetailView):
+class EventoEtiquetaDetail(LoginRequiredMixin, PermissionRequiredMixin ,DetailView):
     template_name = 'evento/etiqueta/evento_etiqueta_detail.html'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
     model = EtiquetaEvento
     context_object_name = 'etiqueta'
+    permission_required = 'dashboard.detailview_etiquetaevento'
         
         
 
-class EventoEtiquetaEdit(LoginRequiredMixin, UpdateView):
+class EventoEtiquetaEdit(LoginRequiredMixin, PermissionRequiredMixin ,UpdateView):
     template_name = 'evento/etiqueta/evento_etiqueta_edit.html'
     success_url = 'evento/etiqueta/etiqueta_index.html'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
     model = EtiquetaEvento
     form_class = EtiquetaEventoForm
+    permission_required = 'dashboard.change_etiquetaevento'
     
     def get(self, request, *args, **kwargs):
         etiquetaEvento = get_object_or_404(self.model, pk=self.kwargs['pk'])
@@ -79,11 +91,12 @@ class EventoEtiquetaEdit(LoginRequiredMixin, UpdateView):
         return redirect('/dashboard/evento/etiqueta/')
 
 
-class EventoEtiquetaDelete(LoginRequiredMixin, DeleteView):
+class EventoEtiquetaDelete(LoginRequiredMixin, PermissionRequiredMixin ,DeleteView):
     template_name = 'evento/etiqueta/evento_etiqueta_index.html'
     success_url = 'evento/etiqueta/etiqueta_index.html'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
+    permission_required = 'dashboard.delete_etiquetaevento'
 
     def get(self, request, *args, **kwargs):
         etiquetaEvento = EtiquetaEvento.objects.get(id = self.kwargs['pk'])

@@ -4,3 +4,4 @@ from .home import *
 from .calendario import *
 from .auth import *
 from .registros import *
+from .mixins import *

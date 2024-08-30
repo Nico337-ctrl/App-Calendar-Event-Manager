@@ -8,26 +8,14 @@ class User(AbstractUser):
     telefono = models.CharField(
         'Teléfono', 
         max_length=10, 
-        blank=True, 
-        null=True, 
         validators=[RegexValidator(regex=r'^\d{10}$', message='El teléfono debe tener 10 dígitos.')]
     )
     imagen = models.ImageField(
         'Imagen de perfil', 
-        upload_to='images/',
-    )
+        upload_to='media/',
+    ) 
     first_name = models.CharField('Nombre', max_length=50)
     last_name = models.CharField('Apellido', max_length=50)
-    groups = models.ManyToManyField(
-        Group,
-        related_name='custom_user_set', 
-        blank=True
-    )
-    user_permissions = models.ManyToManyField(
-        Permission,
-        related_name='custom_user_permissions_set',  
-        blank=True
-    )
-
+    group = models.ForeignKey(Group, on_delete=models.PROTECT, null=True, blank=True, related_name='roles')
     def __str__(self):
         return self.username
