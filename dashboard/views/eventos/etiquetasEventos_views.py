@@ -10,7 +10,7 @@ from django.contrib import messages
 """ Aqui comienzan las vistas para el modulo de etiquetas eventos """
 
 class EventoEtiquetaIndex(LoginRequiredMixin, ListView):
-    template_name= 'evento/etiqueta/etiqueta_index.html'
+    template_name= 'evento/etiqueta/evento_etiqueta_index.html'
     queryset = EtiquetaEvento.objects.all()
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'

@@ -114,7 +114,7 @@
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="/dashboard/usuario/" class="nav-item nav-link">Usuarios</a>
                             <a href="/dashboard/registro/" class="nav-item nav-link">Registros</a>     
-                            <a href="/dashboard/perfil/" class="nav-item nav-link">Perfil</a>             
+                            <a href="{% url 'usuario_profile' user.pk %}" class="nav-item nav-link">Perfil</a>             
                         </div>
                     </div>
                 </div>

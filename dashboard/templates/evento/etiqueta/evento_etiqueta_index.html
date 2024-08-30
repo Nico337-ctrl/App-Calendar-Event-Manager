@@ -10,8 +10,6 @@
             <tr>
                 <th scope="col">Título</th>
                 <th scope="col">Descripción</th>
-                <th scope="col">Título</th>
-                <th scope="col">Descripción</th>
                 <th scope="col">Imagen</th>
                 <th scope="col">Acciones</th>
             </tr>
@@ -23,7 +21,7 @@
                 <td>{{ etiqueta.descripcion }}</td>
                 <td>
                     {% if etiqueta.imagen %}
-                        <img src="{{ etiqueta.imagen.url }}" width="50" alt="Imagen de {{ etiqueta.titulo }}">
+                        <img src="{{ etiqueta.imagen }}" width="50" alt="Imagen de {{ etiqueta.titulo }}">
                     {% else %}
                         No disponible
                     {% endif %}
