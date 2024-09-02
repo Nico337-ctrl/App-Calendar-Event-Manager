@@ -4,29 +4,37 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="detailUsuarioModalLabel">Detalles del Usuario</h5>
+        <h5 class="modal-title" id="detailUsuarioModalLabel">Detalles del Evento</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="mb-3">
-            <p><strong>Nombre de Usuario:
-            </strong> {{ user.username }}</p>
+            <p><strong>Usuario a cargo:
+            </strong> {{ evento.usuario.first_name }}</p>
         </div>
         <div class="mb-3">
-            <p><strong>Nombres:
-            </strong> {{ user.first_name }}</p>
+            <p><strong>Titulo del evento:
+            </strong> {{ evento.titulo }}</p>
         </div>
         <div class="mb-3">
-            <p><strong>Apellidos:
-            </strong> {{ user.last_name }}</p>
+            <p><strong>Descripcion del evento:
+            </strong> {{ evento.descripcion }}</p>
         </div>
         <div class="mb-3">
-            <p><strong>Email:
-            </strong> {{ user.email }}</p>
+            <p><strong>Etiqueta a la que pertenece:
+            </strong> {{ evento.etiqueta.titulo }}</p>
         </div>
         <div class="mb-3">
-            <p><strong>Teléfono:
-            </strong> {{ user.telefono }}</p>
+            <p><strong>Informacion Extra:
+            </strong> {{ evento.info_extra }}</p>
+        </div>
+        <div class="mb-3">
+          <p><strong>Fecha de inicio del evento:
+          </strong> {{ evento.inicia_el }}</p>
+        </div>
+        <div class="mb-3">
+          <p><strong>Fecha de inicio del evento:
+          </strong> {{ evento.termina_el }}</p>
         </div>
       </div>
       <div class="modal-footer">

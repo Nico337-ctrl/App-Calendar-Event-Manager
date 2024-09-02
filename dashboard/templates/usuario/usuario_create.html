@@ -48,6 +48,10 @@
             <label for="{{ formulario.imagen.id_for_label }}">Imagen</label>
             {{ formulario.imagen }}
         </div>
+        <div class="form-group">
+            <label for="{{ formulario.imagen.id_for_label }}">Rol</label>
+            {{ formulario.group }}
+        </div>
         {% if error %}
             <div id="emailHelp" class="form-text">{{ error }}</div>
         {% endif %}

@@ -6,6 +6,7 @@ from dashboard.forms.eventos.eventos_forms import FormEventos
 from dashboard.models.eventos import Eventos
 from notifications.send_notification import notificacion
 from dashboard.views.mixins import *
+from django.contrib import messages
 
 
 """ Aqui comienzan las vistas para el modulo de eventos """
@@ -50,11 +51,7 @@ class EventoCreate(LoginRequiredMixin, PermissionRequiredMixin ,CreateView):
                 return render(request, self.template_name, context)
             
         
-        
-
-
-
-
+    """Funcion para el posible envio de correos"""
     # def correo(self, request, nuevo_evento):
     #     if nuevo_evento.notificar:
     #         if nuevo_evento.notificar_a == 'todos':

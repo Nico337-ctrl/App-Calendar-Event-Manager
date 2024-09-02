@@ -10,3 +10,4 @@ class DashboardConfig(AppConfig):
         import dashboard.signals.eventos.eventos_signals
         import dashboard.signals.registros.tipoRegistro_signals
         import dashboard.signals.registros.entidadRegistro_signals 
+        import dashboard.signals.usuarios.usuario_correo_signals

@@ -1,7 +1,7 @@
 from django.dispatch import receiver
 from django.db.models.signals import *
 from dashboard.models.eventos import Eventos
-from dashboard.models.usuarios import CorreosUsuarios
+from dashboard.models.usuarios import User_Emails
 from notifications.emails.send_email import enviar_correo
 
 @receiver(post_save, sender=Eventos)
@@ -15,9 +15,27 @@ def creacion_evento(sender, instance, created, **kwargs):
         est_activo = instance.est_activo
         etiqueta = instance.descripcion
 
-        correos = CorreosUsuarios.objects.values_list('correo', flat=True)
-        enviar_correo()
+        evento = {
+            'titulo': titulo,
+            'descripcion': descripcion,
+            'info_extra': info_extra,
+            'inicia_el': inicia_el,
+            'termina_el': termina_el,
+            'est_activo': est_activo,
+            'etiqueta': etiqueta
+        }
 
+        correos = User_Emails.objects.values_list('correo', flat=True)
+        for correo in correos:
+            enviar_correo(
+                destinatario=correo,
+                asunto=f'Se te invita a el evento: {titulo}',
+                template_name='email_default.html', 
+                variables_html=evento
+            )   
+
+
+        """Otra forma de realizar los envios"""
         # subject= f"Invitacion al evento {titulo}"
         # from_email = 'senaeventos782@gmail.com'
         # html_content = render_to_string('email_default.html', {

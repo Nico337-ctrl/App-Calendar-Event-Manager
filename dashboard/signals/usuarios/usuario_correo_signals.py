@@ -1,7 +1,7 @@
 from django.dispatch import receiver
 from django.db.models.signals import *
 from dashboard.models.usuarios import User
-from dashboard.models.usuarios import CorreosUsuarios
+from dashboard.models.usuarios import User_Emails
 
 @receiver(post_save, sender=User)
 def guardar_correo(sender, instance, created, **kwargs):
@@ -11,7 +11,7 @@ def guardar_correo(sender, instance, created, **kwargs):
     
     if created:
         # Registra la creación del evento
-        CorreosUsuarios.objects.create(
+        User_Emails.objects.create(
             nombre_usuario=nombre_usuario,
             correo = correo, 
             usuario_id=usuario_id,

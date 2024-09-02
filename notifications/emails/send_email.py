@@ -27,7 +27,7 @@ def enviar_correo(destinatario, asunto, template_name, variables_html):
 
     # Preparar el mensaje con contenido HTML dinámico
     msg = MIMEMultipart()
-    msg['From'] = remitente
+    msg['From'] = 'senaeventos782@gmail.com'
     msg['To'] = destinatario
     msg['Subject'] = asunto
     msg.attach(MIMEText(html_renderizado, 'html'))
@@ -39,8 +39,11 @@ def enviar_correo(destinatario, asunto, template_name, variables_html):
 
     # Enviar el correo
     server.sendmail(remitente, destinatario, msg.as_string())
+    mensaje = server
+    print(f'Se hace envio de {mensaje}')
     server.quit()
 
+    
 # Ejemplo de uso
 # if __name__ == '__main__':
 #     destinatario = 'ojedacorreanicolas@gmail.com'

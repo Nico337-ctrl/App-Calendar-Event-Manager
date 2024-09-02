@@ -7,20 +7,32 @@
       </div>
       <div class="modal-body">
         <div class="mb-3">
-            <p><strong>Nombre:
+            <p><strong>Nombre de usuario:
+            </strong> {{ usuario.username }}</p>
+        </div>
+        <div class="mb-3">
+            <p><strong>Nombres:
             </strong> {{ usuario.first_name }}</p>
         </div>
         <div class="mb-3">
-            <p><strong>Apellido:
+            <p><strong>Apellidos:
             </strong> {{ usuario.last_name }}</p>
-        </div>
-        <div class="mb-3">
-            <p><strong>Email:
-            </strong> {{ usuario.email }}</p>
         </div>
         <div class="mb-3">
             <p><strong>Telefono:
             </strong> {{ usuario.telefono }}</p>
+        </div>
+        <div class="mb-3">
+          <p><strong>Correo electronico:
+          </strong> {{ usuario.email }}</p>
+        </div>
+        <div class="mb-3">
+          <p><strong>Imagen de perfil:
+          </strong> {{ usuario.imagen }}</p>
+        </div>
+        <div class="mb-3">
+          <p><strong>Rol en la plataforma:
+          </strong> {{ usuario.group }}</p>
         </div>
       </div>
     </div>

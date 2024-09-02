@@ -12,13 +12,18 @@ from dashboard.views.mixins import *
 
 """ Aqui comienzan las vistas para el modulo de usuarios"""
 
-class UsuarioIndex(LoginRequiredMixin, PermissionRequiredMixin , UserGroupContextMixin ,ListView):
+class UsuarioIndex(LoginRequiredMixin, PermissionRequiredMixin , UserGroupContextMixin ,View):
     template_name= 'usuario/usuario_index.html'
-    queryset = User.objects.all()
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
     context_object_name = 'usuarios'
     permission_required = 'dashboard.view_user'
+
+    def get(self, request, *args, **kwargs):
+        logged_in_user = request.user
+        queryset = User.objects.exclude(id=logged_in_user.id)
+        context = {'usuarios': queryset}
+        return render(request, self.template_name, context)
     
 
 class UsuarioCreate(LoginRequiredMixin, PermissionRequiredMixin , UserGroupContextMixin ,CreateView):
