@@ -4,6 +4,17 @@ from dashboard.models.eventos import Eventos
 from dashboard.models.registros import Registros, TipoRegistro, EntidadRegistro
 from django.forms.models import model_to_dict
 
+
+
+@receiver(pre_save, sender=Eventos)
+# Verificar una instancia anterior a la creada
+def cache_old_instance(sender, instance, **kwargs):
+    try:
+        instance._old_instance = Eventos.objects.get(pk=instance.pk)
+    except Eventos.DoesNotExist:
+        instance._old_instance = None
+
+
 @receiver(post_save, sender=Eventos)
 def registrar_evento(sender, instance, created, **kwargs):
     tipo_accion = 'CREACION' if created else 'ACTUALIZACION'
@@ -25,12 +36,8 @@ def registrar_evento(sender, instance, created, **kwargs):
             valor_nuevo=model_to_dict(instance),
         )
     else:
-        # Registra la actualización del evento
-        try:
-            old_instance = Eventos.objects.get(pk=instance.pk)
-        except Eventos.DoesNotExist:
-            old_instance = None
-
+        # Registrando la actualizacion del evento (model:Eventos)
+        old_instance = getattr(instance, '_old_instance', None)
         if old_instance:
             old_data = model_to_dict(old_instance)
             new_data = model_to_dict(instance)
