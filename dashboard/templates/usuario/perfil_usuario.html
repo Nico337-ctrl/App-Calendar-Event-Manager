@@ -18,7 +18,7 @@
         </section>
         <section class="account-info">
             <div class="user-account">
-                <h3>My account</h3>
+                <h3>Mi perfil</h3>
                 <div class="user-info-grid">
                     <div class="user-info-item">
                         <label>Username</label>
@@ -36,21 +36,9 @@
                         <label>Last name</label>
                         <input type="text" value="{{ user.last_name }}" disabled>
                     </div>
+                    <a href="{% url 'usuario' %}" class="edit-usuario btn btn-outline-info btn-sm" data-bs-target="#editUsuarioModal">Editar perfil</i></a>
                 </div>
             </div>
-            {% comment %} <div class="user-stats">
-                <img src="user-avatar.jpg" alt="User Avatar">
-                <button class="btn-connect">Connect</button>
-                <button class="btn-message">Message</button>
-                <div class="stats">
-                    <span>22 Friends</span>
-                    <span>10 Photos</span>
-                    <span>89 Comments</span>
-                </div>
-            </div> {% endcomment %}
         </section>
     </main>
-</body>
-</html>
-
 {% endblock %}

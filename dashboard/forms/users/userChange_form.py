@@ -68,5 +68,4 @@ class User_ChangeForm(UserChangeForm):
                     'class': 'form-control',
                 }
             ),
-        required=False
         )

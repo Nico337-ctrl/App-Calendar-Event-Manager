@@ -71,14 +71,6 @@ class User_CreationForm(UserCreationForm):
             }
         )
     )
-    imagen = forms.ImageField(
-        widget=forms.ClearableFileInput(
-            attrs={
-                    'class': 'form-control',
-                }
-            ),
-        required=False
-        )
     group = forms.ModelChoiceField(
         queryset=Group.objects.all(),
         widget=forms.Select(
@@ -88,3 +80,11 @@ class User_CreationForm(UserCreationForm):
             }
         )
     )
+    imagen = forms.ImageField(
+        widget=forms.ClearableFileInput(
+            attrs={
+                    'class': 'form-control',
+                }
+            ),
+        required=False
+        )

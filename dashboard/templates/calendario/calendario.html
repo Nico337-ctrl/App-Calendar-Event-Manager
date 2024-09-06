@@ -17,29 +17,19 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <p><strong>Título:</strong> <span id="eventoTitulo"></span></p>
-        <p><strong>Descripción:</strong> <span id="eventoDescripcion"></span></p>
-        <p><strong>Fechas:</strong> <span id="eventoFechas"></span></p>
-        <p><strong>Etiqueta:</strong> <span id="eventoEtiqueta"></span></p>
-
+        <p><strong class="btn1">Título</strong> <span id="eventoTitulo"></span></p>
+        <p><strong class="btn1">Descripción</strong> <span id="eventoDescripcion"></span></p>
+        <p><strong class="btn1">Fechas</strong> <span id="eventoFechas"></span></p>
+        <p><strong class="btn1">Etiqueta</strong> <span id="eventoEtiqueta"></span></p>
         <div class="btn-group">
-          <style>
-            #editLink {
-              color: #29a900;
-            }
-            #eliminarLink {
-              color: red;
-              padding-left: 15px;
-            }
-          </style>
           <a id="editLink" href="#">Editar</a>
           <a id="eliminarLink" href="#">Eliminar</a>
+          <hr>
         </div>
       </div>
     </div>
   </div>
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {

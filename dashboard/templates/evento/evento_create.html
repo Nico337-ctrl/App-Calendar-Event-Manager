@@ -32,8 +32,8 @@
             <label for="message">¿Notificar?</label>
             {{ formulario.notificar }}
         </div>
-        <button type="submit" class="btn btn-primary">Send Message</button>
-        <a href="{% url 'evento_etiqueta' %}" class="btn btn-secondary">Cancelar</a>
+        <button type="submit" id="editLink">Guardar</button>
+        <a href="{% url 'evento_etiqueta' %}" id="eliminarLink">Cancelar</a>
     </form>
 </div>
 

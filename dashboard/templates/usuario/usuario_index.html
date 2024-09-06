@@ -16,7 +16,7 @@
         <th scope="col">Email</th>
         <th scope="col">Teléfono</th>
         <th scope="col">Imagen</th>
-        <th scope="col">Acciones</th>
+        <th scope="col">Acciones...</th>
       </tr>
     </thead>
     <tbody>
@@ -34,10 +34,10 @@
         <td><img src="{{ usuario.imagen }}" alt="Imagen de {{ usuario.username }}" class="img-thumbnail" style="max-width: 100px;"></td>
         <td>
           <a href="#" class="edit-usuario btn btn-outline-info btn-sm" data-id="{{ usuario.id }}" data-url="{% url 'usuario_edit' usuario.id %}" data-bs-toggle="modal" data-bs-target="#editUsuarioModal"><i class="fa-solid fa-pen"></i></a>
-
           <a href="#" class="detail-usuario btn btn-outline-info btn-sm" data-id="{{ usuario.id }}" data-url="{% url 'usuario_detail' usuario.id %}" data-bs-toggle="modal" data-bs-target="#detailUsuarioModal"><i class="fa-solid fa-plus"></i></a>
-
+          <a href="#" class="deleate-usuario btn btn-outline-warning btn-sm" data-id="{{ usuario.id }}" data-url="{% url 'usuario_changePassword' usuario.id %}" data-bs-toggle="modal" data-bs-target="#changePasswordModal"><i class="fa-solid fa-unlock-keyhole"></i></a>
           <a href="{% url 'usuario_delete' usuario.id %}" class="deleate-usuario btn btn-outline-danger btn-sm"><i class="fa-solid fa-trash-can"></i></a>
+
         </td>
       </tr>
       {% endfor %}
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         currentModal = new bootstrap.Modal(modalElement);
                         currentModal.show();
                         
-                        if (targetId.includes('Usuario')) {ww
+                        if (targetId.includes('Usuario')) {
                             initDatepicker();
                         }
                     }, 0);
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Event delegation para los botones de cambiar contraseña, editar, detalles y eliminar
     document.body.addEventListener('click', function(e) {
-        const link = e.target.closest('.change-password, .edit-usuario, .detail-usuario, .delete-usuario');
+        const link = e.target.closest('.edit-usuario, .detail-usuario, .deleate-usuario');
         if (link) {
             e.preventDefault();
             const url = link.getAttribute('data-url');
@@ -91,6 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
 </script>
 
 {% endblock %}

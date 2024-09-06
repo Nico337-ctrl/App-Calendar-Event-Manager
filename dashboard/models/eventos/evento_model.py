@@ -17,5 +17,6 @@ class Eventos(models.Model):
     etiqueta = models.ForeignKey(EtiquetaEvento,on_delete=models.CASCADE)
     
     @property
+     
     def nombre_tabla(self):
         return self._meta.db_table

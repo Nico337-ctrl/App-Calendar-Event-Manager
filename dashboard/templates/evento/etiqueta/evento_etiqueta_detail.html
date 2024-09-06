@@ -7,13 +7,13 @@
       </div>
       <div class="modal-body">
         <div class="mb-3">
-            <p><strong>Título:</strong> {{ etiqueta.titulo }}</p>
+            <p><strong class="btn1">Título</strong> {{ etiqueta.titulo }}</p>
         </div>
         <div class="mb-3">
-            <p><strong>Descripción:</strong> {{ etiqueta.descripcion }}</p>
+            <p><strong class="btn1">Descripción</strong> {{ etiqueta.descripcion }}</p>
         </div>
         <div class="mb-3">
-            <p><strong>Imagen:</strong> 
+            <p><strong class="btn1">Imagen</strong> 
               {% if etiqueta.imagen %}
                 <img src="{{ etiqueta.imagen }}" alt="{{ etiqueta.titulo }}" class="img-fluid">
               {% else %}
@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-cerrar">Cerrar</button>
       </div>
     </div>
   </div>

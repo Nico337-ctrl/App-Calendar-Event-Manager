@@ -1,45 +1,51 @@
 <!-- Este archivo se llamará usuario_detail_modal.html y estará en la carpeta de templates -->
 
 <div class="modal fade" id="detailUsuarioModal" tabindex="-1" aria-labelledby="detailUsuarioModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="detailUsuarioModalLabel">Detalles del Evento</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  <div class="modal-dialog modal-dialog-centered custom-modal-width"> <!-- Clase personalizada aquí -->
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="detailUsuarioModalLabel">Detalles del Evento</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div>
+                  <p><strong class="btn2">Usuario a cargo
+                  </strong> {{ evento.usuario.first_name }}</p>
+              </div>
+              <div>
+                  <p><strong class="btn2">Titulo del evento
+                  </strong> {{ evento.titulo }}</p>
+              </div>
+              <div>
+                  <p><strong class="btn2">Descripcion del evento
+                  </strong> {{ evento.descripcion }}</p>
+              </div>
+              <div>
+                  <p><strong class="btn2">Etiqueta
+                  </strong> {{ evento.etiqueta.titulo }}</p>
+              </div>
+              <div> 
+                  <p><strong class="btn2">Informacion Extra
+                  </strong> {{ evento.info_extra }}</p>
+              </div>
+              <div>
+                  <p><strong class="btn2">Inicio del evento
+                  </strong> {{ evento.inicia_el }}</p>
+              </div>
+              <div>
+                  <p><strong class="btn2">Fin del evento
+                  </strong> {{ evento.termina_el }}</p>
+              </div>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-cerrar">Cerrar</button>
+          </div>
       </div>
-      <div class="modal-body">
-        <div class="mb-3">
-            <p><strong>Usuario a cargo:
-            </strong> {{ evento.usuario.first_name }}</p>
-        </div>
-        <div class="mb-3">
-            <p><strong>Titulo del evento:
-            </strong> {{ evento.titulo }}</p>
-        </div>
-        <div class="mb-3">
-            <p><strong>Descripcion del evento:
-            </strong> {{ evento.descripcion }}</p>
-        </div>
-        <div class="mb-3">
-            <p><strong>Etiqueta a la que pertenece:
-            </strong> {{ evento.etiqueta.titulo }}</p>
-        </div>
-        <div class="mb-3">
-            <p><strong>Informacion Extra:
-            </strong> {{ evento.info_extra }}</p>
-        </div>
-        <div class="mb-3">
-          <p><strong>Fecha de inicio del evento:
-          </strong> {{ evento.inicia_el }}</p>
-        </div>
-        <div class="mb-3">
-          <p><strong>Fecha de inicio del evento:
-          </strong> {{ evento.termina_el }}</p>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-      </div>
-    </div>
   </div>
 </div>
+
+<style>
+.custom-modal-width .modal-dialog {
+    max-width: 55%;
+}
+</style>
