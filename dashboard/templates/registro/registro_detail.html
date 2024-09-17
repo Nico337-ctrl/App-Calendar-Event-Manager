@@ -1,0 +1,43 @@
+<!-- Este archivo se llamará reigistro_detail_modal.html y estará en la carpeta de templates -->
+
+<div class="modal fade" id="detailRegistroModal" tabindex="-1" aria-labelledby="detailRegistroModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered custom-modal-width"> <!-- Clase personalizada aquí -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailRegistroModal">Detalles del Registro</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- <div>
+                    <p><strong class="btn2">Modelo modificado
+                    </strong> {{ registro.entidad.nombre_entidad }}</p>
+                </div> -->
+                <div>
+                    <p><strong class="btn2">Datos modificados
+                    </strong> {{ registro.campo_modificado }}</p>
+                </div>
+                <div>
+                    <p><strong class="btn2">Valor antes de modificacion
+                    </strong> {{ registro.valor_anterior }}</p>
+                </div>
+                <div>
+                    <p><strong class="btn2">Valor despues de modificacion
+                    </strong> {{ registro.valor_nuevo }}</p>
+                </div>
+                <!-- <div> 
+                    <p><strong class="btn2">Fecha en que se realizo 
+                    </strong> {{ registro.fecha }}</p>
+                </div> -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-cerrar">Cerrar</button>
+            </div>
+        </div>
+    </div>
+  </div>
+  
+  <style>
+  .custom-modal-width .modal-dialog {
+      max-width: 55%;
+  }
+  </style>

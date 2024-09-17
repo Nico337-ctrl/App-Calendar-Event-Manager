@@ -11,8 +11,8 @@ class Registros(models.Model):
     entidad = models.ForeignKey(EntidadRegistro, on_delete=models.CASCADE)
     elemento_id = models.PositiveIntegerField()
     campo_modificado = models.CharField(max_length=255)
-    valor_anterior = models.TextField(null=True, blank=True)
-    valor_nuevo = models.TextField(null=True, blank=True)
+    valor_anterior = models.JSONField(null=True, default=dict, blank=True)
+    valor_nuevo = models.JSONField(null=True,  default=dict, blank=True)
     fecha = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
