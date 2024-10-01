@@ -14,18 +14,6 @@ def convert_datetime_fields(data):
             data[field] = value.isoformat()  # Convertir a cadena en formato ISO 8601
     return data
 
-def convert_image_fields(data):
-    """Convierte los campos de imagen en URLs o nombres de archivo."""
-    for field, value in data.items():
-        if isinstance(value, File):  # Verifica si el campo es un archivo
-            data[field] = value.url if hasattr(value, 'url') else value.name
-    return data
-
-def convert_fields(data):
-    """Convierte tanto los campos datetime como los de imagen."""
-    data = convert_datetime_fields(data)  # Convierte los datetime
-    data = convert_image_fields(data)     # Convierte las imágenes
-    return data
 
 @receiver(pre_save, sender=User)
 # Verificar una instancia anterior a la creada
@@ -47,7 +35,7 @@ def registrar_usuario(sender, instance, created, **kwargs):
     
     if created:
         # Registra la creación del usuario (mmodel: User)
-        valor_nuevo = convert_fields(model_to_dict(instance))
+        valor_nuevo = convert_datetime_fields(model_to_dict(instance))
         Registros.objects.create(
             tipo=tipo_registro,
             usuario=usuario,
@@ -61,8 +49,8 @@ def registrar_usuario(sender, instance, created, **kwargs):
         # Registrando la actualizacion del usuario (model:User)
         old_instance = getattr(instance, '_old_instance', None)
         if old_instance:
-            old_data = convert_fields(model_to_dict(old_instance))
-            new_data = convert_fields(model_to_dict(instance))
+            old_data = convert_datetime_fields(model_to_dict(old_instance))
+            new_data = convert_datetime_fields(model_to_dict(instance))
             
             campos_modificados = []
             valor_anterior = {}
@@ -94,7 +82,7 @@ def registrar_usuario_eliminado(sender, instance, **kwargs):
         nombre_entidad='Usuarios',
     )
     # Registrando la eliminacion del usuario (model:User)
-    valor_anterior = convert_fields(model_to_dict(instance))
+    valor_anterior = convert_datetime_fields(model_to_dict(instance))
     Registros.objects.create(
         tipo=tipo_registro,
         usuario=usuario,

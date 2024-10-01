@@ -39,5 +39,4 @@ def create_default_user(sender, **kwargs):
                 telefono= '3569875631', 
                 first_name= 'admin', 
                 last_name='admin',
-                imagen='los papus',
                 group_id = 1)

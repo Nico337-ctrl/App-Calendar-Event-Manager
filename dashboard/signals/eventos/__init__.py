@@ -1,2 +1,1 @@
-from .eventos_signals import *
-from .etiquetas_signals import *
+# from .notificar_evento_signals import *

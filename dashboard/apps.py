@@ -7,11 +7,17 @@ class DashboardConfig(AppConfig):
 
 
     def ready(self):
-        import dashboard.signals.eventos.eventos_signals
-        import dashboard.signals.eventos.etiquetas_signals
-        import dashboard.signals.eventos.notificarEvento_signals
-        import dashboard.signals.registros.tipoRegistro_signals
-        import dashboard.signals.registros.entidadRegistro_signals 
+        #signals registros
+        import dashboard.signals.registros.tipo_registro_signals
+        import dashboard.signals.registros.entidad_registro_signals 
+
+        #signals registros-eventos, etiquetas
+        import dashboard.signals.registros.eventos.registro_etiquetas_signals
+        import dashboard.signals.registros.eventos.registro_eventos_signals
+
+        #signals registros-usuarios, perfil
+        import dashboard.signals.registros.usuarios.registro_usuarios_singals
+
+        #signals usuarios
         import dashboard.signals.usuarios.usuario_correo_signals
-        import dashboard.signals.usuarios.usuarios_signals
         import dashboard.signals.usuarios.roles_signals

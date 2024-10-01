@@ -10,7 +10,7 @@
             <h2>Hola {{ user.username }}!</h2>
             <div class="user-image-wrapper">
               {% if user.imagen %}
-                  <img src="{{ user.imagen }}" alt="User Avatar" class="user-image">
+                  <img src="{{ user.user_perfil.imagen }}" alt="User Avatar" class="user-image">
               {% else %}
                   <img src="{% static 'src/images/perfil.png' %}" alt="Default Avatar" class="user-image">
               {% endif %}
