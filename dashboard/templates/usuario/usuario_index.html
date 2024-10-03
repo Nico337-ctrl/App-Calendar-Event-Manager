@@ -15,7 +15,6 @@
         <th scope="col">Apellidos</th>
         <th scope="col">Email</th>
         <th scope="col">Teléfono</th>
-        <th scope="col">Imagen</th>
         <th scope="col">Acciones...</th>
       </tr>
     </thead>
@@ -31,7 +30,6 @@
         <td>{{ usuario.last_name }}</td>
         <td>{{ usuario.email }}</td>
         <td>{{ usuario.telefono }}</td>
-        <td><img src="{{ usuario.imagen }}" alt="Imagen de {{ usuario.username }}" class="img-thumbnail" style="max-width: 100px;"></td>
         <td>
           <a href="#" class="edit-usuario btn btn-outline-info btn-sm" data-id="{{ usuario.id }}" data-url="{% url 'usuario_edit' usuario.id %}" data-bs-toggle="modal" data-bs-target="#editUsuarioModal"><i class="fa-solid fa-pen"></i></a>
           <a href="#" class="detail-usuario btn btn-outline-info btn-sm" data-id="{{ usuario.id }}" data-url="{% url 'usuario_detail' usuario.id %}" data-bs-toggle="modal" data-bs-target="#detailUsuarioModal"><i class="fa-solid fa-plus"></i></a>

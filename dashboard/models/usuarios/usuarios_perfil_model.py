@@ -7,6 +7,7 @@ class User_Perfil(models.Model):
     perfil_imagen = models.ImageField(
         'Imagen de perfil', 
         upload_to='media/',
-        null=True
+        null=True,
+        default=None,
     )
     

@@ -9,7 +9,7 @@ class User_CreationForm(UserCreationForm):
     
     class Meta:
         model = User
-        fields = ['username', 'password1', 'password2' , 'first_name', 'last_name', 'email', 'telefono', 'imagen', 'group']
+        fields = ['username', 'password1', 'password2' , 'first_name', 'last_name', 'email', 'telefono',  'group']
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -80,11 +80,3 @@ class User_CreationForm(UserCreationForm):
             }
         )
     )
-    imagen = forms.ImageField(
-        widget=forms.ClearableFileInput(
-            attrs={
-                    'class': 'form-control',
-                }
-            ),
-        required=False
-        )
