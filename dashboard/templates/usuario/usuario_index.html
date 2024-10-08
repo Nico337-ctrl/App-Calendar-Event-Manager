@@ -15,7 +15,13 @@
         <th scope="col">Apellidos</th>
         <th scope="col">Email</th>
         <th scope="col">Teléfono</th>
-        <th scope="col">Acciones...</th>
+        {% if is_admin  %}
+          <th scope="col">Acciones</th>
+        {% elif is_collaborator %}
+          <th></th>
+        {% elif is_collaborator %}
+          <th></th>
+        {% endif %}
       </tr>
     </thead>
     <tbody>
@@ -30,13 +36,18 @@
         <td>{{ usuario.last_name }}</td>
         <td>{{ usuario.email }}</td>
         <td>{{ usuario.telefono }}</td>
-        <td>
-          <a href="#" class="edit-usuario btn btn-outline-info btn-sm" data-id="{{ usuario.id }}" data-url="{% url 'usuario_edit' usuario.id %}" data-bs-toggle="modal" data-bs-target="#editUsuarioModal"><i class="fa-solid fa-pen"></i></a>
-          <a href="#" class="detail-usuario btn btn-outline-info btn-sm" data-id="{{ usuario.id }}" data-url="{% url 'usuario_detail' usuario.id %}" data-bs-toggle="modal" data-bs-target="#detailUsuarioModal"><i class="fa-solid fa-plus"></i></a>
-          <a href="#" class="deleate-usuario btn btn-outline-warning btn-sm" data-id="{{ usuario.id }}" data-url="{% url 'usuario_changePassword' usuario.id %}" data-bs-toggle="modal" data-bs-target="#changePasswordModal"><i class="fa-solid fa-unlock-keyhole"></i></a>
-          <a href="{% url 'usuario_delete' usuario.id %}" class="deleate-usuario btn btn-outline-danger btn-sm"><i class="fa-solid fa-trash-can"></i></a>
-
-        </td>
+        {% if is_admin %}
+          <td>
+            <a href="#" class="edit-usuario btn btn-outline-info btn-sm" data-id="{{ usuario.id }}" data-url="{% url 'usuario_edit' usuario.id %}" data-bs-toggle="modal" data-bs-target="#editUsuarioModal"><i class="fa-solid fa-pen"></i></a>
+            <a href="#" class="detail-usuario btn btn-outline-info btn-sm" data-id="{{ usuario.id }}" data-url="{% url 'usuario_detail' usuario.id %}" data-bs-toggle="modal" data-bs-target="#detailUsuarioModal"><i class="fa-solid fa-plus"></i></a>
+            <a href="#" class="deleate-usuario btn btn-outline-warning btn-sm" data-id="{{ usuario.id }}" data-url="{% url 'usuario_changePassword' usuario.id %}" data-bs-toggle="modal" data-bs-target="#changePasswordModal"><i class="fa-solid fa-unlock-keyhole"></i></a>
+            <a href="{% url 'usuario_delete' usuario.id %}" class="delete-usuario btn btn-outline-danger btn-sm"><i class="fa-solid fa-trash-can"></i></a>
+          </td>
+        {% elif is_collaborator %}
+          <td></td>
+        {% elif is_assistant %}
+          <td></td>
+        {% endif %}
       </tr>
       {% endfor %}
     </tbody>

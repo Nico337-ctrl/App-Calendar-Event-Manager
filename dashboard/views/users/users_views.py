@@ -12,21 +12,24 @@ from dashboard.views.mixins import *
 
 """ Aqui comienzan las vistas para el modulo de usuarios"""
 
-class UsuarioIndex(LoginRequiredMixin, PermissionRequiredMixin , UserGroupContextMixin ,View):
-    template_name= 'usuario/usuario_index.html'
+class UsuarioIndex(LoginRequiredMixin, ValidarPermisosRequeridosMixin, UserGroupContextMixin, View):
+    template_name = 'usuario/usuario_index.html'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
     context_object_name = 'usuarios'
     permission_required = 'dashboard.view_user'
 
     def get(self, request, *args, **kwargs):
+        
         logged_in_user = request.user
         queryset = User.objects.exclude(id=logged_in_user.id)
-        context = {'usuarios': queryset}
+        context = {
+            'usuarios': queryset
+        }
+        context.update(self.get_user_group_context())
         return render(request, self.template_name, context)
-    
 
-class UsuarioCreate(LoginRequiredMixin, PermissionRequiredMixin , UserGroupContextMixin ,CreateView):
+class UsuarioCreate(LoginRequiredMixin, ValidarPermisosRequeridosMixin, UserGroupContextMixin ,CreateView):
     template_name = 'usuario/usuario_create.html'
     success_url = '/dashboard/usuario/'
     login_url = '/dashboard/auth/signin/'
@@ -35,6 +38,7 @@ class UsuarioCreate(LoginRequiredMixin, PermissionRequiredMixin , UserGroupConte
 
     def get(self, request, *args, **kwargs):
         context = {'formulario': User_CreationForm()}
+        context.update(self.get_user_group_context())
         return render(request, self.template_name, context)
     
     def post(self, request, *args, **kwargs):
@@ -54,12 +58,11 @@ class UsuarioCreate(LoginRequiredMixin, PermissionRequiredMixin , UserGroupConte
             for field, errors in formulario.errors.items():
                 for error in errors:
                     messages.error(request, f"{error}")
-
         context = {'formulario': formulario}
         return render(request, self.template_name, context)
 
 
-class UsuarioDetail(LoginRequiredMixin, PermissionRequiredMixin ,DetailView):
+class UsuarioDetail(LoginRequiredMixin, ValidarPermisosRequeridosMixin , UserGroupContextMixin, DetailView):
     template_name = 'usuario/usuario_detail.html'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
@@ -68,7 +71,7 @@ class UsuarioDetail(LoginRequiredMixin, PermissionRequiredMixin ,DetailView):
     permission_required = 'dashboard.detailview_user'
 
 
-class UsuarioEdit(LoginRequiredMixin, PermissionRequiredMixin ,UpdateView):
+class UsuarioEdit(LoginRequiredMixin, ValidarPermisosRequeridosMixin, UserGroupContextMixin, UpdateView):
     template_name = 'usuario/usuario_edit.html'
     success_url = '/dashboard/usuario/'
     login_url = '/dashboard/auth/signin/'
@@ -100,48 +103,20 @@ class UsuarioEdit(LoginRequiredMixin, PermissionRequiredMixin ,UpdateView):
             context = {'usuario': usuario, 'formulario': formulario}
             
             return render(request, self.template_name, context)
-            
-    
-        
 
-# class UsuarioEdit(LoginRequiredMixin, UpdateView):
-#     template_name = 'usuario/usuario_edit.html'
-#     success_url = 'usuario/usuario_index.html'
-#     login_url = '/dashboard/auth/signin/'
-#     redirect_field_name = 'redirect_to'
-#     model = User
-#     form_class = User_ChangeForm
-    
-#     def get(self, request, *args, **kwargs):
-#         usuario = get_object_or_404(self.model, pk=self.kwargs['pk'])
-#         formulario = self.form_class(instance=usuario)
-#         context = {'usuario': usuario, 'formulario': formulario}
-#         return render(request, self.template_name, context)
-
-#     def post(self, request, *args, **kwargs):
-#         usuario = get_object_or_404(self.model, pk=self.kwargs['pk'])
-#         formulario = self.form_class(request.POST, instance=usuario)
-#         if formulario.is_valid():
-#             formulario.save()
-#         return redirect('/dashboard/usuario/')
-    
-
-
-class UsuarioDelete(LoginRequiredMixin, PermissionRequiredMixin ,DeleteView):
+class UsuarioDelete(LoginRequiredMixin, ValidarPermisosRequeridosMixin, UserGroupContextMixin, DeleteView):
     # template_name = 'usuario/evento_edit.html'
     success_url = 'usuario/usuario_index.html'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
     permission_required = 'dashboard.delete_user'
     
-
     def get(self, request, *args, **kwargs):
         usuario = User.objects.get(id = self.kwargs['pk'])
         usuario.delete()
         return redirect('/dashboard/usuario/')
 
-
-class UsuarioChangePassword(LoginRequiredMixin, PermissionRequiredMixin, View):
+class UsuarioChangePassword(LoginRequiredMixin, ValidarPermisosRequeridosMixin, UserGroupContextMixin, View):
     model = User
     template_name = 'usuario/usuario_changePassword.html'
     success_url = '/dashboard/usuario/'
@@ -173,7 +148,7 @@ class UsuarioChangePassword(LoginRequiredMixin, PermissionRequiredMixin, View):
         return render(request, self.template_name, context)
     
     
-class UsuarioProfile(DetailView):
+class UsuarioProfile(UserGroupContextMixin, ListView):
     template_name = 'usuario/perfil_usuario.html'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'

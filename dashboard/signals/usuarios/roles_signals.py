@@ -15,13 +15,16 @@ def create_roles_and_permissions(sender, **kwargs):
             'view_registros',
             'view_user',
         ],
-        'Asistente': ['view_eventos']
+        'Asistente': ['view_eventos', 'change_user']
     }
     
-    # Iterar sobre los roles y permisos
+      # Iterar sobre los roles y permisos
     for role_name, perm_codenames in roles.items():
         group, created = Group.objects.get_or_create(name=role_name)
         
+        # Limpiar los permisos existentes para evitar conflictos
+        group.permissions.clear()
+
         if perm_codenames == 'all':
             all_permissions = Permission.objects.all()
             group.permissions.set(all_permissions)
