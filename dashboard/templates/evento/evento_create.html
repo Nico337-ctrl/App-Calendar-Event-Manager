@@ -97,4 +97,48 @@
         background-color: #29c900;
     }
 </style>
+
+<script>
+    // Obtener las opciones predefinidas desde los campos ocultos del formulario
+    const usuarios = {{ formulario.correos_usuarios | safe }};
+    const rolesAgrupados = {{ formulario.correos_rol_agrupado | safe }};
+    const correosPorRol = {{ formulario.correos_por_rol | safe }};
+
+    function actualizarOpciones() {
+        var filtroSelect = document.getElementById('filtro_select');
+        var opcionesSelect = document.getElementById('opciones_select');
+        
+        // Limpiar el campo de opciones
+        opcionesSelect.innerHTML = '';
+
+        // Determinar el tipo de filtro seleccionado
+        var filtroSeleccionado = filtroSelect.value;
+
+        if (filtroSeleccionado === 'usuarios') {
+            // Agregar las opciones de todos los usuarios
+            usuarios.forEach(function(correo) {
+                var option = new Option(correo, correo);
+                opcionesSelect.add(option);
+            });
+        } else if (filtroSeleccionado === 'rol_agrupado') {
+            // Agregar las opciones agrupadas por rol
+            for (var rol in rolesAgrupados) {
+                var option = new Option(rol, rolesAgrupados[rol]);
+                opcionesSelect.add(option);
+            }
+        } else if (filtroSeleccionado === 'rol') {
+            // Agregar opciones de correos por rol
+            correosPorRol.forEach(function(rol) {
+                var option = new Option(rol, rol);
+                opcionesSelect.add(option);
+            });
+        }
+    }
+
+    // Ejecutar cuando el documento esté listo
+    document.addEventListener('DOMContentLoaded', function() {
+        actualizarOpciones();
+    });
+</script>
+
 {% endblock %}

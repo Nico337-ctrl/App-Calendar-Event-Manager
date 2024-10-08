@@ -1,7 +1,6 @@
 from django.dispatch import receiver
 from django.db.models.signals import *
 from dashboard.models.eventos import Eventos
-from dashboard.models.usuarios import User_Emails
 from notifications.emails.send_email import enviar_correo
 
 @receiver(post_save, sender=Eventos)

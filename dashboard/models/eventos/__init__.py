@@ -1,2 +1,2 @@
-from .etiquetaEvento_model import *
-from .evento_model import *
+from .eventos_etiquetas_model import *
+from .eventos_model import *

@@ -1,8 +1,7 @@
 from django.db import models
 from dashboard.models.usuarios import User
-
-
-from .etiquetaEvento_model import EtiquetaEvento
+from django.utils import timezone
+from .eventos_etiquetas_model import EtiquetaEvento
 
 
 class Eventos(models.Model):
@@ -13,10 +12,12 @@ class Eventos(models.Model):
     inicia_el = models.DateTimeField()
     termina_el = models.DateTimeField()
     est_activo = models.BooleanField(default=True)
-    notificar = models.BooleanField(default=True)
     etiqueta = models.ForeignKey(EtiquetaEvento,on_delete=models.CASCADE)
+
+
+    def __str__(self):
+        return self.titulo  
     
     @property
-     
     def nombre_tabla(self):
         return self._meta.db_table

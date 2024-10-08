@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.views.generic import *
 from dashboard.forms.eventos.eventos_forms import FormEventos
 from dashboard.models.eventos import Eventos
+from dashboard.models.usuarios import User, Group
 from notifications.send_notification import notificacion
 from dashboard.views.mixins import *
 from django.contrib import messages
@@ -29,8 +30,15 @@ class EventoCreate(LoginRequiredMixin, PermissionRequiredMixin ,CreateView):
     redirect_field_name = 'redirect_to'
     permission_required = 'dashboard.add_eventos'
 
+    
+
     def get(self, request, *args, **kwargs):
-        context = {'formulario' : FormEventos}
+        context = {
+            'formulario': FormEventos(),
+            'usuarios_choices': User.filtrar_correos(),
+            'roles_agrupados_choices': User.filtrar_correos_por_rol_agrupado(),
+            'correos_por_rol_choices': [(group.name, group.name) for group in Group.objects.all()],
+        }
         return render(request, self.template_name, context)
     
     def post(self, request, *args, **kwargs):

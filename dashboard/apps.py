@@ -19,5 +19,4 @@ class DashboardConfig(AppConfig):
         import dashboard.signals.registros.usuarios.registro_usuarios_singals
 
         #signals usuarios
-        import dashboard.signals.usuarios.usuario_correo_signals
         import dashboard.signals.usuarios.roles_signals
