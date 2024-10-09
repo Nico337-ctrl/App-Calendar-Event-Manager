@@ -32,44 +32,13 @@
     position: absolute;
     right: 20%; /* Ajusta la imagen en pantallas grandes */
     transform: translateX(50%);
-    bottom: -90px; /* Baja la imagen más */
-    width: 150px;
-    height: 150px;
+    bottom:  -280px;/* Baja la imagen más */
+    width: 200px !important;
+    height: 200px !important;
     overflow: hidden;
     border-radius: 50%;
     z-index: 1;
 }
-
-/* Ajustes responsivos para pantallas pequeñas (móviles) */
-@media (max-width: 767px) {
-    .user-image-wrapper {
-        right: 50%; /* Centra la imagen en pantallas pequeñas */
-        transform: translateX(50%);
-        bottom: -80px; /* Ajusta la posición en pantallas pequeñas */
-        width: 120px; /* Reduce el tamaño de la imagen en pantallas pequeñas */
-        height: 120px;
-    }
-
-    .account-info {
-        margin-top: 80px; /* Aumenta el margen superior para evitar solapamientos en móviles */
-    }
-}
-
-/* Ajustes responsivos para pantallas medianas y grandes */
-@media (min-width: 768px) {
-    .user-image-wrapper {
-        right: 20%; /* Mantiene la imagen más a la derecha en pantallas grandes */
-        bottom: -90px; /* Ajusta la posición para pantallas más grandes */
-        width: 150px;
-        height: 150px;
-    }
-
-    .account-info {
-        margin-top: 100px; /* Aumenta el margen superior para pantallas grandes */
-    }
-}
-
-
 
 
 .user-image {
@@ -93,7 +62,7 @@
 .account-info {
     display: flex;
     flex-direction: column; /* Apilar todo verticalmente por defecto */
-    margin-top: 60px; /* Aumenta el margen superior para que no se sobreponga con la imagen */
+    margin-top: 100px; /* Aumenta el margen superior para que no se sobreponga con la imagen */
     border-top: #39a900 4px solid;
     width: 100%;
     max-width: 550px;
@@ -239,5 +208,88 @@
     color: #333;
     text-align: left;
     width: 175px;
+}
+
+
+/* Ajustes responsivos para pantallas pequeñas (móviles) */
+@media (max-width: 767px) {
+    .user-image-wrapper {
+        right: 50%; /* Centra la imagen en pantallas pequeñas */
+        transform: translateX(50%);
+        bottom: -80px; /* Ajusta la posición en pantallas pequeñas */
+        width: 120px; /* Reduce el tamaño de la imagen en pantallas pequeñas */
+        height: 120px;
+    }
+
+    .account-info {
+        margin-top: 80px; /* Aumenta el margen superior para evitar solapamientos en móviles */
+    }
+}
+
+/* Ajustes responsivos para pantallas medianas y grandes */
+@media (max-width: 1300px) {
+    .user-image-wrapper {
+        right: 50%;
+        bottom: -220px;
+        width: 150px;
+        height: 150px;
+    }
+
+    .account-info {
+        margin-top: 250px;
+        width: 80%;                /* O un ancho fijo */
+        margin-left: auto;
+        margin-right: auto;        /* Centra horizontalmente */
+        text-align: center;        /* Centra el texto dentro del contenedor */
+    }
+}
+
+@media (max-width: 767px) {
+    .user-image-wrapper {
+        right: 50%; /* Centra la imagen en pantallas pequeñas */
+        transform: translateX(50%);
+        bottom: -220px; /* Ajusta la posición en pantallas pequeñas */
+        width: 120px; /* Reduce el tamaño de la imagen en pantallas pequeñas */
+        height: 120px;
+    }
+
+    .account-info {
+        margin-top: 250px;
+        width: 80%;                /* O un ancho fijo */
+        margin-left: auto;
+        margin-right: auto;        /* Centra horizontalmente */
+        text-align: center;        /* Centra el texto dentro del contenedor */
+    }
+}
+
+@media (max-width: 470px) {
+    .user-image-wrapper {
+        right: 50%; /* Centra la imagen en pantallas pequeñas */
+        transform: translateX(50%);
+        bottom: -220px; /* Ajusta la posición en pantallas pequeñas */
+        width: 120px; /* Reduce el tamaño de la imagen en pantallas pequeñas */
+        height: 120px;
+    }
+
+    .account-info {
+        margin-top: 250px;
+        width: 95%;                /* O un ancho fijo */
+        margin-left: auto;
+        margin-right: auto;        /* Centra horizontalmente */
+        text-align: center;       /* Centra el texto dentro del contenedor */
+    }
+
+    .user-account {
+        display: flex;             /* Cambiar a flexbox */
+        flex-direction: row;      /* Mantener en fila */
+        justify-content: center;   /* Centra el contenido horizontalmente */
+        flex-wrap: wrap;          /* Permite que los elementos se envuelvan si es necesario */
+    }
+
+    .user-info-grid {
+        display: flex;            /* Cambiar a flexbox */
+        flex-direction: column;   /* Cambiar a columna en móviles */
+        gap: 10px;                /* Espaciado entre elementos */
+    }
 }
 

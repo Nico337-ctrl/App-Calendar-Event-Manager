@@ -9,12 +9,12 @@
         <section class="profile-header">
             <h2>Hola {{ user.username }}!</h2>
             <div class="user-image-wrapper">
-              {% if user.imagen %}
-                  <img src="{{ user.user_perfil.imagen }}" alt="User Avatar" class="user-image">
-              {% else %}
-                  <img src="{% static 'src/images/perfil.png' %}" alt="Default Avatar" class="user-image">
-              {% endif %}
-          </div>
+                {% if user.user_perfil and user.user_perfil.imagen %}
+                    <img src="{{ user.user_perfil.imagen.url }}" alt="User Avatar" class="user-image">
+                {% else %}
+                    <img src="{% static 'src/images/perfil.png' %}" alt="Default Avatar" class="user-image">
+                {% endif %}
+            </div>
         </section>
         <section class="account-info">
             <div class="user-account">
@@ -29,16 +29,68 @@
                         <input type="email" value="{{ user.email }}" disabled>
                     </div>
                     <div class="user-info-item">
-                        <label>First name</label>
+                        <label>Nombre</label>
                         <input type="text" value="{{ user.first_name }}" disabled>
                     </div>
                     <div class="user-info-item">
-                        <label>Last name</label>
+                        <label>Apellido</label>
                         <input type="text" value="{{ user.last_name }}" disabled>
                     </div>
-                    <a href="{% url 'usuario' %}" class="edit-usuario btn btn-outline-info btn-sm" data-bs-target="#editUsuarioModal">Editar perfil</i></a>
+                    <a href="#" class="edit-usuario btn btn-outline-info btn-sm" data-id="{{ user.id }}" data-url="{% url 'usuario_edit' user.id %}" data-bs-toggle="modal" data-bs-target="#editUsuarioModal"> Editar perfil
+                    </a>
+                    <a href="#" class="deleate-usuario btn btn-outline-warning btn-sm" data-id="{{ usuario.id }}" data-url="{% url 'usuario_changePassword' usuario.id %}" data-bs-toggle="modal" data-bs-target="#changePasswordModal"> Cambiar Contraseña
+                    </a>                
                 </div>
             </div>
         </section>
     </main>
+    <div id="modalContainer"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const modalContainer = document.getElementById('modalContainer');
+            let currentModal = null;
+            $('#dataTable').DataTable();
+
+            function loadModal(url, targetId) {
+                if (currentModal) {
+                    currentModal.hide();
+                    currentModal.dispose();
+                    currentModal = null;
+                }
+                fetch(url)
+                    .then(response => response.text())
+                    .then(html => {
+                        modalContainer.innerHTML = html;
+                        const modalElement = document.getElementById(targetId);
+                        if (modalElement) {
+                            setTimeout(() => {
+                                currentModal = new bootstrap.Modal(modalElement);
+                                currentModal.show();
+
+                                if (targetId.includes('Usuario')) {
+                                    initDatepicker();
+                                }
+                            }, 0);
+                        } else {
+                            console.error(`Modal element with id ${targetId} not found`);
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+
+            // Event delegation para los botones de cambiar contraseña, editar, detalles y eliminar
+            document.body.addEventListener('click', function(e) {
+                const link = e.target.closest('.edit-usuario, .detail-usuario, .deleate-usuario');
+                if (link) {
+                    e.preventDefault();
+                    const url = link.getAttribute('data-url');
+                    const targetId = link.getAttribute('data-bs-target').slice(1);
+                    console.log(`Loading modal: URL=${url}, targetId=${targetId}`);
+                    loadModal(url, targetId);
+                }
+            });
+        });
+    </script>
+</body>
 {% endblock %}

@@ -22,64 +22,72 @@
         <p><strong class="btn1">Fechas</strong> <span id="eventoFechas"></span></p>
         <p><strong class="btn1">Etiqueta</strong> <span id="eventoEtiqueta"></span></p>
         <div class="btn-group">
-          <a id="editLink" href="#">Editar</a>
-          <a id="eliminarLink" href="#">Eliminar</a>
+          <button id="editButton" class="btn btn-outline-primary btn-sm" onclick="redirectToEdit()">Editar</button>
           <hr>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-  var calendarEl = document.getElementById('calendar');
-  var calendar = new FullCalendar.Calendar(calendarEl, {
-    headerToolbar: {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-    },
-    initialView: 'dayGridMonth',
-    events: [
-      {% for evento in eventos %}
-      {
-        title: "{{ evento.titulo }}",
-        start: "{{ evento.inicia_el | date:"Y-m-d" }}",
-        end: "{{ evento.termina_el | date:"Y-m-d" }}",
-        descripcion: "{{ evento.descripcion | escapejs }}",
-        etiqueta: "{{ evento.etiqueta.titulo }}",
-        id: "{{ evento.id }}"
-      }
-      {% if not forloop.last %},{% endif %}
-      {% endfor %}
-    ],
-    eventClick: function(info) {
-      var evento = info.event;
-      document.getElementById('eventoTitulo').textContent = evento.title;
-      var fechas = formatDate(evento.start);
-      if (evento.end) {
-        fechas += ' - ' + formatDate(evento.end);
-      }
-      document.getElementById('eventoFechas').textContent = fechas;
-      document.getElementById('eventoEtiqueta').textContent = evento.extendedProps.etiqueta || ''; // Asegúrate de usar el nombre correcto
-      document.getElementById('eventoDescripcion').textContent = evento.extendedProps.descripcion || '';
-      document.getElementById('editLink').href = "{% url 'evento' %}".replace('0', evento.id);
-      document.getElementById('eliminarLink').href = "{% url 'evento_delete' 0 %}".replace('0', evento.id);
-      var modal = new bootstrap.Modal(document.getElementById('eventoModal'));
-      modal.show();
-    },
-    locale: 'es'
-  });
-  calendar.render();
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+      },
+      initialView: 'dayGridMonth',
+      events: [
+        {% for evento in eventos %}
+        {
+          title: "{{ evento.titulo }}",
+          start: "{{ evento.inicia_el | date:'Y-m-d' }}",
+          end: "{{ evento.termina_el | date:'Y-m-d' }}",
+          descripcion: "{{ evento.descripcion | escapejs }}",
+          etiqueta: "{{ evento.etiqueta.titulo }}",
+          id: "{{ evento.id }}"
+        }
+        {% if not forloop.last %},{% endif %}
+        {% endfor %}
+      ],
+      eventClick: function(info) {
+        var evento = info.event;
+        document.getElementById('eventoTitulo').textContent = evento.title;
+        var fechas = formatDate(evento.start);
+        if (evento.end) {
+          fechas += ' - ' + formatDate(evento.end);
+        }
+        document.getElementById('eventoFechas').textContent = fechas;
+        document.getElementById('eventoEtiqueta').textContent = evento.extendedProps.etiqueta || '';
+        document.getElementById('eventoDescripcion').textContent = evento.extendedProps.descripcion || '';
 
-  function formatDate(date) {
-    return new Intl.DateTimeFormat('es', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    }).format(date);
+        // Mostrar el modal
+        var modal = new bootstrap.Modal(document.getElementById('eventoModal'));
+        modal.show();
+      },
+      locale: 'es'
+    });
+    calendar.render();
+
+    function formatDate(date) {
+      return new Intl.DateTimeFormat('es', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      }).format(date);
+    }
+
+  });
+
+  // Redirigir al evento
+    function redirectToEdit() {
+    window.location.href = "{% url 'evento' %}";  // Redirige al índice de eventos
   }
-});
+
 </script>
 {% endblock %}
