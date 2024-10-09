@@ -6,11 +6,11 @@ from django.views.generic import *
 from dashboard.models import Eventos
 # from notifications.send_notification import enviarNotificacion
 # from django.contrib import messages
+from dashboard.views.mixins import *
 
 
 
-
-class CalendarioIndex(LoginRequiredMixin, ListView):
+class CalendarioIndex(LoginRequiredMixin, UserGroupContextMixin, ListView):
     template_name= 'calendario/calendario.html'
     queryset = Eventos.objects.all()
     login_url = '/dashboard/auth/signin/'

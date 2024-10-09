@@ -11,7 +11,7 @@ from django.contrib import messages
 
 """ Aqui comienzan las vistas para el modulo de eventos """
 
-class EventoIndex(LoginRequiredMixin, PermissionRequiredMixin, UserGroupContextMixin ,ListView):
+class EventoIndex(LoginRequiredMixin, ValidarPermisosRequeridosMixin, UserGroupContextMixin ,ListView):
     template_name= 'evento/evento_index.html'
     queryset = Eventos.objects.all()
     login_url = '/dashboard/auth/signin/'
@@ -22,7 +22,7 @@ class EventoIndex(LoginRequiredMixin, PermissionRequiredMixin, UserGroupContextM
 
                 
 
-class EventoCreate(LoginRequiredMixin, PermissionRequiredMixin ,CreateView):
+class EventoCreate(LoginRequiredMixin, ValidarPermisosRequeridosMixin, UserGroupContextMixin ,CreateView):
     template_name = 'evento/evento_create.html'
     success_url = '/dashboard/evento/'
     login_url = '/dashboard/auth/signin/'
@@ -31,6 +31,7 @@ class EventoCreate(LoginRequiredMixin, PermissionRequiredMixin ,CreateView):
 
     def get(self, request, *args, **kwargs):
         context = {'formulario' : FormEventos}
+        context.update(self.get_user_group_context())
         return render(request, self.template_name, context)
     
     def post(self, request, *args, **kwargs):
@@ -79,7 +80,7 @@ class EventoCreate(LoginRequiredMixin, PermissionRequiredMixin ,CreateView):
 
             
             
-class EventoDetail(LoginRequiredMixin, PermissionRequiredMixin ,DetailView):
+class EventoDetail(LoginRequiredMixin, ValidarPermisosRequeridosMixin, UserGroupContextMixin ,DetailView):
     template_name = 'evento/evento_detail.html'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
@@ -89,7 +90,7 @@ class EventoDetail(LoginRequiredMixin, PermissionRequiredMixin ,DetailView):
         
         
 
-class EventoEdit(LoginRequiredMixin, PermissionRequiredMixin ,UpdateView):
+class EventoEdit(LoginRequiredMixin, ValidarPermisosRequeridosMixin , UserGroupContextMixin ,UpdateView):
     template_name = 'evento/evento_edit.html'
     success_url = '/dashboard/evento/'
     login_url = '/dashboard/auth/signin/'
@@ -114,7 +115,7 @@ class EventoEdit(LoginRequiredMixin, PermissionRequiredMixin ,UpdateView):
         return redirect('/dashboard/evento/')
 
 
-class EventoDelete(LoginRequiredMixin, PermissionRequiredMixin ,DeleteView):
+class EventoDelete(LoginRequiredMixin, ValidarPermisosRequeridosMixin , UserGroupContextMixin ,DeleteView):
     template_name = 'evento/evento_index.html'
     success_url = 'evento/evento_index.html'
     login_url = '/dashboard/auth/signin/'

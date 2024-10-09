@@ -4,7 +4,7 @@ from django.views.generic import *
 from dashboard.models.registros import Registros
 from dashboard.views.mixins import *
 
-class RegistroIndex(LoginRequiredMixin, PermissionRequiredMixin,  UserGroupContextMixin ,ListView):
+class RegistroIndex(LoginRequiredMixin, ValidarPermisosRequeridosMixin,  UserGroupContextMixin ,ListView):
     template_name= 'registro/registro_index.html'
     queryset = Registros.objects.all()
     login_url = '/dashboard/auth/signin/'
@@ -13,7 +13,7 @@ class RegistroIndex(LoginRequiredMixin, PermissionRequiredMixin,  UserGroupConte
     permission_required = 'dashboard.view_user'
 
 
-class RegistroDetail(LoginRequiredMixin, PermissionRequiredMixin ,DetailView):
+class RegistroDetail(LoginRequiredMixin, ValidarPermisosRequeridosMixin,DetailView):
     template_name = 'registro/registro_detail.html'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'

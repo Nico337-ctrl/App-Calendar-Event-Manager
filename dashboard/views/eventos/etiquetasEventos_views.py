@@ -10,7 +10,7 @@ from dashboard.views.mixins import *
 
 """ Aqui comienzan las vistas para el modulo de etiquetas eventos """
 
-class EventoEtiquetaIndex(LoginRequiredMixin, PermissionRequiredMixin, UserGroupContextMixin ,ListView):
+class EventoEtiquetaIndex(LoginRequiredMixin, ValidarPermisosRequeridosMixin, UserGroupContextMixin ,ListView):
     template_name= 'evento/etiqueta/evento_etiqueta_index.html'
     queryset = EtiquetaEvento.objects.all()
     login_url = '/dashboard/auth/signin/'
@@ -19,7 +19,7 @@ class EventoEtiquetaIndex(LoginRequiredMixin, PermissionRequiredMixin, UserGroup
     permission_required = 'dashboard.view_etiquetaevento'
 
 
-class EventoEtiquetaCreate(LoginRequiredMixin, PermissionRequiredMixin ,CreateView):
+class EventoEtiquetaCreate(LoginRequiredMixin, ValidarPermisosRequeridosMixin, UserGroupContextMixin ,CreateView):
     template_name = 'evento/etiqueta/evento_etiqueta_create.html'
     success_url = '/dashboard/evento/etiqueta/'
     login_url = '/dashboard/auth/signin/'
@@ -28,6 +28,7 @@ class EventoEtiquetaCreate(LoginRequiredMixin, PermissionRequiredMixin ,CreateVi
 
     def get(self, request, *args, **kwargs):
         context = {'formulario' : EtiquetaEventoForm}
+        context.update(self.get_user_group_context())
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
@@ -56,7 +57,7 @@ class EventoEtiquetaCreate(LoginRequiredMixin, PermissionRequiredMixin ,CreateVi
         
         return context
             
-class EventoEtiquetaDetail(LoginRequiredMixin, PermissionRequiredMixin ,DetailView):
+class EventoEtiquetaDetail(LoginRequiredMixin, ValidarPermisosRequeridosMixin,DetailView):
     template_name = 'evento/etiqueta/evento_etiqueta_detail.html'
     login_url = '/dashboard/auth/signin/'
     redirect_field_name = 'redirect_to'
@@ -66,7 +67,7 @@ class EventoEtiquetaDetail(LoginRequiredMixin, PermissionRequiredMixin ,DetailVi
         
         
 
-class EventoEtiquetaEdit(LoginRequiredMixin, PermissionRequiredMixin ,UpdateView):
+class EventoEtiquetaEdit(LoginRequiredMixin, ValidarPermisosRequeridosMixin,UpdateView):
     template_name = 'evento/etiqueta/evento_etiqueta_edit.html'
     success_url = 'evento/etiqueta/etiqueta_index.html'
     login_url = '/dashboard/auth/signin/'
@@ -91,7 +92,7 @@ class EventoEtiquetaEdit(LoginRequiredMixin, PermissionRequiredMixin ,UpdateView
         return redirect('/dashboard/evento/etiqueta/')
 
 
-class EventoEtiquetaDelete(LoginRequiredMixin, PermissionRequiredMixin ,DeleteView):
+class EventoEtiquetaDelete(LoginRequiredMixin, ValidarPermisosRequeridosMixin,DeleteView):
     template_name = 'evento/etiqueta/evento_etiqueta_index.html'
     success_url = 'evento/etiqueta/etiqueta_index.html'
     login_url = '/dashboard/auth/signin/'
