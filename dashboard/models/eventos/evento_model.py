@@ -2,7 +2,7 @@ from django.db import models
 from dashboard.models.usuarios import User
 
 
-from .etiquetaEvento_model import EtiquetaEvento
+from .etiqueta_evento_model import EtiquetaEvento
 
 
 class Eventos(models.Model):

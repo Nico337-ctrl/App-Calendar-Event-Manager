@@ -6,7 +6,7 @@
 
 <div class="bg-light rounded h-100 p-4" style="font-family: 'Work Sans', sans-serif; max-width: 100%; margin: auto;">
   <h4 class="mb-4" style="color: #39a900;">Evento</h4>
-    {% if is_admin_or_collaborator %}
+    {% if is_admin or is_collaborator %}
         <a href="{% url 'evento_create' %}" style="color: #39a900" class="mt-4 d-flex justify-content-end">Crear evento</a>
     {% else %}
     {% endif %}

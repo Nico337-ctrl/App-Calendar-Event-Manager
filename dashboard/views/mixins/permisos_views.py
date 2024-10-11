@@ -36,5 +36,4 @@ class ValidarPermisosRequeridosMixin(object):
     def dispatch(self, request, *args, **kwargs):
         if request.user.has_perms(self.get_perms()):
             return super().dispatch(request, *args, **kwargs)
-        messages.error(request, 'No tienes permisos para realizar esta acción.')
         return redirect(self.get_url_redirect())

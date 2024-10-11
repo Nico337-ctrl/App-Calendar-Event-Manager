@@ -7,7 +7,7 @@ class User_ChangeForm(UserChangeForm):
     
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'telefono', 'group' ,'imagen']
+        fields = ['username', 'first_name', 'last_name', 'email', 'telefono', 'group' ]
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -62,10 +62,3 @@ class User_ChangeForm(UserChangeForm):
             }
         )
     )
-    imagen = forms.ImageField(
-        widget=forms.ClearableFileInput(
-            attrs={
-                    'class': 'form-control',
-                }
-            ),
-        )

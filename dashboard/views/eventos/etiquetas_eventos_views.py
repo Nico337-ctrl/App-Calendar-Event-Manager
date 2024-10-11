@@ -2,7 +2,7 @@ from django.db.models.base import Model as Model
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import *
-from dashboard.forms.eventos.etiquetaEventos_forms import EtiquetaEventoForm
+from dashboard.forms.eventos.etiqueta_eventos_forms import EtiquetaEventoForm
 from dashboard.models.eventos import EtiquetaEvento
 from notifications.send_notification import notificacion
 from django.contrib import messages

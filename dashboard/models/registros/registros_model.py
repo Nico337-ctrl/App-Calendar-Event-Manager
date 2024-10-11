@@ -1,7 +1,7 @@
 from django.db import models
 from dashboard.models.usuarios import User
-from .tipoRegistro_model import TipoRegistro
-from .entidadRegistro_model import EntidadRegistro
+from .tipo_registro_model import TipoRegistro
+from .entidad_registro_model import EntidadRegistro
 
 
 

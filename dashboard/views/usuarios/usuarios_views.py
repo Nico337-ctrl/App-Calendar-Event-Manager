@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import *
-from dashboard.forms.users import *
+from dashboard.forms.usuarios import *
 from dashboard.models.usuarios import User
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
@@ -94,6 +94,9 @@ class UsuarioEdit(LoginRequiredMixin, ValidarPermisosRequeridosMixin, UserGroupC
         formulario = self.form_class(request.POST, request.FILES, instance=usuario)
         if formulario.is_valid():
             formulario.save()
+            selected_group = formulario.cleaned_data.get('group')
+            if selected_group:
+                usuario.groups.add(selected_group)
             return redirect(self.get_success_url())
         else:
             for field, errors in formulario.errors.items():
