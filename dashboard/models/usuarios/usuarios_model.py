@@ -4,7 +4,6 @@ from django.core.validators import RegexValidator
 
 class User(AbstractUser):
 
-    imagen = models.ImageField(upload_to='perfiles/', blank=True, null=True)    
     email = models.EmailField('Correo electrónico', max_length=250, unique=True)
     telefono = models.CharField(
         'Teléfono', 
