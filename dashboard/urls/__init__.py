@@ -7,6 +7,6 @@ urlpatterns = [
     path('evento/etiqueta/', include('dashboard.urls.eventos.eventoEtiqueta_urls')),
     path('registro/', include('dashboard.urls.registros.registro_urls')),
     path('calendario/', include('dashboard.urls.calendario.calendario_urls')),
-    path('usuario/', include('dashboard.urls.users.user_urls')),
+    path('usuario/', include('dashboard.urls.usuarios.usuarios_urls')),
 
 ]
