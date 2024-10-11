@@ -1,13 +1,12 @@
 from django.forms import ModelForm
 from dashboard.models.eventos import Eventos, EtiquetaEvento
 from django import forms
-from django.contrib.auth.models import Group
-from dashboard.models.usuarios import User
+
 
 class FormEventos(forms.ModelForm):
     class Meta:
         model = Eventos
-        fields = ['titulo', 'descripcion', 'info_extra', 'inicia_el', 'termina_el', 'etiqueta', 'notificar']
+        fields = ['titulo', 'descripcion', 'info_extra', 'inicia_el', 'termina_el', 'etiqueta']
         
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -74,15 +73,3 @@ class FormEventos(forms.ModelForm):
         )
     )
 
-    notificar = forms.BooleanField(
-        label="Notify",
-        required=False,
-        initial=True,
-        widget=forms.CheckboxInput(
-            attrs={
-                'class': 'styled-checkbox',
-                'style': 'width:20px; height:20px;',
-                'label_suffix': ' '
-            }
-        )
-    )

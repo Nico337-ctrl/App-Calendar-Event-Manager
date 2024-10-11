@@ -13,7 +13,6 @@ class Eventos(models.Model):
     inicia_el = models.DateTimeField()
     termina_el = models.DateTimeField()
     est_activo = models.BooleanField(default=True)
-    notificar = models.BooleanField(default=True)
     etiqueta = models.ForeignKey(EtiquetaEvento,on_delete=models.CASCADE)
     
     @property
