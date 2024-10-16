@@ -36,7 +36,7 @@
                         <label>Apellido</label>
                         <input type="text" value="{{ user.last_name }}" disabled>
                     </div>
-                    <a href="#" class="edit-usuario btn btn-outline-info btn-sm" data-id="{{ user.id }}" data-url="{% url 'usuario_edit' user.id %}" data-bs-toggle="modal" data-bs-target="#editUsuarioModal"> Editar perfil
+                    <a href="#" class="edit-usuario btn btn-outline-info btn-sm" data-id="{{ user.id }}" data-url="{% url 'usuario_edit' user.id %}" data-bs-toggle="modal" data-bs-target="#editUsuarioModal"> Editar Usuario
                     </a>
                     <a href="#" class="deleate-usuario btn btn-outline-warning btn-sm" data-id="{{ user.id }}" data-url="{% url 'usuario_changePassword' user.id %}" data-bs-toggle="modal" data-bs-target="#changePasswordModal"> Cambiar Contraseña
                     </a>                

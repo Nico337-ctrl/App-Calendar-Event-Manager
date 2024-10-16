@@ -81,7 +81,6 @@
                     <a href="{% url 'home' %}" class="nav-item nav-link"><i class="fa-solid fa-house"></i> Inicio</a>
                     <a href="/dashboard/calendario/" class="nav-item nav-link"><i class="fa-solid fa-calendar-days"></i> Calendario</a>
                   
-                    {% if is_admin %}
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
                                     class="far fa-file-alt me-2"></i>Gestionar</a>
@@ -99,8 +98,7 @@
                                 <a href="{% url 'usuario_profile' user.pk %}" class="nav-item nav-link">Perfil</a>             
                             </div>
                         </div>
-                    {% elif is_collaborator %}
-                        <div class="nav-item dropdown">
+                        <!-- <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
                                     class="far fa-file-alt me-2"></i>Gestionar</a>
                             <div class="dropdown-menu bg-transparent border-0">
@@ -117,7 +115,6 @@
                                 <a href="{% url 'usuario_profile' user.pk %}" class="nav-item nav-link">Perfil</a>             
                             </div>
                         </div>
-                    {% elif is_assistant %}
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
                                     class="far fa-file-alt me-2"></i>Gestionar</a>
@@ -131,8 +128,7 @@
                             <div class="dropdown-menu bg-transparent border-0">
                                 <a href="{% url 'usuario_profile' user.pk %}" class="nav-item nav-link">Perfil</a>             
                             </div>
-                        </div>
-                    {% endif %}
+                        </div> -->
                 </div>
             </nav>
         </div>
@@ -295,5 +291,11 @@
         
     </script>
 
+
+    
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    
+    
     
 </body>

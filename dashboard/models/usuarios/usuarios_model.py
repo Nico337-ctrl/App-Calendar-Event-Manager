@@ -17,3 +17,23 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
+
+    @classmethod
+    def get_all_emails(cls):
+        """Obtiene todos los correos de los usuarios registrados"""
+        return cls.objects.value_list('email', flat=False)
+    
+
+    @classmethod
+    def get_emails_agrouped_by_role(cls):
+        """Obtiene todos los correos de los usuarios registrados"""
+        from collections import defaultdict
+
+        grouped_emails = defaultdict(list)
+        usuarios = cls.objects.all()
+
+
+        for usuario in usuarios:
+            grouped_emails[usuario.role].append(usuario.email)
+
+        return dict(grouped_emails)
