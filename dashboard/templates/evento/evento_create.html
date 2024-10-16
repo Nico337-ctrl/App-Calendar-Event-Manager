@@ -32,99 +32,96 @@
             <label for="message">Filtrar usuarios por:</label>
             {{ form_notificar.filtro }}
         </div>
-        <div class="form-group">
+        
+        <div class="form-group filtro-grupo" id="grupo-rol" style="display: none;">
             <label for="message">Seleccionar usuarios por su rol:</label>
-            {{ form_notificar.filtro_rol }}
+            <select name="filtro_rol" class="input-rol">
+                {% for value, label in form_notificar.filtro_rol.field.choices %}
+                    <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+            </select>
         </div>
-
-        <div class="form-group">
+        
+        <div class="form-group filtro-grupo" id="grupo-email" style="display: none;">
             <label for="message">Seleccionar usuarios por su email:</label>
-            {{ form_notificar.filtro_usuarios_email }}
+            <select name="filtro_usuarios_email" class="input-email">
+                {% for value, label in form_notificar.filtro_usuarios_email.field.choices %}
+                    <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+            </select>
         </div>
 
-        <button type="submit" id="editLink">Guardar</button>
+        <button type="submit" id="editLink" class="btn-submit">Guardar</button>
         <a href="{% url 'evento_etiqueta' %}" id="eliminarLink">Cancelar</a>
     </form>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-        const filtroSelect = document.getElementById('filtro-select');
-        const filtroRol = document.getElementById('filtro-rol');
-        const filtroUsuarios = document.getElementById('filtro-usuarios');
+            // Obtener elementos
+            const filtroSelect = document.querySelector('#id_filtro, [name="filtro"]');
+            const grupoRol = document.getElementById('grupo-rol');
+            const grupoEmail = document.getElementById('grupo-email');
 
-        filtroSelect.addEventListener('change', function() {
-            const value = this.value;
-            
-            filtroRol.style.display = 'none';
-            filtroUsuarios.style.display = 'none';
+            // Asegurarnos que el select tenga el valor correcto y mostramos el grupo-rol
+            if (filtroSelect) {
+                filtroSelect.value = 'rol_agrupado';
+                grupoRol.style.display = 'block';
+                
+                filtroSelect.addEventListener('change', function() {
+                    const value = this.value;
+                    
+                    document.querySelectorAll('.filtro-grupo').forEach(grupo => {
+                        grupo.style.display = 'none';
+                    });
 
-            if (value === 'rol_agrupado') {
-                filtroRol.style.display = 'block';
-            } else if (value === 'usuarios') {
-                filtroUsuarios.style.display = 'block';
+                    if (value === 'rol_agrupado') {
+                        grupoRol.style.display = 'block';
+                    } else if (value === 'usuarios') {
+                        grupoEmail.style.display = 'block';
+                    }
+                });
+            }
+
+            if (typeof $ !== 'undefined') {
+                $('#id_filtro_rol, [name="filtro_rol"]').select2();
+                $('#id_filtro_usuarios_email, [name="filtro_usuarios_email"]').select2();
             }
         });
-
-        // Lógica para seleccionar "Todos" en filtro de usuarios
-        filtroUsuarios.addEventListener('change', function() {
-            const selectedOptions = Array.from(filtroUsuarios.selectedOptions);
-            const isSelectAll = selectedOptions.some(option => option.value === 'todos');
-            
-            if (isSelectAll) {
-                // Marcar todas las opciones si se selecciona "Todos"
-                for (let i = 0; i < filtroUsuarios.options.length; i++) {
-                    filtroUsuarios.options[i].selected = true;
-                }
-            }
-        });
-
-        // Lógica para seleccionar "Todos" en filtro de roles
-        filtroRol.addEventListener('change', function() {
-            if (filtroRol.value === 'todos') {
-                // Lógica adicional si es necesario para manejar la selección de todos los roles
-                console.log("Seleccionado todos los roles");
-            }
-        });
-    });
     </script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    
-    <script>
-        $(document).ready(function() {
-            $('#filtro-rol').select2();
-            $('#filtro-usuarios').select2();
-        });
-    </script>
 </div>
 
 <style>
+    /* Asegura que el contenedor principal tenga el ancho adecuado */
     .form-container {
         max-width: 600px;
         margin: 0 auto;
         padding: 20px;
         background-color: #fff;
         border-radius: 8px;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        width: 100%; /* Asegura que cubra todo el ancho del contenedor padre */
+        box-sizing: border-box; /* Incluye padding y borde dentro del ancho total */
     }
-    
+
     .form-container h2 {
         font-size: 24px;
         margin-bottom: 20px;
         font-weight: 700;
         color: #333;
     }
-    
+
     .form-group {
         margin-bottom: 20px;
     }
-    
+
     .form-group label {
         display: block;
         font-size: 14px;
         margin-bottom: 5px;
         color: #666;
     }
-    
+
     .form-group input,
     .form-group select,
     .form-group textarea {
@@ -132,32 +129,80 @@
         padding: 10px;
         font-size: 14px;
         border-radius: 4px;
-        border: 1px solid #ddd;
+        border: 1px solid #ccc;
         color: #333;
+        transition: border-color 0.3s;
+        box-sizing: border-box; /* Asegura que padding y borde no reduzcan el ancho */
     }
-    
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        border-color: #66afe9;
+        outline: none;
+    }
+
+    .input-rol,
+    .input-email,
+    .select2-container--default .select2-selection--single {
+        width: 100% !important; /* Cubre todo el ancho */
+        border: 1px solid #3f3d3d; /* Borde gris oscuro */
+        background-color: #E9ECEF !important; /* Fondo gris claro */
+        box-sizing: border-box; /* Asegura que el padding no afecte el ancho */
+    }
+
+    .input-rol:focus,
+    .input-email:focus,
+    .select2-container--default.select2-container--focus .select2-selection--single {
+        background-color: #fff !important;
+        border-color: #80bdff !important;
+        box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25) !important;
+    }
+
+    /* Estilos para el contenedor de Select2 */
+    .select2-container--default .select2-selection--single {
+        height: 38px !important;
+        line-height: 38px !important;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 38px !important;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 36px !important;
+    }
+
     .form-group textarea {
         resize: vertical;
     }
-    
+
     .btn-submit {
         display: inline-block;
         padding: 10px 20px;
         font-size: 16px;
         color: #fff;
-        background-color: #29a900;
+        background-color: #5bc0de;
         border: none;
-        border-radius: 50px;
+        border-radius: 4px;
         cursor: pointer;
         transition: background-color 0.3s ease;
-        box-shadow: 0px 1px 3px rgbargba(57, 169, 0, 0.5);
     }
-    
+
     .btn-submit:hover {
-        background-color: #29c900;
+        background-color: #31b0d5;
+    }
+
+    /* Asegura que los grupos de filtros tengan una transición suave */
+    .filtro-grupo {
+        transition: all 0.3s ease;
+    }
+
+    /* Asegura que el select para emails sea visible */
+    #grupo-email {
+        display: inline-block;
     }
 </style>
-
 
 
 {% endblock %}
