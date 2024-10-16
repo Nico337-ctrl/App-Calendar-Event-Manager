@@ -34,6 +34,9 @@ def create_roles_and_permissions(sender, **kwargs):
             
 @receiver(post_migrate)
 def create_default_user(sender, **kwargs):
+    try:
+        group = Group.objects.get(id=1)
+        
         if not User.objects.filter(username='admin').exists():
             user = User.objects.create_superuser(
                 username='admin', 
@@ -42,4 +45,11 @@ def create_default_user(sender, **kwargs):
                 telefono= '3569875631', 
                 first_name= 'admin', 
                 last_name='admin',
-                group_id = 1)
+                group_id=1
+        )
+        user.groups.add(group)
+    except Group.DoesNotExist:
+        pass
+    except Exception as e:
+        # Puedes registrar el error en los logs si es necesario, pero sin usar prints.
+        pass

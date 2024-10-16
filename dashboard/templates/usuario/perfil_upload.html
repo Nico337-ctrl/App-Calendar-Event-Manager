@@ -1,0 +1,20 @@
+<div class="modal fade" id="uploadProfileModal" tabindex="-1" aria-labelledby="uploadProfileModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="uploadProfileModalLabel">Cargar Imagen</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="{% url 'profile_upload' user.id %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                  <label for="" class="form-label">Imagen</label>
+                  {{ formulario.perfil_imagen }}
+                </div>
+                <button type="submit" class="btn btn-primary" id="uploadLink">Guardar</button>
+              </form>
+            </div>
+        </div>
+    </div>
+</div>

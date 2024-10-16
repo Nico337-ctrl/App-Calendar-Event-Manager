@@ -7,14 +7,11 @@
     </header>
     <main class="profile-container">
         <section class="profile-header">
-            <h2>Hola {{ user.username }}!</h2>
+            <h2>    Hola, {{ user.username }}!</h2>
             <div class="user-image-wrapper">
-                {% if user.user_perfil and user.user_perfil.imagen %}
-                    <img src="{{ user.user_perfil.imagen.url }}" alt="User Avatar" class="user-image">
-                {% else %}
-                    <img src="{% static 'src/images/perfil.png' %}" alt="Default Avatar" class="user-image">
-                {% endif %}
+                    <img src="{{ media_url }}{{ perfil_imagen }}" alt="Imagen de perfil" class="user-image">
             </div>
+        </section>
         </section>
         <section class="account-info">
             <div class="user-account">
@@ -36,6 +33,8 @@
                         <label>Apellido</label>
                         <input type="text" value="{{ user.last_name }}" disabled>
                     </div>
+                    <a href="#" class="upload-profile btn btn-outline-info btn-sm" data-id="{{ user.id }}" data-url="{% url 'profile_upload' user.id %}" data-bs-toggle="modal" data-bs-target="#uploadProfileModal"> Cargar Imagen
+                    </a>
                     <a href="#" class="edit-usuario btn btn-outline-info btn-sm" data-id="{{ user.id }}" data-url="{% url 'usuario_edit' user.id %}" data-bs-toggle="modal" data-bs-target="#editUsuarioModal"> Editar Usuario
                     </a>
                     <a href="#" class="deleate-usuario btn btn-outline-warning btn-sm" data-id="{{ user.id }}" data-url="{% url 'usuario_changePassword' user.id %}" data-bs-toggle="modal" data-bs-target="#changePasswordModal"> Cambiar Contraseña
@@ -81,7 +80,7 @@
 
             // Event delegation para los botones de cambiar contraseña, editar, detalles y eliminar
             document.body.addEventListener('click', function(e) {
-                const link = e.target.closest('.edit-usuario, .detail-usuario, .deleate-usuario');
+                const link = e.target.closest('.edit-usuario, .detail-usuario, .deleate-usuario, .upload-profile');
                 if (link) {
                     e.preventDefault();
                     const url = link.getAttribute('data-url');

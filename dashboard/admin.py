@@ -1,6 +1,6 @@
 
 from django.contrib import admin
-from dashboard.models import Eventos, User
+from dashboard.models import Eventos, User, User_Perfil
 
 class AdminUsuarios(admin.ModelAdmin):
     list_display = ('id', 'username', 'password' ,'first_name', 'last_name', 'email', 'telefono', 'groups_list')
@@ -14,3 +14,8 @@ class AdminEventos(admin.ModelAdmin):
     list_display = ('titulo', 'descripcion', 'info_extra', 'inicia_el', 'termina_el')
 
 admin.site.register(Eventos, AdminEventos)
+
+class AdminPerfil(admin.ModelAdmin):
+    list_display = ('perfil_imagen',)
+
+admin.site.register(User_Perfil, AdminPerfil)
