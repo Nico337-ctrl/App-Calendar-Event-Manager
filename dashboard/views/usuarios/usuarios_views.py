@@ -160,11 +160,28 @@ class UsuarioProfile(LoginRequiredMixin, UserGroupContextMixin, ListView):
     context_object_name = 'usuario'
     
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        usuario = self.request.user
-        context['media_url'] = settings.MEDIA_URL
-        context['perfil_imagen'] = usuario.perfil_imagen.url if hasattr(usuario, 'perfil_imagen') and usuario.perfil_imagen else None
-        return context
+            context = super().get_context_data(**kwargs)
+            usuario = self.request.user
+        
+            # Acceder al perfil relacionado
+            user_perfil = User_Perfil.objects.filter(usuario_id=usuario).first()
+            
+            context['media_url'] = settings.MEDIA_URL
+            
+            # Si el perfil del usuario tiene una imagen, añadirla al contexto
+            if user_perfil and user_perfil.perfil_imagen:
+                context['perfil_imagen'] = user_perfil.perfil_imagen.url
+            else:
+                context['perfil_imagen'] = None
+                
+            return context
+    
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     usuario = self.request.user
+    #     context['media_url'] = settings.MEDIA_URL
+    #     context['perfil_imagen'] = usuario.perfil_imagen.url if hasattr(usuario, 'perfil_imagen') and usuario.perfil_imagen else None
+    #     return context
 
     
 class UsuarioProfileEdit(LoginRequiredMixin, UserGroupContextMixin, UpdateView):
@@ -176,15 +193,6 @@ class UsuarioProfileEdit(LoginRequiredMixin, UserGroupContextMixin, UpdateView):
     redirect_field_name = 'redirect_to'
     success_url = '/dashboard/usuario/'
     
-    def get_success_url(self):
-        return reverse('usuario_profile', kwargs={'pk': self.object.pk})
-    
-    # def get(self, request, *args, **kwargs):
-    #     usuario = get_object_or_404(self.model, pk=self.kwargs['pk'])
-    #     formulario = self.form_class(instance=usuario)
-    #     context = {'usuario': usuario, 'formulario': formulario}
-    #     return render (request, self.template_name, context)
-
     def get_success_url(self):
         return reverse('usuario_profile', kwargs={'pk': self.object.usuario.id})
 
@@ -213,16 +221,6 @@ class UsuarioProfileEdit(LoginRequiredMixin, UserGroupContextMixin, UpdateView):
 
         context = {'usuario': usuario, 'formulario': formulario}
         return render(request, self.template_name, context)
-        
-    # def post(self, request, *args, **kwargs):
-    #     usuario = get_object_or_404(self.model, pk=self.kwargs['pk'])
-    #     formulario = self.form_class(request.POST, request.FILES , instance=usuario)
-    #     if formulario.is_valid():
-    #         self.object = formulario.save()  
-    #         return redirect(self.get_success_url()) 
-        
-    #     context = {'usuario': usuario, 'formulario': formulario}
-    #     return render(request, self.template_name, context)
         
         
 

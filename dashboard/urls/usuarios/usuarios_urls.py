@@ -13,7 +13,6 @@ urlpatterns = [
     path('profile/<int:pk>', UsuarioProfile.as_view(), name='usuario_profile'),
     path('profile/upload/<int:pk>', UsuarioProfileEdit.as_view(), name='profile_upload'),
     
-
 ]
 
 if settings.DEBUG:

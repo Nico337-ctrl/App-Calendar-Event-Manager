@@ -20,3 +20,6 @@ class DashboardConfig(AppConfig):
 
         #signals usuarios
         import dashboard.signals.usuarios.roles_signals
+        
+        #signals perfil
+        import dashboard.signals.usuarios.usuario_perfil_signals

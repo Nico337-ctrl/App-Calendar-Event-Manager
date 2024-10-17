@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import include
 from django.views.generic.base import RedirectView
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,3 +26,7 @@ urlpatterns = [
     path('', RedirectView.as_view(url='/dashboard/auth/signin/', permanent=True)),
     # path('notifications/', include("notifications.urls")),
 ]
+
+if settings.DEBUG:
+    from django.conf.urls.static import static
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

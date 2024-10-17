@@ -3,7 +3,7 @@ from dashboard.models.usuarios import User
 
 
 class User_Perfil(models.Model):
-    usuario_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='usuario_id')
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='perfiles')
     perfil_imagen = models.ImageField(
         'Imagen de perfil', 
         upload_to='',
