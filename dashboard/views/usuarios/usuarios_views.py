@@ -198,7 +198,7 @@ class UsuarioProfileEdit(LoginRequiredMixin, UserGroupContextMixin, UpdateView):
         # Crear el formulario con el perfil
         formulario = self.form_class(instance=perfil)
 
-        context = {'usuario': usuario, 'formulario': formulario}
+        context = {'usuario': usuario, 'formulario': formulario} 
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
