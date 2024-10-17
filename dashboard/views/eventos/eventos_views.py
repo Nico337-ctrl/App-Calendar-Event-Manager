@@ -38,44 +38,46 @@ class EventoCreate(LoginRequiredMixin, ValidarPermisosRequeridosMixin, UserGroup
         context = {'formulario' : FormEventos, 'form_notificar': FormEventosNotificacion }
         context.update(self.get_user_group_context())
         return render(request, self.template_name, context)
-    
-    def post(self, request, *args, **kwargs):
-        try:
-            form_notificar = FormEventosNotificacion(request.POST)
-            formulario = FormEventos(request.POST)
-            
-            if formulario.is_valid() and form_notificar.is_valid():
-                """Guardar datos del evento"""
-                nuevo_evento = formulario.save(commit=False)
-                nuevo_evento.usuario = request.user
-                nuevo_evento.save()
-
-                """Obtener usuarios a notificar"""
-                usuarios = obtener_usuarios_notificacion(form_notificar)
-                
-                """Recibir datos para envío de correo"""
-                notificacion(titulo='Nuevo Evento', 
-                            mensaje=f'El evento {nuevo_evento.titulo} ha sido creado.')
-                
-                # Aquí podrías agregar la lógica para enviar los correos a los usuarios.
-            
-            return redirect(self.success_url)
-    
-        except ValueError as e:
-            context = {'formulario': FormEventos}
-            messages.error(request, f"Por favor ingrese datos válidos. {str(e)}")
-            return render(request, self.template_name, context)
-            
-    def obtener_usuarios_notificacion(form_notificar):
-        filtro = form_notificar.cleaned_data['filtro']
         
+    def post(self, request, *args, **kwargs):
+            try:
+                form_notificar = FormEventosNotificacion(request.POST)
+                formulario = FormEventos(request.POST)
+                
+                if formulario.is_valid() and form_notificar.is_valid():
+                    """Guardar datos del evento"""
+                    nuevo_evento = formulario.save(commit=False)
+                    nuevo_evento.usuario = request.user
+                    nuevo_evento.save()
+
+                    """Obtener usuarios a notificar"""
+                    usuarios = self.obtener_usuarios_notificacion(form_notificar)
+
+                    """Enviar correos a los usuarios"""
+                    self.correo(nuevo_evento, usuarios)
+
+                    """Enviar notificación"""
+                    notificacion(
+                        titulo='Nuevo Evento', 
+                        mensaje=f'El evento {nuevo_evento.titulo} ha sido creado.'
+                    )
+                
+                return redirect(self.success_url)
+
+            except ValueError as e:
+                context = {'formulario': FormEventos}
+                messages.error(request, f"Por favor ingrese datos válidos. {str(e)}")
+                return render(request, self.template_name, context)
+        
+    def obtener_usuarios_notificacion(self, form_notificar):
+        filtro = form_notificar.cleaned_data['filtro']
         if filtro == 'rol_agrupado':
             rol = form_notificar.cleaned_data['filtro_rol']
             if rol == 'todos':
                 usuarios = User.objects.all()  # Todos los usuarios
             else:
                 usuarios = User.objects.filter(groups__id=rol)
-        
+            
         elif filtro == 'usuarios':
             usuarios_ids = form_notificar.cleaned_data['filtro_usuarios_email']
             if 'todos' in usuarios_ids:
@@ -84,38 +86,24 @@ class EventoCreate(LoginRequiredMixin, ValidarPermisosRequeridosMixin, UserGroup
                 usuarios = User.objects.filter(id__in=usuarios_ids)
 
         return usuarios
-        
-        
-    """Funcion para el posible envio de correos"""
-    # def correo(self, request, nuevo_evento):
-    #     destinatarios = []
 
-    #     if nuevo_evento.notificar:
-    #         # Si la notificación es para todos los usuarios, roles o manualmente seleccionados
-    #         if nuevo_evento.notificar_a == 'todos':
-    #             usuarios = User.objects.all()
-    #         elif nuevo_evento.notificar_a == 'roles':
-    #             usuarios = User.objects.filter(groups__in=nuevo_evento.roles.all()).distinct()
-    #         elif nuevo_evento.notificar_a == 'manual':
-    #             usuarios = nuevo_evento.usuarios.all()
+    """Función para el envío de correos"""
+    def correo(self, evento, usuarios):
+            destinatarios = [usuario.email for usuario in usuarios if usuario.email]
 
-    #         # Añadir usuarios a destinatarios
-    #         destinatarios += list(usuarios)
+            datos = {
+                'Titulo': evento.titulo,
+                'Descripcion': evento.descripcion,
+                'Info Extra': evento.info_extra,
+                'Inicia el': evento.inicia_el,
+                'Termina el': evento.termina_el,
+                'Estado': evento.est_activo,
+                'Etiqueta': evento.etiqueta,
+            }
 
-    #     datos = {
-    #         'Titulo': nuevo_evento.titulo,
-    #         'Descripcion': nuevo_evento.descripcion,
-    #         'Info Extra': nuevo_evento.info_extra,
-    #         'Inicia el': nuevo_evento.inicia_el,
-    #         'Termina el': nuevo_evento.termina_el,
-    #         'Estado': nuevo_evento.est_activo,
-    #         'Etiqueta': nuevo_evento.etiqueta,
-    #     }
-
-    #     enviar_correo(destinatarios, asunto=nuevo_evento.titulo, tipo_correo=nuevo_evento.etiqueta, datos=datos)
-
-
-            
+            """Lógica para enviar el correo"""
+            enviar_correo(destinatarios, asunto=evento.titulo, tipo_correo=evento.etiqueta, datos=datos)
+                
             
 class EventoDetail(LoginRequiredMixin, ValidarPermisosRequeridosMixin, UserGroupContextMixin ,DetailView):
     template_name = 'evento/evento_detail.html'
