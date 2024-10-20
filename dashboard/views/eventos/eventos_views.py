@@ -94,15 +94,15 @@ class EventoCreate(LoginRequiredMixin, ValidarPermisosRequeridosMixin, UserGroup
             datos = {
                 'Titulo': evento.titulo,
                 'Descripcion': evento.descripcion,
-                'Info Extra': evento.info_extra,
-                'Inicia el': evento.inicia_el,
-                'Termina el': evento.termina_el,
+                'Info_Extra': evento.info_extra,
+                'Inicia_el': evento.inicia_el,
+                'Termina_el': evento.termina_el,
                 'Estado': evento.est_activo,
                 'Etiqueta': evento.etiqueta,
             }
 
             """Lógica para enviar el correo"""
-            enviar_correo(destinatarios, asunto=evento.titulo, tipo_correo=evento.etiqueta, datos=datos)
+            enviar_correo(destinatarios=destinatarios, asunto=evento.titulo,  datos=datos)
                 
             
 class EventoDetail(LoginRequiredMixin, ValidarPermisosRequeridosMixin, UserGroupContextMixin ,DetailView):

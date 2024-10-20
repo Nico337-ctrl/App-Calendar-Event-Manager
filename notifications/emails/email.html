@@ -610,7 +610,7 @@
                                                                 <div>
                                                                     <h1 class="default-heading1"
                                                                         style="margin: 0; color: #fff; font-family: Alegreya Sans,Arial,Helvetica,sans-serif; font-size: 55px; word-break: break-word;">
-                                                                        Nuevo Evento Agendado</h1>
+                                                                        Nuevo Evento {{ Titulo }}</h1>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -727,8 +727,7 @@
                                                                             align="left"
                                                                             style="color: #39a900; font-family: Lato,Arial,Helvetica,sans-serif; font-size: 17px; line-height: 1.25; word-break: break-word; text-align: left; valign: top;">
                                                                             <div>
-                                                                                <p style="margin: 0;">Evento Agendado
-                                                                                    para el 26 de junio</p>
+                                                                                <p style="margin: 0;">El evento comenzara el: {{ Inicia_el }}</p>
                                                                             </div>
                                                                         </td>
                                                                     </tr>
@@ -765,8 +764,11 @@
                                                                             style="color: #39a900; font-family: Lato,Arial,Helvetica,sans-serif; font-size: 17px; line-height: 1.25; word-break: break-word; text-align: left; valign: top;">
                                                                             <div>
                                                                                 <p style="margin: 0;">Descripcion:</p>
-                                                                                <p style="margin: 0;">Karaoke a cargo de
-                                                                                    Bienestar del Aprendiz </p>
+                                                                                <p style="margin: 0;">{{ Descripcion }} </p>
+                                                                                <p style="margin: 0;">Informacion extra:</p>
+                                                                                <p style="margin: 0;">{{ Info_Extra }} </p>
+                                                                                <p style="margin: 0;">Etiqueta del evento:</p>
+                                                                                <p style="margin: 0;">{{ Etiqueta.titulo }} </p>
                                                                             </div>
                                                                         </td>
                                                                     </tr>
@@ -814,7 +816,7 @@
                                                                                             title="Button Title"
                                                                                             data-btn="1"
                                                                                             style="font-style: normal; font-weight: normal; line-height: 1.15; text-decoration: none; word-break: break-word; word-wrap: break-word; display: block; -webkit-text-size-adjust: none; color: #ffffff; font-family: Lato, Arial, Helvetica, sans-serif; font-size: 18px;">
-                                                                                            More Information</a>
+                                                                                            Mas Informacion</a>
                                                                                     </td>
                                                                                 </tr>
                                                                             </table>
